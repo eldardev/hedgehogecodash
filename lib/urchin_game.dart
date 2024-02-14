@@ -10,7 +10,7 @@ import 'worlds/worlds.dart';
 class UrchinGame extends FlameGame {
   final demoWorld = DemoWorld();
 
-  MyGame() {
+  UrchinGame() {
     pauseWhenBackgrounded = false;
   }
 
