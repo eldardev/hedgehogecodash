@@ -4,11 +4,12 @@ import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:urchin/worlds/game_engine/first_world.dart';
 
 import 'worlds/worlds.dart';
 
 class UrchinGame extends FlameGame {
-  final demoWorld = DemoWorld();
+  final demoWorld = FirstWorld();
 
   UrchinGame() {
     pauseWhenBackgrounded = false;
@@ -28,10 +29,10 @@ class UrchinGame extends FlameGame {
     return super.onLoad();
   }
 
-  @override
-  Color backgroundColor() {
-    return Colors.green;
-  }
+  // @override
+  // Color backgroundColor() {
+  //   return Colors.green;
+  // }
 
   @override
   void onRemove() {
