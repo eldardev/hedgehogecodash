@@ -12,6 +12,8 @@ class UrchinGame extends FlameGame {
   final MenuWorld _menuWorld;
   final FirstWorld _firstWorld;
 
+  late RouterComponent router;
+
   UrchinGame(
     this._demoWorld,
     this._menuWorld,
@@ -22,7 +24,7 @@ class UrchinGame extends FlameGame {
 
   @override
   Future<void> onLoad() async {
-    final router = RouterComponent(
+    router = RouterComponent(
       routes: {
         'demo': Route(() => _demoWorld),
         'main': Route(() => _firstWorld),
@@ -31,7 +33,9 @@ class UrchinGame extends FlameGame {
       initialRoute: 'menu',
     );
 
-    addAll([_demoWorld.camera, _firstWorld.camera, _menuWorld.camera, router]);
+    [_demoWorld, _menuWorld, _firstWorld].forEach((e) => add(e.camera));
+    add(router);
+
     return super.onLoad();
   }
 
