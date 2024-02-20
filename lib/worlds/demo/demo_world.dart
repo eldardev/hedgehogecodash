@@ -1,11 +1,14 @@
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:urchin/worlds/common/common_world.dart';
 
 import 'components/block_component.dart';
 import 'components/water_enemy_component.dart';
 
-class DemoWorld extends World {
+@singleton
+class DemoWorld extends CommonWorld {
   @override
   Future<void> onLoad() async {
     await Flame.images.load('water_enemy.png');

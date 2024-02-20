@@ -3,12 +3,15 @@ import 'dart:ui';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
+import 'package:injectable/injectable.dart';
+import 'package:urchin/worlds/common/common_world.dart';
 import 'package:urchin/worlds/game_engine/components/basket.dart';
 import 'package:urchin/worlds/game_engine/components/items.dart';
 
 import 'components/urchin.dart';
 
-class FirstWorld extends World with TapCallbacks {
+@singleton
+class FirstWorld extends CommonWorld with TapCallbacks {
   late SpriteAnimationComponent urchinSprite;
   Urchin? currentUrchin;
   Basket? currentBasket;
@@ -144,18 +147,16 @@ class FirstWorld extends World with TapCallbacks {
   @override
   void update(double dt) {
     super.update(dt);
-    worldTime += dt;
-    // print(worldTime);
+    // urchinSprite.position+=Vector2(1, -1);
   }
 
   @override
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
-   if (!event.handled) {
+    if (!event.handled) {
       final touchPoint = event.localPosition;
       print('TouchPosition = '+touchPoint.toString());
       add(CircleComponent(position: touchPoint, radius: 20, anchor: Anchor.center));
     }
   }
 }
-

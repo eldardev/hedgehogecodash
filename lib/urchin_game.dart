@@ -1,38 +1,43 @@
 import 'dart:async';
 
-import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
-import 'package:get_it/get_it.dart';
-import 'package:urchin/worlds/game_engine/first_world.dart';
+import 'package:injectable/injectable.dart';
 
+import 'worlds/worlds.dart';
 
+@injectable
 class UrchinGame extends FlameGame {
-  var firstWorld = GetIt.I.registerSingleton<FirstWorld>(FirstWorld());
-  //var demoWorld = firstWorld;
+  final DemoWorld _demoWorld;
+  final MenuWorld _menuWorld;
+  final FirstWorld _firstWorld;
 
-  UrchinGame() {
+  late RouterComponent router;
+
+  UrchinGame(
+    this._demoWorld,
+    this._menuWorld,
+    this._firstWorld,
+  ) {
     pauseWhenBackgrounded = false;
   }
 
   @override
   Future<void> onLoad() async {
-    final cam = CameraComponent.withFixedResolution(
-      world: firstWorld,
-      width: 2400,
-      height: 1080,
+    router = RouterComponent(
+      routes: {
+        'demo': Route(() => _demoWorld),
+        'main': Route(() => _firstWorld),
+        'menu': Route(() => _menuWorld),
+      },
+      initialRoute: 'menu',
     );
-    cam.viewfinder.anchor = Anchor.topLeft;
-    cam.viewfinder.position = Vector2(0, 0);
 
-    addAll([cam, firstWorld]);
+    [_demoWorld, _menuWorld, _firstWorld].forEach((e) => add(e.camera));
+    add(router);
+
     return super.onLoad();
   }
-
-  // @override
-  // Color backgroundColor() {
-  //   return Colors.green;
-  // }
 
   @override
   void onRemove() {
