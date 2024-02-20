@@ -104,9 +104,10 @@ class Urchin extends PositionComponent with TapCallbacks {
 
   void activateUrchinLight() {
     //  if (urchinLightSprite.isRemoved) {
+    add(urchinLightSprite);
     urchinSprite.priority = 2;
     urchinLightSprite.priority = 1;
-    add(urchinLightSprite);
+
     // }
   }
 

@@ -147,16 +147,17 @@ class FirstWorld extends CommonWorld with TapCallbacks {
   @override
   void update(double dt) {
     super.update(dt);
+    worldTime+=dt;
     // urchinSprite.position+=Vector2(1, -1);
   }
 
   @override
   void onTapDown(TapDownEvent event) {
     super.onTapDown(event);
-    if (!event.handled) {
-      final touchPoint = event.localPosition;
-      print('TouchPosition = '+touchPoint.toString());
-      add(CircleComponent(position: touchPoint, radius: 20, anchor: Anchor.center));
-    }
+    // if (!event.handled) {
+    //   final touchPoint = event.localPosition;
+    //   print('TouchPosition = '+touchPoint.toString());
+    //   add(CircleComponent(position: touchPoint, radius: 20, anchor: Anchor.center));
+    // }
   }
 }

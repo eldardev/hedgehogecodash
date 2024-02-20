@@ -78,7 +78,9 @@ class Items extends PositionComponent {
       //       normalVec.x * inventorySpeed * dt, normalVec.y * inventorySpeed * dt);
       // }
       // else {
-         position = Vector2(0, 0);
+
+         position = Vector2(itemHolder!.size.x/2+size.x/2, itemHolder!.size.y/2+size.y/2);
+         anchor=Anchor.center;
       //   angle = itemUrchin!.angle;
       //   speed = itemUrchin!.speed;
       // }
