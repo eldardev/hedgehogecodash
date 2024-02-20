@@ -2,86 +2,132 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/effects.dart';
+import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:urchin/worlds/game_engine/components/items.dart';
+import 'package:urchin/worlds/game_engine/first_world.dart';
 import 'get_angle.dart';
 
 class Urchin extends PositionComponent with TapCallbacks {
-
-  List<Vector2> positionList1;
-  late SpriteAnimationComponent urchinSprite;
+  List<Vector2> checkPointList;
+  late SpriteAnimationComponent urchinSprite, urchinLightSprite;
   double speed;
+  List<Items> itemsList = [];
   double urchinRotationSpeed = 80;
-  int currentCheckpoint = 0;
+  int currentCheckpointNumber = 0;
   Vector2 direction = Vector2(0, 1);
+  double birthTime = 0;
+  FirstWorld world = GetIt.I.get<FirstWorld>();
 
-  Urchin({required this.speed, required this.positionList1}):super(size: Vector2(210, 280), anchor: Anchor.center);
+  Urchin(
+      {required this.speed,
+      required this.checkPointList,
+      required this.birthTime})
+      : super(size: Vector2(210, 280), anchor: Anchor.center);
 
   @override
   Future<void> onLoad() async {
-    final size2 = Vector2(210.0, 280.0);
-    final data = SpriteAnimationData.sequenced(
-      textureSize: size2,
+    final dataLight = SpriteAnimationData.sequenced(
+      textureSize: Vector2(260, 320),
+      amount: 4,
+      stepTime: 20 / speed,
+    );
+    urchinLightSprite = SpriteAnimationComponent.fromFrameData(
+      await Flame.images.load('lightUrchin.png'),
+      dataLight,
+    );
+    urchinLightSprite.anchor = Anchor.center;
+    urchinLightSprite.position = Vector2(size.x / 2, size.y / 2);
+
+    final dataUrchin = SpriteAnimationData.sequenced(
+      textureSize: size,
       amount: 4,
       stepTime: 20 / speed,
     );
     urchinSprite = SpriteAnimationComponent.fromFrameData(
       await Flame.images.load('urchin.png'),
-      data,
+      dataUrchin,
     );
-    urchinSprite.position=Vector2(urchinSprite.size.x/2, urchinSprite.size.y/2);
-    // urchinSprite.angle=45;
-    //anchor = Anchor.center;
+    urchinSprite.position =
+        Vector2(urchinSprite.size.x / 2, urchinSprite.size.y / 2);
     urchinSprite.anchor = Anchor.center;
-
-    position = positionList1[currentCheckpoint];
-    //scale = Vector2(0.5, 0.5);
-    if (currentCheckpoint + 1 < positionList1.length) {
-      angle = getAngle(position, positionList1[currentCheckpoint + 1]);
+    position = checkPointList[currentCheckpointNumber];
+    if (currentCheckpointNumber + 1 < checkPointList.length) {
+      angle = getAngle(position, checkPointList[currentCheckpointNumber + 1]);
       angle = getShortAngle(urchinSprite.angle, angle);
     }
+    urchinSprite.priority = 2;
     add(urchinSprite);
     super.onLoad();
   }
 
   @override
   void update(double dt) {
-    var normalDirectionVec = ((positionList1[currentCheckpoint + 1] -
-        positionList1[currentCheckpoint]).normalized());
-    var currentStep = dt < 0.1
-        ? Vector2(
-        normalDirectionVec.x * speed * dt, normalDirectionVec.y * speed * dt)
-        : Vector2(
-        normalDirectionVec.x * speed * 0.1, normalDirectionVec.y * speed * 0.1);
-    position += currentStep;
-    if (position.distanceTo(positionList1[currentCheckpoint + 1]) <=
-        currentStep.length) {
-      // if(position.x>positionList1[currentCheckpoint+1].x){
-      currentCheckpoint += 1;
-      if (currentCheckpoint + 1 < positionList1.length) {
-        double angle2 = getAngle(
-            position, positionList1[currentCheckpoint + 1]);
-        // angle = getShortAngle(urchinSprite.angle, angle2);
-        add(
-          RotateEffect.to(
-            getShortAngle(urchinSprite.angle, angle2),
-            EffectController(duration: urchinRotationSpeed / speed),
-          ),);
-      }
-      if (currentCheckpoint == positionList1.length - 1) {
-        currentCheckpoint = 0;
-        position = positionList1.first;
-        if (currentCheckpoint + 1 < positionList1.length) {
-          angle = getAngle(position, positionList1[currentCheckpoint + 1]);
-          angle = getShortAngle(urchinSprite.angle, angle);
+    if (world.worldTime >= birthTime) {
+      var normalDirectionVec = ((checkPointList[currentCheckpointNumber + 1] -
+              checkPointList[currentCheckpointNumber])
+          .normalized());
+      var currentStep = (dt < 0.05)
+          ? Vector2(normalDirectionVec.x * speed * dt,
+              normalDirectionVec.y * speed * dt)
+          : Vector2(normalDirectionVec.x * speed * 0.1,
+              normalDirectionVec.y * speed * 0.1);
+      position += currentStep;
+      if (position.distanceTo(checkPointList[currentCheckpointNumber + 1]) <=
+          currentStep.length) {
+        currentCheckpointNumber += 1;
+        if (currentCheckpointNumber < checkPointList.length - 2) {
+          double angle2 =
+              getAngle(position, checkPointList[currentCheckpointNumber + 1]);
+          add(
+            RotateEffect.to(
+              getShortAngle(urchinSprite.angle, angle2),
+              EffectController(duration: urchinRotationSpeed / speed),
+            ),
+          );
         }
-        // urchinSprite.angle=45;
+        if ((currentCheckpointNumber == checkPointList.length - 1) ||
+            position.length > 3000) {
+          currentCheckpointNumber = 0;
+          position = checkPointList.first;
+          if (currentCheckpointNumber + 1 < checkPointList.length) {
+            angle =
+                getAngle(position, checkPointList[currentCheckpointNumber + 1]);
+            angle = getShortAngle(urchinSprite.angle, angle);
+          }
+          // urchinSprite.angle=45;
+        }
       }
     }
     super.update(dt);
   }
-@override
+
+  void activateUrchinLight() {
+    //  if (urchinLightSprite.isRemoved) {
+    urchinSprite.priority = 2;
+    urchinLightSprite.priority = 1;
+    add(urchinLightSprite);
+    // }
+  }
+
+  void deActivateUrchinLight() {
+    if (urchinLightSprite.isMounted) {
+      remove(urchinLightSprite);
+    }
+  }
+
+  @override
   void onTapDown(TapDownEvent event) {
+    for (var urchin in world!.urchinList) {
+      urchin.deActivateUrchinLight();
+    }
     print('TAP DOWN');
-    // TODO: implement onTapDown
+    if (!contains(urchinLightSprite)) {
+      activateUrchinLight();
+    } else {
+      deActivateUrchinLight();
+    }
+    world.selectCurrentUrchin(currentUrchin: this);
     super.onTapDown(event);
   }
 }

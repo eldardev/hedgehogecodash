@@ -3,13 +3,13 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
-import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:urchin/worlds/game_engine/first_world.dart';
 
-import 'worlds/worlds.dart';
 
 class UrchinGame extends FlameGame {
-  final demoWorld = FirstWorld();
+  var firstWorld = GetIt.I.registerSingleton<FirstWorld>(FirstWorld());
+  //var demoWorld = firstWorld;
 
   UrchinGame() {
     pauseWhenBackgrounded = false;
@@ -18,14 +18,14 @@ class UrchinGame extends FlameGame {
   @override
   Future<void> onLoad() async {
     final cam = CameraComponent.withFixedResolution(
-      world: demoWorld,
+      world: firstWorld,
       width: 2400,
       height: 1080,
     );
     cam.viewfinder.anchor = Anchor.topLeft;
     cam.viewfinder.position = Vector2(0, 0);
 
-    addAll([cam, demoWorld]);
+    addAll([cam, firstWorld]);
     return super.onLoad();
   }
 
