@@ -11,14 +11,12 @@ class UrchinGame extends FlameGame {
   final DemoWorld _demoWorld;
   final MenuWorld _menuWorld;
   final FirstWorld _firstWorld;
+  final LevelBuilderWorld _levelBuilderWorld;
 
   late RouterComponent router;
 
-  UrchinGame(
-    this._demoWorld,
-    this._menuWorld,
-    this._firstWorld,
-  ) {
+  UrchinGame(this._demoWorld, this._menuWorld, this._firstWorld,
+      this._levelBuilderWorld) {
     pauseWhenBackgrounded = false;
   }
 
@@ -29,11 +27,13 @@ class UrchinGame extends FlameGame {
         'demo': Route(() => _demoWorld),
         'main': Route(() => _firstWorld),
         'menu': Route(() => _menuWorld),
+        'level_builder': Route(() => _levelBuilderWorld),
       },
       initialRoute: 'menu',
     );
 
-    [_demoWorld, _menuWorld, _firstWorld].forEach((e) => add(e.camera));
+    [_demoWorld, _menuWorld, _firstWorld, _levelBuilderWorld]
+        .forEach((e) => add(e.camera));
     add(router);
 
     return super.onLoad();

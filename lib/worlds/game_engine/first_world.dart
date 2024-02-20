@@ -100,18 +100,20 @@ class FirstWorld extends CommonWorld with TapCallbacks {
     // final tiledMap = await TiledComponent()
   }
 
-  void deactivateAllUrchin(){
+  void deactivateAllUrchin() {
     for (var urchin in urchinList) {
       urchin.deActivateUrchinLight();
     }
-    currentUrchin=null;
+    currentUrchin = null;
   }
-  void deactivateAllBasket(){
+
+  void deactivateAllBasket() {
     for (var basket in basketList) {
       basket.deActivateBasketLight();
     }
-    currentBasket=null;
+    currentBasket = null;
   }
+
   void selectCurrentUrchin({Urchin? currentUrchin}) {
     if (currentUrchin != null) {
       this.currentUrchin = currentUrchin;
@@ -119,13 +121,14 @@ class FirstWorld extends CommonWorld with TapCallbacks {
     if (this.currentUrchin != null && currentBasket != null) {
       Items? a = currentUrchin?.itemsList.last;
       currentUrchin?.add(a as PositionComponent);
-      a?.anchor=Anchor.center;
-      a?.priority=15;
-     // currentBasket=null;
+      a?.anchor = Anchor.center;
+      a?.priority = 15;
+      // currentBasket=null;
       deactivateAllUrchin();
       deactivateAllBasket();
     }
   }
+
   void selectCurrentBasket({Basket? currentBasket}) {
     if (currentBasket != null) {
       this.currentBasket = currentBasket;
@@ -134,16 +137,16 @@ class FirstWorld extends CommonWorld with TapCallbacks {
     if (currentUrchin != null && this.currentBasket != null) {
       if (currentUrchin!.itemsList.isNotEmpty) {
         Items? a = currentUrchin?.itemsList.last;
-        a?.priority=15;
+        a?.priority = 15;
         currentBasket?.add(a as Component);
         //currentUrchin?.currentItems=null;
         //currentUrchin=null;
         deactivateAllUrchin();
         deactivateAllBasket();
-
       }
     }
   }
+
   @override
   void update(double dt) {
     super.update(dt);
@@ -155,8 +158,9 @@ class FirstWorld extends CommonWorld with TapCallbacks {
     super.onTapDown(event);
     if (!event.handled) {
       final touchPoint = event.localPosition;
-      print('TouchPosition = '+touchPoint.toString());
-      add(CircleComponent(position: touchPoint, radius: 20, anchor: Anchor.center));
+      print('TouchPosition = ' + touchPoint.toString());
+      add(CircleComponent(
+          position: touchPoint, radius: 20, anchor: Anchor.center));
     }
   }
 }
