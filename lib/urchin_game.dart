@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'worlds/worlds.dart';
 
 @injectable
-class UrchinGame extends FlameGame {
+class UrchinGame extends FlameGame with HasCollisionDetection {
   final DemoWorld _demoWorld;
   final MenuWorld _menuWorld;
   final FirstWorld _firstWorld;

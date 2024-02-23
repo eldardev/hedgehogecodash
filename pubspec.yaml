@@ -38,6 +38,7 @@ dependencies:
   flame: ^1.15.0
   get_it: ^7.2.0
   injectable: ^2.1.2
+  flame_audio: ^2.1.8
 
 dev_dependencies:
   flutter_test:
