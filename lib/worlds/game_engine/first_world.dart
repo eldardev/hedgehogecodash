@@ -5,6 +5,8 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
+import 'package:flame/text.dart';
+import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:urchin/worlds/common/common_world.dart';
 import 'package:urchin/worlds/game_engine/components/background.dart';
@@ -17,6 +19,8 @@ import 'components/urchin.dart';
 @singleton
 class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   int score = 0;
+  int scoreWhenTrueExit=1;
+  int scoreWhenFalseExit=1;
   late SpriteAnimationComponent urchinSprite;
   double maxDeltaTime = 0.025;
   Urchin? currentUrchin;
@@ -27,9 +31,12 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   //double scale = 0.1;
   SpriteComponent spriteComponentBG = SpriteComponent();
   double worldTime = 0;
+  late TextComponent scoreText1;
+  late TextComponent scoreText2;
 
   @override
   Future<void> onLoad() async {
+    debugMode=false;
     score = 0;
     await Flame.images.loadAll([
       'maps/map_01.png',
@@ -123,11 +130,38 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     add(Exit(exitType: 2)
       ..position = Vector2(2300, 567)
       ..priority = 1);
+
+
+    TextPaint textPaintOrange = TextPaint(
+      style: const TextStyle(
+        fontSize: 80.0,
+        color: Colors.orange,
+        fontFamily: 'Awesome Font',
+        fontWeight: FontWeight.w900,
+      ),
+    );
+    TextPaint textPaintYellow = TextPaint(
+      style: const TextStyle(
+        fontSize: 80.0,
+        color: Colors.yellow,
+        fontFamily: 'Awesome Font',
+        fontWeight: FontWeight.w900,
+      ),
+    );
+    scoreText1 = TextComponent(
+      text: 'Score : ',
+      position: Vector2.all(16.0),
+      textRenderer: textPaintOrange
+    );
+    scoreText2 = TextComponent(
+      text: '${score}',
+      position: Vector2(290.0, 16),
+      textRenderer: textPaintYellow
+    );
+    add(scoreText1);
+    add(scoreText2);
+
     super.onLoad();
-    var screen= ScreenHitbox()..debugMode=true;
-    screen.anchor=Anchor.center;
-    screen.position=Vector2(1000, 100);
-    add(screen);
   }
 
   void deactivateAllUrchin() {
@@ -194,6 +228,11 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
           print('currentUrchin?.item = NULL');
       }
     }
+  }
+
+  void setScore(int score){
+    this.score = score;
+    scoreText2.text = '$score';
   }
 
   @override

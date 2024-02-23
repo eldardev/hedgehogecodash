@@ -20,13 +20,15 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks{
   Vector2 direction = Vector2(0, 1);
   double birthTime = 0;
   FirstWorld world = GetIt.I.get<FirstWorld>();
+  double maxStepLenght = 10;
 
   Urchin(
       {required this.speed,
       required this.checkPointList,
       required this.birthTime})
       : super(size: Vector2(210, 280), anchor: Anchor.center){
-    add(CircleHitbox(radius: 100, anchor: Anchor.center));
+    double bigSide = (width>height) ? width : height;
+    add(CircleHitbox(radius: bigSide/2, anchor: Anchor.center, isSolid: true, position: Vector2(size.x/2, size.y/2))..debugMode=world.debugMode);
   }
 
   @override
@@ -72,17 +74,23 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks{
     if(dt>world.maxDeltaTime){
       dt=world.maxDeltaTime;
     }
+    maxStepLenght=position.distanceTo(checkPointList[currentCheckpointNumber+1]);
     if (world.worldTime >= birthTime) {
       var normalDirectionVec = ((checkPointList[currentCheckpointNumber + 1] -
               checkPointList[currentCheckpointNumber])
           .normalized());
-      var currentStep = (dt < 0.05)
+      var currentStep = (dt < world.maxDeltaTime)
           ? Vector2(normalDirectionVec.x * speed * dt,
               normalDirectionVec.y * speed * dt)
-          : Vector2(normalDirectionVec.x * speed * 0.1,
-              normalDirectionVec.y * speed * 0.1);
+          : Vector2(normalDirectionVec.x * speed * world.maxDeltaTime,
+              normalDirectionVec.y * speed * world.maxDeltaTime);
+     // print('currentStepLenght='+currentStep.length.toString());
+      if(currentStep.length>maxStepLenght){
+        currentStep=currentStep.normalized();
+      }
+
       position += currentStep;
-      if (position.distanceTo(checkPointList[currentCheckpointNumber + 1]) <=
+      if (position.distanceTo(checkPointList[currentCheckpointNumber + 1]) <
           currentStep.length) {
         currentCheckpointNumber += 1;
         if (currentCheckpointNumber < checkPointList.length - 2) {
@@ -97,14 +105,7 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks{
         }
         if ((currentCheckpointNumber == checkPointList.length - 1) ||
             position.length > 3000) {
-          deActivateUrchinLight();
-          currentCheckpointNumber = 0;
-          position = checkPointList.first;
-          if (currentCheckpointNumber + 1 < checkPointList.length) {
-            angle =
-                getAngle(position, checkPointList[currentCheckpointNumber + 1]);
-            angle = getShortAngle(urchinSprite.angle, angle);
-          }
+          pastUrchinToStartPosition();
           // urchinSprite.angle=45;
         }
       }
@@ -148,18 +149,37 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks{
 
   @override
   void onCollisionEnd(PositionComponent other) {
-    if (other is ScreenHitbox) {
+    if (other is Background) {
       if(itemList.isNotEmpty){
         if( itemList.last.collideWithTrueExit) {
-          world.score += 1;
-        }else{
-          world.score-=1;
+          world.score += world.scoreWhenTrueExit;
+        }else if(world.score>=world.scoreWhenFalseExit){
+
+          world.score-=world.scoreWhenFalseExit;
         }
+        world.setScore(world.score);
       }
       print("SCORE="+world.score.toString());
       print('COLLISION END');
+
+
+
+      pastUrchinToStartPosition();
+
+
     }
     super.onCollisionEnd(other);
+  }
+
+  void pastUrchinToStartPosition() {
+    deActivateUrchinLight();
+    currentCheckpointNumber = 0;
+    position = checkPointList.first;
+    if (currentCheckpointNumber + 1 < checkPointList.length) {
+      angle =
+          getAngle(position, checkPointList[currentCheckpointNumber + 1]);
+      angle = getShortAngle(urchinSprite.angle, angle);
+    }
   }
 
 }

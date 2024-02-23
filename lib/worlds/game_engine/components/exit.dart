@@ -36,7 +36,7 @@ class Exit extends PositionComponent with CollisionCallbacks{
     size = animationFrameSize;
     anchor = Anchor.center;
     priority = 15;
-    add(CircleHitbox(radius: 100, anchor: Anchor.center));
+    add(CircleHitbox(radius: size.x/2, anchor: Anchor.center, position: Vector2(size.x/2, size.y/2))..debugMode=world.debugMode);
   }
 
 @override

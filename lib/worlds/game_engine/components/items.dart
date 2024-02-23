@@ -59,7 +59,7 @@ class Items extends PositionComponent with CollisionCallbacks {
     size = animationFrameSize;
     anchor = Anchor.center;
     priority = 15;
-    add(CircleHitbox(radius: 100, anchor: Anchor.center)..debugMode=true);
+    add(CircleHitbox(radius: 100, anchor: Anchor.center)..debugMode=world.debugMode);
   }
 
   @override
