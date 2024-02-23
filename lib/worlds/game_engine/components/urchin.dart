@@ -1,18 +1,20 @@
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:urchin/worlds/game_engine/components/background.dart';
 import 'package:urchin/worlds/game_engine/components/items.dart';
 import 'package:urchin/worlds/game_engine/first_world.dart';
 import 'get_angle.dart';
 
-class Urchin extends PositionComponent with TapCallbacks {
+class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks{
   List<Vector2> checkPointList;
   late SpriteAnimationComponent urchinSprite, urchinLightSprite;
   double speed;
-  List<Items> itemsList = [];
+  List<Items> itemList = [];
   double urchinRotationSpeed = 80;
   int currentCheckpointNumber = 0;
   Vector2 direction = Vector2(0, 1);
@@ -23,7 +25,9 @@ class Urchin extends PositionComponent with TapCallbacks {
       {required this.speed,
       required this.checkPointList,
       required this.birthTime})
-      : super(size: Vector2(210, 280), anchor: Anchor.center);
+      : super(size: Vector2(210, 280), anchor: Anchor.center){
+    add(CircleHitbox(radius: 100, anchor: Anchor.center));
+  }
 
   @override
   Future<void> onLoad() async {
@@ -33,19 +37,21 @@ class Urchin extends PositionComponent with TapCallbacks {
       stepTime: 20 / speed,
     );
     urchinLightSprite = SpriteAnimationComponent.fromFrameData(
-      await Flame.images.load('lightUrchin.png'),
+      Flame.images.fromCache('lightUrchin.png'),
       dataLight,
     );
     urchinLightSprite.anchor = Anchor.center;
     urchinLightSprite.position = Vector2(size.x / 2, size.y / 2);
+    add(urchinLightSprite);
+    deActivateUrchinLight();
 
     final dataUrchin = SpriteAnimationData.sequenced(
       textureSize: size,
       amount: 4,
       stepTime: 20 / speed,
     );
-    urchinSprite = SpriteAnimationComponent.fromFrameData(
-      await Flame.images.load('urchin.png'),
+      urchinSprite = SpriteAnimationComponent.fromFrameData(
+      Flame.images.fromCache('urchin.png'),
       dataUrchin,
     );
     urchinSprite.position =
@@ -63,6 +69,9 @@ class Urchin extends PositionComponent with TapCallbacks {
 
   @override
   void update(double dt) {
+    if(dt>world.maxDeltaTime){
+      dt=world.maxDeltaTime;
+    }
     if (world.worldTime >= birthTime) {
       var normalDirectionVec = ((checkPointList[currentCheckpointNumber + 1] -
               checkPointList[currentCheckpointNumber])
@@ -88,6 +97,7 @@ class Urchin extends PositionComponent with TapCallbacks {
         }
         if ((currentCheckpointNumber == checkPointList.length - 1) ||
             position.length > 3000) {
+          deActivateUrchinLight();
           currentCheckpointNumber = 0;
           position = checkPointList.first;
           if (currentCheckpointNumber + 1 < checkPointList.length) {
@@ -104,7 +114,8 @@ class Urchin extends PositionComponent with TapCallbacks {
 
   void activateUrchinLight() {
     //  if (urchinLightSprite.isRemoved) {
-    add(urchinLightSprite);
+    // add(urchinLightSprite);
+    urchinLightSprite.scale=Vector2.all(1);
     urchinSprite.priority = 2;
     urchinLightSprite.priority = 1;
 
@@ -112,23 +123,43 @@ class Urchin extends PositionComponent with TapCallbacks {
   }
 
   void deActivateUrchinLight() {
-    if (urchinLightSprite.isMounted) {
-      remove(urchinLightSprite);
-    }
+  //   if (urchinLightSprite.isMounted) {
+  //     remove(urchinLightSprite);
+    // }
+    urchinLightSprite.scale=Vector2.all(0);
   }
 
   @override
   void onTapDown(TapDownEvent event) {
-    for (var urchin in world!.urchinList) {
-      urchin.deActivateUrchinLight();
-    }
-    print('TAP DOWN');
-    if (!contains(urchinLightSprite)) {
-      activateUrchinLight();
-    } else {
-      deActivateUrchinLight();
-    }
+    // for (var urchin in world!.urchinList) {
+    //   urchin.deActivateUrchinLight();
+    // }
+    // world.deactivateAllUrchin();
+    // print('TAP DOWN');
+    // if (!contains(urchinLightSprite)) {
+    //   activateUrchinLight();
+    // } else {
+    //   deActivateUrchinLight();
+    // }
     world.selectCurrentUrchin(currentUrchin: this);
     super.onTapDown(event);
   }
+
+
+  @override
+  void onCollisionEnd(PositionComponent other) {
+    if (other is ScreenHitbox) {
+      if(itemList.isNotEmpty){
+        if( itemList.last.collideWithTrueExit) {
+          world.score += 1;
+        }else{
+          world.score-=1;
+        }
+      }
+      print("SCORE="+world.score.toString());
+      print('COLLISION END');
+    }
+    super.onCollisionEnd(other);
+  }
+
 }

@@ -1,18 +1,24 @@
 import 'dart:ui';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
+import 'package:flame/flame.dart';
 import 'package:injectable/injectable.dart';
 import 'package:urchin/worlds/common/common_world.dart';
+import 'package:urchin/worlds/game_engine/components/background.dart';
 import 'package:urchin/worlds/game_engine/components/basket.dart';
+import 'package:urchin/worlds/game_engine/components/exit.dart';
 import 'package:urchin/worlds/game_engine/components/items.dart';
 
 import 'components/urchin.dart';
 
 @singleton
-class FirstWorld extends CommonWorld with TapCallbacks {
+class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
+  int score = 0;
   late SpriteAnimationComponent urchinSprite;
+  double maxDeltaTime = 0.025;
   Urchin? currentUrchin;
   Basket? currentBasket;
   List<Basket> basketList = [];
@@ -24,7 +30,25 @@ class FirstWorld extends CommonWorld with TapCallbacks {
 
   @override
   Future<void> onLoad() async {
-    super.onLoad();
+    score = 0;
+    await Flame.images.loadAll([
+      'maps/map_01.png',
+      'stump.png',
+      'lightStump.png',
+      'lightUrchin.png',
+      'urchin.png',
+      'items/itemApple.png',
+      'items/itemCherry.png',
+      'items/itemFlower.png',
+      'items/itemMushroom.png',
+      'items/itemPear.png',
+      'items/itemAppleMarker.png',
+      'items/itemCherryMarker.png',
+      'items/itemFlowerMarker.png',
+      'items/itemMushroomMarker.png',
+      'items/itemPearMarker.png'
+    ]);
+    // var a= Flame.images.fromCache(name)
     List<Vector2> positionList1 = [
       Vector2(-150, 1500),
       Vector2(400, 1000),
@@ -57,17 +81,17 @@ class FirstWorld extends CommonWorld with TapCallbacks {
       Vector2(3000, 560)
     ];
 
-    final sprite = await Sprite.load('maps/map_01.png');
-    final size = Vector2(2400, 1080);
-    final bgSprite = SpriteComponent(size: size, sprite: sprite);
-
-    add(bgSprite);
+    add(Background());
     var firstUrchin =
-        Urchin(speed: 250, checkPointList: positionList1, birthTime: 0);
+        Urchin(speed: 100, checkPointList: positionList1, birthTime: 0)
+          ..priority = 3;
     var secondUrchin =
-        Urchin(speed: 400, checkPointList: positionList2, birthTime: 3);
+        Urchin(speed: 100, checkPointList: positionList2, birthTime: 3)
+          ..priority = 3;
     var urchin3 =
-        Urchin(speed: 400, checkPointList: positionList3, birthTime: 5);
+        Urchin(speed: 500, checkPointList: positionList3, birthTime: 5)
+          ..priority = 3;
+
     add(firstUrchin);
     add(secondUrchin);
     add(urchin3);
@@ -82,22 +106,28 @@ class FirstWorld extends CommonWorld with TapCallbacks {
     urchinList.add(secondUrchin);
     urchinList.add(urchin3);
 
-    var item1 = Items(itemType: 4)..itemHolder = firstUrchin;
-    firstUrchin.itemsList.add(item1);
+    var item1 = Items(itemType: 4);
+    var item2 = Items(itemType: 2);
+    var item3 = Items(itemType: 1);
+    firstUrchin.itemList.add(item1);
+    secondUrchin.itemList.add(item2);
+    urchin3.itemList.add(item3);
 
-    var item2 = Items(itemType: 2)..itemHolder = secondUrchin;
-    secondUrchin.itemsList.add(item2);
+    item1.setNewHolder(firstUrchin);
+    item2.setNewHolder(secondUrchin);
+    item3.setNewHolder(urchin3);
 
-    var item3 = Items(itemType: 1)..itemHolder = urchin3;
-    urchin3.itemsList.add(item3);
-
-    firstUrchin.add(item1);
-    secondUrchin.add(item2);
-    urchin3.add(item3);
-    // await Future.delayed(Duration(seconds: 5));
-    // add(Items(speed: 400));
-
-    // final tiledMap = await TiledComponent()
+    add(Exit(exitType: 1)
+      ..position = Vector2(1437, 100)
+      ..priority = 1);
+    add(Exit(exitType: 2)
+      ..position = Vector2(2300, 567)
+      ..priority = 1);
+    super.onLoad();
+    var screen= ScreenHitbox()..debugMode=true;
+    screen.anchor=Anchor.center;
+    screen.position=Vector2(1000, 100);
+    add(screen);
   }
 
   void deactivateAllUrchin() {
@@ -114,44 +144,65 @@ class FirstWorld extends CommonWorld with TapCallbacks {
     currentBasket = null;
   }
 
-  void selectCurrentUrchin({Urchin? currentUrchin}) {
-    if (currentUrchin != null) {
-      this.currentUrchin = currentUrchin;
-    }
-    if (this.currentUrchin != null && currentBasket != null) {
-      Items? a = currentUrchin?.itemsList.last;
-      currentUrchin?.add(a as PositionComponent);
-      a?.anchor = Anchor.center;
-      a?.priority = 15;
-      // currentBasket=null;
-      deactivateAllUrchin();
-      deactivateAllBasket();
+  void selectCurrentUrchin({required Urchin currentUrchin}) {
+    deactivateAllUrchin();
+    this.currentUrchin = currentUrchin;
+    currentUrchin.activateUrchinLight();
+    if (currentBasket != null) {
+      if ((currentBasket?.itemList.isNotEmpty ?? false) &&
+          (currentUrchin.itemList.isEmpty ?? false)) {
+        Items? currentItem = currentBasket?.itemList.last;
+        if (currentItem != null) {
+          currentItem.itemSpriteComponent.playing = true;
+          currentItem.setNewHolder(currentUrchin);
+          currentUrchin.itemList.add(currentItem);
+          currentBasket?.itemList.clear();
+        }
+        deactivateAllBasket();
+        deactivateAllUrchin();
+      } else {
+        deactivateAllBasket();
+        deactivateAllUrchin();
+        if (currentBasket?.itemList.isNotEmpty ?? false) {
+          print('currentBasket?.item = NULL');
+        }
+      }
     }
   }
 
-  void selectCurrentBasket({Basket? currentBasket}) {
-    if (currentBasket != null) {
-      this.currentBasket = currentBasket;
-    }
+  void selectCurrentBasket({required Basket currentBasket}) {
+    deactivateAllBasket();
+    this.currentBasket = currentBasket;
+    currentBasket.activateBasketLight();
 
-    if (currentUrchin != null && this.currentBasket != null) {
-      if (currentUrchin!.itemsList.isNotEmpty) {
-        Items? a = currentUrchin?.itemsList.last;
-        a?.priority = 15;
-        currentBasket?.add(a as Component);
-        //currentUrchin?.currentItems=null;
-        //currentUrchin=null;
-        deactivateAllUrchin();
+    if (currentUrchin != null) {
+      if ((currentUrchin?.itemList.isNotEmpty ?? false) &&
+          (currentBasket.itemList.isEmpty ?? false)) {
+        Items? currentItem = currentUrchin?.itemList.last;
+        if (currentItem != null) {
+          currentItem.itemSpriteComponent.playing = false;
+          currentItem.setNewHolder(currentBasket);
+          currentBasket.itemList.add(currentItem);
+          currentUrchin?.itemList.clear();
+        }
         deactivateAllBasket();
-
+        deactivateAllUrchin();
+      } else {
+        deactivateAllBasket();
+        deactivateAllUrchin();
+        if ((currentUrchin?.itemList.isEmpty ?? false))
+          print('currentUrchin?.item = NULL');
       }
     }
   }
 
   @override
   void update(double dt) {
+    if (dt > maxDeltaTime) {
+      dt = maxDeltaTime;
+    }
     super.update(dt);
-    worldTime+=dt;
+    worldTime += dt;
     // urchinSprite.position+=Vector2(1, -1);
   }
 
