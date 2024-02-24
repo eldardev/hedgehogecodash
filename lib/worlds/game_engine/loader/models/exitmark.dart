@@ -1,10 +1,10 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'exitmarks.g.dart';
+part 'exitmark.g.dart';
 
 @JsonSerializable(createToJson: false)
-class Exitmarks {
-  Exitmarks({
+class Exitmark {
+  Exitmark({
     required this.kind,
     required this.name,
     required this.x,
@@ -12,8 +12,8 @@ class Exitmarks {
     required this.angle,
   });
 
-  factory Exitmarks.fromJson(Map<String, dynamic> json) =>
-      _$ExitmarksFromJson(json);
+  factory Exitmark.fromJson(Map<String, dynamic> json) =>
+      _$ExitmarkFromJson(json);
 
   String? kind;
   String? name;

@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 
 import 'models/common.dart';
-import 'models/exitmarks.dart';
-import 'models/paths.dart';
-import 'models/points.dart';
+import 'models/exitmark.dart';
+import 'models/path.dart';
+import 'models/point.dart';
 import 'models/scenario.dart';
-import 'models/trashes.dart';
+import 'models/trash.dart';
 
 part 'level_config.g.dart';
 
@@ -24,11 +24,11 @@ class LevelConfig {
       _$LevelConfigFromJson(json);
 
   Common? common;
-  List<Trashes>? trashes;
+  List<Trash>? trashes;
 
   @JsonKey(name: 'exitmarks')
-  List<Exitmarks>? exitMarks;
-  List<Points>? points;
-  List<Paths>? paths;
+  List<Exitmark>? exitMarks;
+  List<Point>? points;
+  List<Path>? paths;
   List<Scenario>? scenario;
 }

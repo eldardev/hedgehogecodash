@@ -1,15 +1,15 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'paths.g.dart';
+part 'path.g.dart';
 
 @JsonSerializable(createToJson: false)
-class Paths {
-  Paths({
+class Path {
+  Path({
     required this.name,
     required this.points,
   });
 
-  factory Paths.fromJson(Map<String, dynamic> json) => _$PathsFromJson(json);
+  factory Path.fromJson(Map<String, dynamic> json) => _$PathFromJson(json);
 
   String? name;
   List<String>? points;

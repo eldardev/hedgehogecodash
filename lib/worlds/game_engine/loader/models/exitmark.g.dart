@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'exitmarks.dart';
+part of 'exitmark.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Exitmarks _$ExitmarksFromJson(Map<String, dynamic> json) => Exitmarks(
+Exitmark _$ExitmarkFromJson(Map<String, dynamic> json) => Exitmark(
       kind: json['kind'] as String?,
       name: json['name'] as String?,
       x: json['x'] as String?,

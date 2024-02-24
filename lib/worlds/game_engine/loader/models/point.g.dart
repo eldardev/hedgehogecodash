@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'trashes.dart';
+part of 'point.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Trashes _$TrashesFromJson(Map<String, dynamic> json) => Trashes(
+Point _$PointFromJson(Map<String, dynamic> json) => Point(
+      id: json['id'] as String?,
       x: json['x'] as String?,
       y: json['y'] as String?,
-      type: json['type'] as String?,
     );

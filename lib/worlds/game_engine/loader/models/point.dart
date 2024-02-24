@@ -1,16 +1,16 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'points.g.dart';
+part 'point.g.dart';
 
 @JsonSerializable(createToJson: false)
-class Points {
-  Points({
+class Point {
+  Point({
     required this.id,
     required this.x,
     required this.y,
   });
 
-  factory Points.fromJson(Map<String, dynamic> json) => _$PointsFromJson(json);
+  factory Point.fromJson(Map<String, dynamic> json) => _$PointFromJson(json);
 
   String? id;
   String? x;

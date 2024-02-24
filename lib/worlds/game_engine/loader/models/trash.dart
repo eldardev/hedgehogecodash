@@ -1,17 +1,16 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'trashes.g.dart';
+part 'trash.g.dart';
 
 @JsonSerializable(createToJson: false)
-class Trashes {
-  Trashes({
+class Trash {
+  Trash({
     required this.x,
     required this.y,
     required this.type,
   });
 
-  factory Trashes.fromJson(Map<String, dynamic> json) =>
-      _$TrashesFromJson(json);
+  factory Trash.fromJson(Map<String, dynamic> json) => _$TrashFromJson(json);
 
   String? x;
   String? y;
