@@ -1,8 +1,4 @@
-import 'dart:ui';
-
-import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/text.dart';
@@ -13,14 +9,15 @@ import 'package:urchin/worlds/game_engine/components/background.dart';
 import 'package:urchin/worlds/game_engine/components/basket.dart';
 import 'package:urchin/worlds/game_engine/components/exit.dart';
 import 'package:urchin/worlds/game_engine/components/items.dart';
+import 'package:urchin/worlds/game_engine/loader/level_loader.dart';
 
 import 'components/urchin.dart';
 
 @singleton
 class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   int score = 0;
-  int scoreWhenTrueExit=1;
-  int scoreWhenFalseExit=1;
+  int scoreWhenTrueExit = 1;
+  int scoreWhenFalseExit = 1;
   late SpriteAnimationComponent urchinSprite;
   double maxDeltaTime = 0.025;
   Urchin? currentUrchin;
@@ -36,7 +33,8 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
 
   @override
   Future<void> onLoad() async {
-    debugMode=false;
+    final levelConfig = await LevelLoader.fetchLevel(1);
+    debugMode = false;
     score = 0;
     await Flame.images.loadAll([
       'maps/map_01.png',
@@ -131,7 +129,6 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       ..position = Vector2(2300, 567)
       ..priority = 1);
 
-
     TextPaint textPaintOrange = TextPaint(
       style: const TextStyle(
         fontSize: 80.0,
@@ -149,15 +146,13 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       ),
     );
     scoreText1 = TextComponent(
-      text: 'Score : ',
-      position: Vector2.all(16.0),
-      textRenderer: textPaintOrange
-    );
+        text: 'Score : ',
+        position: Vector2.all(16.0),
+        textRenderer: textPaintOrange);
     scoreText2 = TextComponent(
-      text: '${score}',
-      position: Vector2(290.0, 16),
-      textRenderer: textPaintYellow
-    );
+        text: '${score}',
+        position: Vector2(290.0, 16),
+        textRenderer: textPaintYellow);
     add(scoreText1);
     add(scoreText2);
 
@@ -230,7 +225,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     }
   }
 
-  void setScore(int score){
+  void setScore(int score) {
     this.score = score;
     scoreText2.text = '$score';
   }
