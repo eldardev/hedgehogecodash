@@ -41,7 +41,7 @@ class Basket extends PositionComponent with TapCallbacks {
       ..anchor = Anchor.center
       ..position = Vector2(size.x / 2, size.y / 2)
       ..priority = 1
-      ..paint.color = const Color(1).withOpacity(0.7);
+      ..paint.color = const Color(0x00000001).withOpacity(0.7);
     add(lightSpriteAnim);
     deActivateBasketLight();
     //add(stumpSpriteAnim);

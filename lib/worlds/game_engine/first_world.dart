@@ -173,8 +173,8 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     add(scoreText1);
     add(scoreText2);
 
-    Garbage garbage1 = Garbage(garbageType: 1);
-    garbage1.position=Vector2(200, 300);
+    Garbage garbage1 = Garbage(garbageType: 3);
+    garbage1.position=Vector2(905, 620);
     add(garbage1);
 
     super.onLoad();
