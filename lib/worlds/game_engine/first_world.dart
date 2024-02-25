@@ -67,7 +67,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       'garbage/plasticGarbageItem.png',
       'garbage/plasticGarbageLight.png',
       'garbage/plasticGarbageBasket.png',
-      'garbage/sortGarbageBasket.png'
+      'garbage/sortGarbageButton.png'
     ]);
     // var a= Flame.images.fromCache(name)
     List<Vector2> positionList1 = [
