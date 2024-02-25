@@ -73,6 +73,9 @@ flutter:
     - assets/images/maps/
     - assets/images/items/
     - assets/images/garbage/
+    - assets/levels/level_1.json
+    - assets/levels/level_2.json
+    - assets/levels/level_3.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
