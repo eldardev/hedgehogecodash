@@ -33,7 +33,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
 
   @override
   Future<void> onLoad() async {
-    //final levelConfig = await LevelLoader.fetchLevel(1);
+    final levelConfig = await LevelLoader.fetchLevel(1);
 
     debugMode = false;
     score = 0;
