@@ -33,7 +33,8 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
 
   @override
   Future<void> onLoad() async {
-    final levelConfig = await LevelLoader.fetchLevel(1);
+    //final levelConfig = await LevelLoader.fetchLevel(1);
+
     debugMode = false;
     score = 0;
     await Flame.images.loadAll([
@@ -51,7 +52,22 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       'items/itemCherryMarker.png',
       'items/itemFlowerMarker.png',
       'items/itemMushroomMarker.png',
-      'items/itemPearMarker.png'
+      'items/itemPearMarker.png',
+      'garbage/allGarbageBasket.png',
+      'garbage/garbageBasketLight.png',
+      'garbage/metallicGarbageBasket.png',
+      'garbage/metallicGarbageItem.png',
+      'garbage/metallicGarbageLight.png',
+      'garbage/organicGarbageBasket.png',
+      'garbage/organicGarbageItem.png',
+      'garbage/organicGarbageLight.png',
+      'garbage/paperGarbageBasket.png',
+      'garbage/paperGarbageItem.png',
+      'garbage/paperGarbageLight.png',
+      'garbage/plasticGarbageItem.png',
+      'garbage/plasticGarbageLight.png',
+      'garbage/plasticGarbageBasket.png',
+      'garbage/sortGarbageBasket.png'
     ]);
     // var a= Flame.images.fromCache(name)
     List<Vector2> positionList1 = [
