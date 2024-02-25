@@ -8,6 +8,7 @@ import 'package:flame/effects.dart';
 import 'package:get_it/get_it.dart';
 import 'package:urchin/worlds/game_engine/components/basket.dart';
 import 'package:urchin/worlds/game_engine/components/exit.dart';
+import 'package:urchin/worlds/game_engine/components/garbageType.dart';
 import 'package:urchin/worlds/game_engine/components/itemsType.dart';
 import 'package:urchin/worlds/game_engine/components/urchin.dart';
 import '../first_world.dart';
@@ -15,9 +16,10 @@ import 'get_angle.dart';
 
 class Garbage extends PositionComponent with CollisionCallbacks {
   bool collideWithTrueExit = false;
-  int itemType;
+  int garbageType;
   int animationFrameCount = 4;
   Vector2 animationFrameSize = Vector2(160, 160);
+  late SpriteComponent garbageSprite;
   late SpriteAnimationComponent itemSpriteComponent;
   String garbageImagePath = 'garbage/plasticGarbageItem.png';
   String garbageLightImagePath = 'garbage/plasticGarbageItem.png';
@@ -40,27 +42,27 @@ class Garbage extends PositionComponent with CollisionCallbacks {
   // 'garbage/plasticGarbageBasket.png',
   // 'garbage/sortGarbageBasket.png'
 
-  Garbage({required this.itemType, this.itemHolder}) {
+  Garbage({required this.garbageType, this.itemHolder}) {
     priority = 15;
-    if (itemType == ItemsType.apple.index) {
+    if (garbageType == GarbageType.plastic.index) {
       garbageImagePath = 'garbage/plasticGarbageItem.png';
       garbageLightImagePath = 'garbage/plasticGarbageLight.png';
       animationFrameCount = 4;
       animationFrameSize = Vector2(340, 180);
     }
-    if (itemType == ItemsType.cherry.index) {
+    if (garbageType == GarbageType.organic.index) {
       garbageImagePath = 'garbage/organicGarbageItem.png';
       garbageLightImagePath = 'garbage/organicGarbageLight.png';
       animationFrameCount = 4;
       animationFrameSize = Vector2(140, 180);
     }
-    if (itemType == ItemsType.flower.index) {
+    if (garbageType == GarbageType.metallic.index) {
       garbageImagePath = 'garbage/metallicGarbageItem.png';
       garbageLightImagePath = 'garbage/metallicGarbageLight.png';
       animationFrameCount = 4;
       animationFrameSize = Vector2(280, 180);
     }
-    if (itemType == ItemsType.mushroom.index) {
+    if (garbageType == GarbageType.paper.index) {
       garbageImagePath = 'garbage/paperGarbageItem.png';
       garbageLightImagePath = 'garbage/paperGarbageLight.png';
       animationFrameCount = 4;
@@ -245,7 +247,7 @@ class Garbage extends PositionComponent with CollisionCallbacks {
   void onCollisionStart(Set<Vector2> intersectionPoints,
       PositionComponent other) {
     if (other is Exit) {
-      if (other.exitType == itemType) {
+      if (other.exitType == garbageType) {
         collideWithTrueExit = true;
       } else {
         collideWithTrueExit = false;

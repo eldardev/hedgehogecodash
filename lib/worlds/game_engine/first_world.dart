@@ -8,6 +8,7 @@ import 'package:urchin/worlds/common/common_world.dart';
 import 'package:urchin/worlds/game_engine/components/background.dart';
 import 'package:urchin/worlds/game_engine/components/basket.dart';
 import 'package:urchin/worlds/game_engine/components/exit.dart';
+import 'package:urchin/worlds/game_engine/components/garbage.dart';
 import 'package:urchin/worlds/game_engine/components/items.dart';
 import 'package:urchin/worlds/game_engine/loader/level_loader.dart';
 
@@ -33,9 +34,9 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
 
   @override
   Future<void> onLoad() async {
-    //final levelConfig = await LevelLoader.fetchLevel(1);
+    final levelConfig = await LevelLoader.fetchLevel(1);
 
-    debugMode = false;
+    debugMode = true;
     score = 0;
     await Flame.images.loadAll([
       'maps/map_01.png',
@@ -171,6 +172,10 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
         textRenderer: textPaintYellow);
     add(scoreText1);
     add(scoreText2);
+
+    Garbage garbage1 = Garbage(garbageType: 1);
+    garbage1.position=Vector2(200, 300);
+    add(garbage1);
 
     super.onLoad();
   }
