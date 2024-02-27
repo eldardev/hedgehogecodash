@@ -9,8 +9,8 @@ import 'package:flame/effects.dart';
 import 'package:get_it/get_it.dart';
 import 'package:urchin/worlds/game_engine/components/basket.dart';
 import 'package:urchin/worlds/game_engine/components/exit.dart';
-import 'package:urchin/worlds/game_engine/components/garbageType.dart';
-import 'package:urchin/worlds/game_engine/components/itemsType.dart';
+import 'package:urchin/worlds/game_engine/components/garbage_type.dart';
+import 'package:urchin/worlds/game_engine/components/items_type.dart';
 import 'package:urchin/worlds/game_engine/components/urchin.dart';
 import '../first_world.dart';
 import 'get_angle.dart';
@@ -33,16 +33,6 @@ class Garbage extends PositionComponent with CollisionCallbacks, TapCallbacks {
   Vector2 direction = Vector2(0, 1);
   FirstWorld world = GetIt.I.get<FirstWorld>();
   bool flyAnimation = false;
-
-  // 'garbage/metallicGarbageBasket.png',
-  //
-  // 'garbage/organicGarbageBasket.png',
-  //
-  //
-  // 'garbage/paperGarbageBasket.png',
-  //
-  // 'garbage/plasticGarbageBasket.png',
-  // 'garbage/sortGarbageBasket.png'
 
   Garbage({required this.garbageType, this.itemHolder}) {
     priority = 15;
@@ -101,6 +91,7 @@ class Garbage extends PositionComponent with CollisionCallbacks, TapCallbacks {
         size: garbageImageSize, sprite: Sprite(Flame.images.fromCache(garbageImagePath)), anchor: Anchor.center)
       ..anchor = Anchor.center..priority=10;
     add(garbageSpriteComponent);
+    deActivateGarbageLight();
     
     return super.onLoad();
   }
@@ -200,18 +191,19 @@ class Garbage extends PositionComponent with CollisionCallbacks, TapCallbacks {
     }
     super.onCollisionStart(intersectionPoints, other);
   }
-  void activateUrchinLight() {
+
+  void activateGarbageLight() {
     garbageLightSpriteComponent.scale=Vector2.all(1);
 
   }
 
-  void deActivateUrchinLight() {
+  void deActivateGarbageLight() {
     garbageLightSpriteComponent.scale=Vector2.all(0);
   }
 
   @override
   void onTapDown(TapDownEvent event) {
-    //world.selectCurrentUrchin(currentUrchin: this);
+    world.selectCurrentGarbage(currentGarbage: this);
     super.onTapDown(event);
   }
   @override

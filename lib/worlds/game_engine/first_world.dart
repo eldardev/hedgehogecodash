@@ -9,7 +9,9 @@ import 'package:urchin/worlds/game_engine/components/background.dart';
 import 'package:urchin/worlds/game_engine/components/basket.dart';
 import 'package:urchin/worlds/game_engine/components/exit.dart';
 import 'package:urchin/worlds/game_engine/components/garbage.dart';
+import 'package:urchin/worlds/game_engine/components/garbage_basket.dart';
 import 'package:urchin/worlds/game_engine/components/items.dart';
+import 'package:urchin/worlds/game_engine/components/multi_garbage_basket_pomp.dart';
 import 'package:urchin/worlds/game_engine/loader/level_loader.dart';
 
 import 'components/urchin.dart';
@@ -25,6 +27,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   Basket? currentBasket;
   List<Basket> basketList = [];
   List<Urchin> urchinList = [];
+  List<Garbage> garbageList = [];
 
   //double scale = 0.1;
   SpriteComponent spriteComponentBG = SpriteComponent();
@@ -36,7 +39,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   Future<void> onLoad() async {
     final levelConfig = await LevelLoader.fetchLevel(1);
 
-    debugMode = true;
+    debugMode = false;
     score = 0;
     await Flame.images.loadAll([
       'maps/map_01.png',
@@ -176,6 +179,16 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     Garbage garbage1 = Garbage(garbageType: 3);
     garbage1.position=Vector2(905, 620);
     add(garbage1);
+    garbageList.add(garbage1);
+
+    Garbage garbage2 = Garbage(garbageType: 1);
+    garbage2.position=Vector2(1205, 720);
+    add(garbage2);
+    garbageList.add(garbage2);
+
+
+    MultiGarbageBasketPOMP multiGarbageBasketPOMP=MultiGarbageBasketPOMP()..position = Vector2(2030, 937);
+    add(multiGarbageBasketPOMP);
 
     super.onLoad();
   }
@@ -192,6 +205,12 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       basket.deActivateBasketLight();
     }
     currentBasket = null;
+  }
+  void deactivateAllGarbage() {
+    for (var garbage in garbageList) {
+      garbage.deActivateGarbageLight();
+    }
+   // currentBasket = null;
   }
 
   void selectCurrentUrchin({required Urchin currentUrchin}) {
@@ -218,6 +237,13 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
         }
       }
     }
+    deactivateAllGarbage();
+  }
+  void selectCurrentGarbage({required Garbage currentGarbage}) {
+    deactivateAllBasket();
+    deactivateAllUrchin();
+    deactivateAllGarbage();
+    currentGarbage.activateGarbageLight();
   }
 
   void selectCurrentBasket({required Basket currentBasket}) {
@@ -244,6 +270,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
           print('currentUrchin?.item = NULL');
       }
     }
+    deactivateAllGarbage();
   }
 
   void setScore(int score) {

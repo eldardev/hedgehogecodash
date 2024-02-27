@@ -4,7 +4,7 @@ import 'package:flame/flame.dart';
 import 'package:get_it/get_it.dart';
 
 import '../first_world.dart';
-import 'itemsType.dart';
+import 'items_type.dart';
 
 class Exit extends PositionComponent with CollisionCallbacks{
   int exitType;

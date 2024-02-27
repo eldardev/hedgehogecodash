@@ -7,11 +7,11 @@ import 'package:flame/flame.dart';
 import 'package:flame/effects.dart';
 import 'package:get_it/get_it.dart';
 import 'package:urchin/worlds/game_engine/components/exit.dart';
-import 'package:urchin/worlds/game_engine/components/itemsType.dart';
+import 'package:urchin/worlds/game_engine/components/items_type.dart';
 import 'package:urchin/worlds/game_engine/components/urchin.dart';
 import '../first_world.dart';
 
-class Items extends PositionComponent with CollisionCallbacks, TapCallbacks {
+class Items extends PositionComponent with CollisionCallbacks {
   bool collideWithTrueExit = false;
   int itemType;
   int animationFrameCount = 4;
