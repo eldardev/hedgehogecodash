@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/effects.dart';
 import 'package:get_it/get_it.dart';

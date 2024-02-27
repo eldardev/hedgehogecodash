@@ -1,19 +1,11 @@
-import 'dart:math';
 import 'dart:ui';
-
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
-import 'package:flame/effects.dart';
 import 'package:get_it/get_it.dart';
-import 'package:urchin/worlds/game_engine/components/basket.dart';
-import 'package:urchin/worlds/game_engine/components/exit.dart';
 import 'package:urchin/worlds/game_engine/components/garbage_type.dart';
-import 'package:urchin/worlds/game_engine/components/items_type.dart';
-import 'package:urchin/worlds/game_engine/components/urchin.dart';
 import '../first_world.dart';
-import 'get_angle.dart';
 
 class Garbage extends PositionComponent with CollisionCallbacks, TapCallbacks {
   bool collideWithTrueExit = false;
