@@ -232,7 +232,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     currentUrchin.activateUrchinLight();
     if (currentBasket != null) {
       if ((currentBasket?.itemList.isNotEmpty ?? false) &&
-          (currentUrchin.itemList.isEmpty ?? false)) {
+          (currentUrchin.itemList.isEmpty)) {
         Items? currentItem = currentBasket?.itemList.last;
         if (currentItem != null) {
           currentItem.itemSpriteComponent.playing = true;
@@ -318,7 +318,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
 
     if (currentUrchin != null) {
       if ((currentUrchin?.itemList.isNotEmpty ?? false) &&
-          (currentBasket.itemList.isEmpty ?? false)) {
+          (currentBasket.itemList.isEmpty)) {
         Items? currentItem = currentUrchin?.itemList.last;
         if (currentItem != null) {
           currentItem.itemSpriteComponent.playing = false;
