@@ -57,7 +57,7 @@ class Items extends PositionComponent with CollisionCallbacks {
     size = animationFrameSize;
     anchor = Anchor.center;
     priority = 15;
-    add(CircleHitbox(radius: 100, anchor: Anchor.center)..debugMode=world.debugMode);
+    add(CircleHitbox(radius: 100, anchor: Anchor.center)..position=Vector2(size.x/2, size.y/2)..debugMode=world.debugMode);
   }
 
   @override
@@ -72,6 +72,7 @@ class Items extends PositionComponent with CollisionCallbacks {
       Flame.images.fromCache(imagePath),
       data,
     );
+    itemSpriteComponent.position = Vector2(size.x/2, size.y/2);
     itemSpriteComponent.anchor = Anchor.center;
     itemSpriteComponent.priority = 10;
     add(itemSpriteComponent);
@@ -94,8 +95,8 @@ class Items extends PositionComponent with CollisionCallbacks {
         } else {
           flyAnimation = false;
           var newPosition = Vector2(
-            itemHolder!.size.x / 2 + size.x / 2,
-            itemHolder!.size.y / 2 + size.y / 2,
+            itemHolder!.size.x / 2,
+            itemHolder!.size.y / 2,
           );
           itemHolder?.add(this);
           anchor = Anchor.center;

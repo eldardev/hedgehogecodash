@@ -66,10 +66,9 @@ class Garbage extends PositionComponent with CollisionCallbacks, TapCallbacks {
     }
 
     size = garbageImageSize;
-    anchor = Anchor.center;
-    priority = 15;
-    add(CircleHitbox(radius: (garbageImageSize.x+garbageImageSize.y)/4, anchor: Anchor.center)
-      ..isSolid=true..debugMode = world.debugMode);
+      priority = 15;
+    // add(CircleHitbox(radius: (garbageImageSize.x+garbageImageSize.y)/4, anchor: Anchor.center)
+    //   ..isSolid=true..debugMode = world.debugMode);
   }
 
   @override
@@ -84,15 +83,17 @@ class Garbage extends PositionComponent with CollisionCallbacks, TapCallbacks {
       data,
     )..paint.color = const Color(0x00000001).withOpacity(0.8);
     garbageLightSpriteComponent.anchor = Anchor.center;
+    garbageLightSpriteComponent.position = Vector2(size.x/2, size.y/2);
     garbageLightSpriteComponent.priority = 9;
     add(garbageLightSpriteComponent);
 
     final garbageSpriteComponent = SpriteComponent(
         size: garbageImageSize, sprite: Sprite(Flame.images.fromCache(garbageImagePath)), anchor: Anchor.center)
       ..anchor = Anchor.center..priority=10;
+    garbageSpriteComponent.position = Vector2(size.x/2, size.y/2);
     add(garbageSpriteComponent);
     deActivateGarbageLight();
-    
+    anchor = Anchor.center;
     return super.onLoad();
   }
 
@@ -131,68 +132,10 @@ class Garbage extends PositionComponent with CollisionCallbacks, TapCallbacks {
     super.update(dt);
   }
 
-  void setNewHolder(PositionComponent itemHolder) {
-    world.add(this);
-    flyAnimation = true;
-    PositionComponent? lastPositionComponent = this.itemHolder;
-    this.itemHolder = itemHolder;
-    flyAnimation = true;
-    anchor = Anchor.center;
-    priority = 15;
-    if (lastPositionComponent != null) {
-      position = Vector2(
-          lastPositionComponent.position.x + lastPositionComponent.size.x / 2,
-          (lastPositionComponent.position.y) +
-              (lastPositionComponent.size.y) / 2);
-    }
-    anchor = Anchor.center;
-  }
 
-  void pastToHolder() {
-    var pos2 =
-        (itemHolder?.position ?? Vector2(0, 0)) - position; //toLocal(position);
-    itemHolder?.add(this);
-    position = pos2;
-    priority = 15;
-    final effect = MoveToEffect(
-      Vector2(itemHolder!.size.x / 2 + size.x / 2,
-          itemHolder!.size.y / 2 + size.y / 2),
-      EffectController(duration: 0.5),
-    );
-    add(effect);
-  }
-
-  static void calculateNewPosition(PositionComponent movingComponent,
-      PositionComponent staticComponent) {
-    final movingX = movingComponent.x;
-    final movingY = movingComponent.y;
-    final staticX = staticComponent.x;
-    final staticY = staticComponent.y;
-    final offsetX = movingX - staticX;
-    final offsetY = movingY - staticY;
-    final angle = atan2(offsetY, offsetX);
-    final newX = staticX + cos(angle) * offsetX - sin(angle) * offsetY;
-    final newY = staticY + sin(angle) * offsetX + cos(angle) * offsetY;
-    movingComponent.x = newX;
-    movingComponent.y = newY;
-  }
-
-  @override
-  void onCollisionStart(Set<Vector2> intersectionPoints,
-      PositionComponent other) {
-    if (other is Exit) {
-      if (other.exitType == garbageType) {
-        collideWithTrueExit = true;
-      } else {
-        collideWithTrueExit = false;
-      }
-    } else if (other is Urchin) {
-
-    }
-    super.onCollisionStart(intersectionPoints, other);
-  }
 
   void activateGarbageLight() {
+    world.currentGarbage=this;
     garbageLightSpriteComponent.scale=Vector2.all(1);
 
   }

@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/text.dart';
@@ -21,13 +22,17 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   int score = 0;
   int scoreWhenTrueExit = 1;
   int scoreWhenFalseExit = 1;
-  late SpriteAnimationComponent urchinSprite;
+
+  // late SpriteAnimationComponent urchinSprite;
   double maxDeltaTime = 0.025;
   Urchin? currentUrchin;
   Basket? currentBasket;
+  Garbage? currentGarbage;
+  GarbageBasket? currentGarbageBasket;
   List<Basket> basketList = [];
   List<Urchin> urchinList = [];
   List<Garbage> garbageList = [];
+  List<GarbageBasket> garbageBasketList = [];
 
   //double scale = 0.1;
   SpriteComponent spriteComponentBG = SpriteComponent();
@@ -39,7 +44,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   Future<void> onLoad() async {
     final levelConfig = await LevelLoader.fetchLevel(1);
 
-    debugMode = false;
+    debugMode = true;
     score = 0;
     await Flame.images.loadAll([
       'maps/map_01.png',
@@ -177,17 +182,17 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     add(scoreText2);
 
     Garbage garbage1 = Garbage(garbageType: 3);
-    garbage1.position=Vector2(905, 620);
+    garbage1.position = Vector2(905, 620);
     add(garbage1);
     garbageList.add(garbage1);
 
     Garbage garbage2 = Garbage(garbageType: 1);
-    garbage2.position=Vector2(1205, 720);
+    garbage2.position = Vector2(1205, 720);
     add(garbage2);
     garbageList.add(garbage2);
 
-
-    MultiGarbageBasketPOMP multiGarbageBasketPOMP=MultiGarbageBasketPOMP()..position = Vector2(2030, 937);
+    MultiGarbageBasketPOMP multiGarbageBasketPOMP = MultiGarbageBasketPOMP()
+      ..position = Vector2(2030, 937);
     add(multiGarbageBasketPOMP);
 
     super.onLoad();
@@ -200,17 +205,25 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     currentUrchin = null;
   }
 
+  void deactivateAllGarbageBasket() {
+    for (var garbageBasket in garbageBasketList) {
+      garbageBasket.deActivateGarbageBasket();
+    }
+    currentGarbageBasket = null;
+  }
+
   void deactivateAllBasket() {
     for (var basket in basketList) {
       basket.deActivateBasketLight();
     }
     currentBasket = null;
   }
+
   void deactivateAllGarbage() {
     for (var garbage in garbageList) {
       garbage.deActivateGarbageLight();
     }
-   // currentBasket = null;
+    currentGarbage = null;
   }
 
   void selectCurrentUrchin({required Urchin currentUrchin}) {
@@ -238,12 +251,64 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       }
     }
     deactivateAllGarbage();
+    deactivateAllGarbageBasket();
   }
+
   void selectCurrentGarbage({required Garbage currentGarbage}) {
     deactivateAllBasket();
     deactivateAllUrchin();
     deactivateAllGarbage();
+
+    this.currentGarbage = currentGarbage;
     currentGarbage.activateGarbageLight();
+    moveGarbageTooGarbageBasket();
+    deactivateAllGarbageBasket();
+  }
+
+  void selectCurrentGarbageBasket(
+      {required GarbageBasket currentGarbageBasket}) {
+    deactivateAllBasket();
+    deactivateAllUrchin();
+
+    deactivateAllGarbageBasket();
+    this.currentGarbageBasket = currentGarbageBasket;
+    currentGarbageBasket.activateGarbageBasket();
+    moveGarbageTooGarbageBasket();
+    deactivateAllGarbage();
+  }
+
+  void moveGarbageTooGarbageBasket() {
+    if (currentGarbage != null && currentGarbageBasket != null) {
+      var basket = currentGarbageBasket;
+      var garbage = currentGarbage;
+      Vector2 position1 = (currentGarbageBasket?.absolutePosition ?? Vector2(0, 0)) - Vector2(0, 200);
+      Vector2 position2 = (currentGarbageBasket?.absolutePosition ?? Vector2(0, 0));
+      final effectScaleTo0 = ScaleEffect.to(
+        Vector2.all(0),
+        EffectController(duration: 0.2),
+      );
+
+      var effectMoveToo2 = MoveToEffect(
+        position2,
+        EffectController(duration: 0.2),
+      );
+      var effectMoveToo1 = MoveToEffect(
+        position1,
+        EffectController(duration: 0.5),
+      )..onComplete=(){
+        if(garbage?.garbageType==basket?.garbageType){
+          score+=3;
+          setScore(score);
+        }else{
+          score+=1;
+          setScore(score);
+        }
+        garbage?.addAll([effectMoveToo2, effectScaleTo0]);
+      };
+      garbage?.add(effectMoveToo1);
+      deactivateAllGarbageBasket();
+      deactivateAllGarbage();
+    }
   }
 
   void selectCurrentBasket({required Basket currentBasket}) {
@@ -271,6 +336,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       }
     }
     deactivateAllGarbage();
+    deactivateAllGarbageBasket();
   }
 
   void setScore(int score) {
