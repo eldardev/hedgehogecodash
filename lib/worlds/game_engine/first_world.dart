@@ -44,7 +44,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   Future<void> onLoad() async {
     final levelConfig = await LevelLoader.fetchLevel(1);
 
-    debugMode = true;
+    debugMode = false;
     score = 0;
     await Flame.images.loadAll([
       'maps/map_01.png',
@@ -90,14 +90,14 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       Vector2(3000, 668)
     ];
     List<Vector2> positionList2 = [
-      Vector2(-150, 840),
+      Vector2(-1000, 840),
       Vector2(1110, 440),
       Vector2(1310, 305),
       Vector2(1430, 145),
       Vector2(1580, -100),
     ];
     List<Vector2> positionList3 = [
-      Vector2(-150, 900),
+      Vector2(-2000, 900),
       Vector2(900, 500),
       Vector2(1080, 380),
       Vector2(1208, 246),
@@ -113,14 +113,14 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
 
     add(Background());
     var firstUrchin =
-        Urchin(speed: 100, checkPointList: positionList1, birthTime: 0)
-          ..priority = 3;
+        Urchin(currentSpeed: 100, checkPointList: positionList1, birthTime: 0)
+          ..priority = 3..scale=Vector2.all(0.8);
     var secondUrchin =
-        Urchin(speed: 100, checkPointList: positionList2, birthTime: 3)
+        Urchin(currentSpeed: 100, checkPointList: positionList2, birthTime: 3)
           ..priority = 3;
     var urchin3 =
-        Urchin(speed: 500, checkPointList: positionList3, birthTime: 5)
-          ..priority = 3;
+        Urchin(currentSpeed: 500, checkPointList: positionList3, birthTime: 5)
+          ..priority = 3..scale=Vector2.all(0.7);
 
     add(firstUrchin);
     add(secondUrchin);
@@ -180,6 +180,11 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
         textRenderer: textPaintYellow);
     add(scoreText1);
     add(scoreText2);
+
+    Garbage garbage0 = Garbage(garbageType: 2);
+    garbage0.position = Vector2(1000, 500);
+    add(garbage0);
+    garbageList.add(garbage0);
 
     Garbage garbage1 = Garbage(garbageType: 3);
     garbage1.position = Vector2(905, 620);
@@ -291,7 +296,11 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       var effectMoveToo2 = MoveToEffect(
         position2,
         EffectController(duration: 0.2),
-      );
+      )..onComplete=(){
+        deactivateAllGarbageBasket();
+        deactivateAllGarbage();
+        remove(garbage!);
+      };
       var effectMoveToo1 = MoveToEffect(
         position1,
         EffectController(duration: 0.5),
@@ -306,8 +315,6 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
         garbage?.addAll([effectMoveToo2, effectScaleTo0]);
       };
       garbage?.add(effectMoveToo1);
-      deactivateAllGarbageBasket();
-      deactivateAllGarbage();
     }
   }
 
@@ -331,8 +338,8 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       } else {
         deactivateAllBasket();
         deactivateAllUrchin();
-        if ((currentUrchin?.itemList.isEmpty ?? false))
-          print('currentUrchin?.item = NULL');
+        // if ((currentUrchin?.itemList.isEmpty ?? false))
+        //   print('currentUrchin?.item = NULL');
       }
     }
     deactivateAllGarbage();
@@ -354,13 +361,8 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     // urchinSprite.position+=Vector2(1, -1);
   }
 
-  @override
-  void onTapDown(TapDownEvent event) {
-    super.onTapDown(event);
-    // if (!event.handled) {
-    //   final touchPoint = event.localPosition;
-    //   print('TouchPosition = '+touchPoint.toString());
-    //   add(CircleComponent(position: touchPoint, radius: 20, anchor: Anchor.center));
-    // }
-  }
+  // @override
+  // void onTapDown(TapDownEvent event) {
+  //   super.onTapDown(event);
+  // }
 }
