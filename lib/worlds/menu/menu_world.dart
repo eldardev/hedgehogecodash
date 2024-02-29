@@ -1,6 +1,7 @@
 import 'package:flame/flame.dart';
 import 'package:injectable/injectable.dart';
 import 'package:urchin/worlds/common/common_world.dart';
+import 'package:urchin/worlds/menu/components/exit_button.dart';
 import 'package:urchin/worlds/menu/components/flower_component.dart';
 import 'package:urchin/worlds/menu/components/level_builder_button.dart';
 import 'package:urchin/worlds/menu/components/menu_background.dart';
@@ -15,6 +16,6 @@ class MenuWorld extends CommonWorld {
 
     add(MenuBackground());
     add(FlowerComponent());
-    addAll([PlayButton(), LevelBuilderButton()]);
+    addAll([PlayButton(), ExitButton(), LevelBuilderButton()]);
   }
 }
