@@ -14,6 +14,7 @@ import 'package:urchin/worlds/game_engine/components/garbage_basket.dart';
 import 'package:urchin/worlds/game_engine/components/items.dart';
 import 'package:urchin/worlds/game_engine/components/multi_garbage_basket_pomp.dart';
 import 'package:urchin/worlds/game_engine/loader/level_loader.dart';
+import 'package:urchin/worlds/game_engine/loader/models/buffer.dart';
 
 import 'components/urchin.dart';
 
@@ -43,12 +44,11 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   @override
   Future<void> onLoad() async {
     final levelConfig = await LevelLoader.fetchLevel(1);
-    print('EXIT mark=' + (levelConfig.exitMarks?.length.toString()??''));
-
+    String levelBgName=levelConfig.common?.background?.name ?? '001.png';
     debugMode = false;
     score = 0;
     await Flame.images.loadAll([
-      'maps/map_01.png',
+      'maps/$levelBgName',
       'stump.png',
       'lightStump.png',
       'lightUrchin.png',
@@ -112,7 +112,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       Vector2(3000, 560)
     ];
 
-    add(Background());
+    add(Background('$levelBgName'));
     var firstUrchin =
         Urchin(currentSpeed: 100, checkPointList: positionList1, birthTime: 0)
           ..priority = 3..scale=Vector2.all(0.8);
@@ -126,12 +126,20 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     add(firstUrchin);
     add(secondUrchin);
     add(urchin3);
-    var basket1 = Basket()..position = Vector2(600, 240);
-    add(basket1);
-    var basket2 = Basket()..position = Vector2(1532, 920);
-    add(basket2);
-    basketList.add(basket1);
-    basketList.add(basket2);
+
+    List<Buffer> buffer= levelConfig.buffers ?? [];
+    for(var buffer in buffer){
+      var basket1 = Basket()..position = Vector2(double.parse(buffer.x??'0'), double.parse(buffer.y??'0'))..angle=double.parse(buffer.angle??'0');
+      add(basket1);
+      basketList.add(basket1);
+    }
+
+    // var basket1 = Basket()..position = Vector2(600, 240);
+    // add(basket1);
+    // var basket2 = Basket()..position = Vector2(1532, 920);
+    // add(basket2);
+    //
+    // basketList.add(basket2);
 
     urchinList.add(firstUrchin);
     urchinList.add(secondUrchin);
@@ -171,15 +179,15 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
         fontWeight: FontWeight.w900,
       ),
     );
-    scoreText1 = TextComponent(
-        text: 'Score : ',
-        position: Vector2.all(16.0),
-        textRenderer: textPaintOrange);
+    // scoreText1 = TextComponent(
+    //     text: 'Score : ',
+    //     position: Vector2.all(16.0),
+    //     textRenderer: textPaintOrange);
     scoreText2 = TextComponent(
         text: '${score}',
-        position: Vector2(290.0, 16),
+        position: Vector2(280.0, 40),
         textRenderer: textPaintYellow);
-    add(scoreText1);
+    // add(scoreText1);
     add(scoreText2);
 
     Garbage garbage0 = Garbage(garbageType: 2);

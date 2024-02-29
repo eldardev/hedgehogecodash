@@ -1,12 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'background.dart';
+part of 'buffer.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Background _$BackgroundFromJson(Map<String, dynamic> json) => Background(
+Buffer _$BufferFromJson(Map<String, dynamic> json) => Buffer(
       kind: json['kind'] as String?,
       name: json['name'] as String?,
+      x: json['x'] as String?,
+      y: json['y'] as String?,
+      angle: json['angle'] as String?,
     );

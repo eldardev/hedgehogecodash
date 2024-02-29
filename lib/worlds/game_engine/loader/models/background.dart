@@ -6,10 +6,12 @@ part 'background.g.dart';
 class Background {
   Background({
     required this.kind,
+    required this.name,
   });
 
   factory Background.fromJson(Map<String, dynamic> json) =>
       _$BackgroundFromJson(json);
 
   String? kind;
+  String? name;
 }

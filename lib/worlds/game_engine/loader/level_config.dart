@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:urchin/worlds/game_engine/loader/models/buffer.dart';
 
 import 'models/common.dart';
 import 'models/exitmark.dart';
@@ -28,6 +29,7 @@ class LevelConfig {
 
   @JsonKey(name: 'exitmarks')
   List<Exitmark>? exitMarks;
+  List<Buffer>? buffers; //basket
   List<Point>? points;
   List<Path>? paths;
   List<Scenario>? scenario;

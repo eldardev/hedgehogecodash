@@ -25,4 +25,6 @@ LevelConfig _$LevelConfigFromJson(Map<String, dynamic> json) => LevelConfig(
       scenario: (json['scenario'] as List<dynamic>?)
           ?.map((e) => Scenario.fromJson(e as Map<String, dynamic>))
           .toList(),
-    );
+    )..buffers = (json['buffers'] as List<dynamic>?)
+        ?.map((e) => Buffer.fromJson(e as Map<String, dynamic>))
+        .toList();

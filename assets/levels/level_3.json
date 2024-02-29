@@ -1,12 +1,13 @@
 {
     "common": {
-        "protocol": "0.0.1",
-        "created": "2024-02-22",
+        "protocol": "0.0.2",
+        "created": "2024-02-26",
         "levelname": "Scene 3 with garbage",
         "width": "",
         "height": "",
         "background": {
-            "kind": "0"
+            "kind": "0",
+            "name": "001.png"
         },
         "score": {
             "x": "465",
@@ -20,14 +21,58 @@
         }
     },
     
+    "actors": [
+        {
+          "kind": "0",
+          "name": "hedgehog"
+        }
+    ],
+    "grubs": [
+        {
+           "kind": "0",
+           "name": "apple"
+        },
+        {
+           "kind": "2",
+           "name": "cherry"
+        }
+    ],
+
+
     "trashes": [
         {
-            "x": "2000",
-            "y": "900",
-            "type": "paperwaste"
+            "kind": "0",
+            "name": "paperwaste"
+        }
+    ],
+
+
+
+    "trashbox": [
+        {
+            "x": "1939",
+            "y": "892",
+            "kind": "0",
+            "items": [
+                       "paperwaste",
+                       "plasticwaste",
+                       "metalwaste",
+                       "otherwaste"
+                     ]
         }
     ],
     
+    "buffers":[
+                 {
+                   "kind": "0",
+                   "name": "stub",
+                   "x": "1971",
+                   "y": "176",
+                   "angle": "25"
+                 }
+
+              ],
+
     "exitmarks":[
         {
             "kind": "0",
@@ -54,12 +99,18 @@
         {
             "id": "2",
             "x": "1453",
-            "y": "9"
+            "y": "9",
+            "allowedgrubs": [
+                              "apple"
+                            ]
         },
         {
             "id": "3",
             "x": "60",
-            "y": "1005"
+            "y": "1005",
+            "allowedgrubs": [
+                              "cherry"
+                            ]
         },
         {
             "id": "4",
