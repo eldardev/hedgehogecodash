@@ -3,12 +3,12 @@ import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:urchin/urchin_game.dart';
 
-class MenuButton extends PositionComponent
+class PlayButton extends PositionComponent
     with HasGameRef<UrchinGame>, TapCallbacks {
   static const double _width = 300;
   static const double _height = 100;
 
-  MenuButton()
+  PlayButton()
       : super(
             position: Vector2(500, 430),
             size: Vector2(_width, _height),
