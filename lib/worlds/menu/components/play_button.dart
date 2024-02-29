@@ -37,6 +37,19 @@ class PlayButton extends PositionComponent
           position: Vector2(rect.x, rect.y)),
     );
 
+    await add(
+      TextComponent(
+          text: 'Play',
+          textRenderer: TextPaint(
+            style: const TextStyle(
+              fontSize: 80.0,
+              fontFamily: "Gogono Cocoa Mochi",
+              color: const Color.fromARGB(80, 255, 153, 51),
+            ),
+          ),
+          position: Vector2(rect.x + 8, rect.y + 8)),
+    );
+
     super.onLoad();
   }
 
