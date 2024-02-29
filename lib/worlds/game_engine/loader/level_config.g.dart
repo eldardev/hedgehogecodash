@@ -10,7 +10,7 @@ LevelConfig _$LevelConfigFromJson(Map<String, dynamic> json) => LevelConfig(
       common: json['common'] == null
           ? null
           : Common.fromJson(json['common'] as Map<String, dynamic>),
-      trashes: (json['trashes'] as List<dynamic>?)
+      trashes: (json['trashbox'] as List<dynamic>?)
           ?.map((e) => Trash.fromJson(e as Map<String, dynamic>))
           .toList(),
       exitMarks: (json['exitmarks'] as List<dynamic>?)
@@ -20,7 +20,7 @@ LevelConfig _$LevelConfigFromJson(Map<String, dynamic> json) => LevelConfig(
           ?.map((e) => Point.fromJson(e as Map<String, dynamic>))
           .toList(),
       paths: (json['paths'] as List<dynamic>?)
-          ?.map((e) => Path.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => UrchinPath.fromJson(e as Map<String, dynamic>))
           .toList(),
       scenario: (json['scenario'] as List<dynamic>?)
           ?.map((e) => Scenario.fromJson(e as Map<String, dynamic>))

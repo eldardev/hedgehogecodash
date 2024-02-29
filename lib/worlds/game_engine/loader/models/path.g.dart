@@ -6,7 +6,7 @@ part of 'path.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Path _$PathFromJson(Map<String, dynamic> json) => Path(
+UrchinPath _$UrchinPathFromJson(Map<String, dynamic> json) => UrchinPath(
       name: json['name'] as String?,
       points:
           (json['points'] as List<dynamic>?)?.map((e) => e as String).toList(),

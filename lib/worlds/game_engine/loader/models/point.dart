@@ -8,6 +8,7 @@ class Point {
     required this.id,
     required this.x,
     required this.y,
+    required this.allowedgrubs
   });
 
   factory Point.fromJson(Map<String, dynamic> json) => _$PointFromJson(json);
@@ -15,4 +16,5 @@ class Point {
   String? id;
   String? x;
   String? y;
+  List<String>? allowedgrubs;
 }

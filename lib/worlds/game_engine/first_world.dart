@@ -9,12 +9,18 @@ import 'package:urchin/worlds/common/common_world.dart';
 import 'package:urchin/worlds/game_engine/components/background.dart';
 import 'package:urchin/worlds/game_engine/components/basket.dart';
 import 'package:urchin/worlds/game_engine/components/exit.dart';
+import 'package:urchin/worlds/game_engine/components/exit_mark.dart';
 import 'package:urchin/worlds/game_engine/components/garbage.dart';
 import 'package:urchin/worlds/game_engine/components/garbage_basket.dart';
 import 'package:urchin/worlds/game_engine/components/items.dart';
+import 'package:urchin/worlds/game_engine/components/items_type.dart';
 import 'package:urchin/worlds/game_engine/components/multi_garbage_basket_pomp.dart';
 import 'package:urchin/worlds/game_engine/loader/level_loader.dart';
 import 'package:urchin/worlds/game_engine/loader/models/buffer.dart';
+import 'package:urchin/worlds/game_engine/loader/models/exitmark.dart';
+import 'package:urchin/worlds/game_engine/loader/models/path.dart';
+import 'package:urchin/worlds/game_engine/loader/models/point.dart';
+import 'package:urchin/worlds/game_engine/loader/models/trash.dart';
 
 import 'components/urchin.dart';
 
@@ -24,28 +30,31 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   int scoreWhenTrueExit = 1;
   int scoreWhenFalseExit = 1;
 
-  // late SpriteAnimationComponent urchinSprite;
   double maxDeltaTime = 0.025;
   Urchin? currentUrchin;
   Basket? currentBasket;
   Garbage? currentGarbage;
   GarbageBasket? currentGarbageBasket;
+  List<Vector2> pointList = [];
   List<Basket> basketList = [];
   List<Urchin> urchinList = [];
   List<Garbage> garbageList = [];
   List<GarbageBasket> garbageBasketList = [];
-
-  //double scale = 0.1;
+  Map<String, List<Vector2>> urchinPathList = {};
   SpriteComponent spriteComponentBG = SpriteComponent();
   double worldTime = 0;
   late TextComponent scoreText1;
   late TextComponent scoreText2;
+  Vector2 scoreTextPosition = Vector2(0, 0);
 
   @override
   Future<void> onLoad() async {
-    final levelConfig = await LevelLoader.fetchLevel(1);
-    String levelBgName=levelConfig.common?.background?.name ?? '001.png';
-    debugMode = false;
+    final levelConfig = await LevelLoader.fetchLevel(4);
+    String levelBgName = levelConfig.common?.background?.name ?? '001.png';
+    Vector2 scoreTextPosition = Vector2(
+        double.parse(levelConfig.common?.score?.x ?? '0'),
+        double.parse(levelConfig.common?.score?.y ?? '0'));
+    debugMode = true;
     score = 0;
     await Flame.images.loadAll([
       'maps/$levelBgName',
@@ -79,7 +88,6 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       'garbage/plasticGarbageBasket.png',
       'garbage/sortGarbageButton.png'
     ]);
-    // var a= Flame.images.fromCache(name)
     List<Vector2> positionList1 = [
       Vector2(-150, 1500),
       Vector2(400, 1000),
@@ -111,36 +119,114 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       Vector2(2384, 618),
       Vector2(3000, 560)
     ];
-
-    add(Background('$levelBgName'));
+    //-------------------BACKGROUND------------------------
+    add(Background(levelBgName));
+    //--------------------------------------------------
     var firstUrchin =
         Urchin(currentSpeed: 100, checkPointList: positionList1, birthTime: 0)
-          ..priority = 3..scale=Vector2.all(0.8);
+          ..priority = 3
+          ..scale = Vector2.all(0.8);
     var secondUrchin =
         Urchin(currentSpeed: 100, checkPointList: positionList2, birthTime: 3)
           ..priority = 3;
     var urchin3 =
         Urchin(currentSpeed: 500, checkPointList: positionList3, birthTime: 5)
-          ..priority = 3..scale=Vector2.all(0.7);
+          ..priority = 3
+          ..scale = Vector2.all(0.7);
 
     add(firstUrchin);
     add(secondUrchin);
     add(urchin3);
-
-    List<Buffer> buffer= levelConfig.buffers ?? [];
-    for(var buffer in buffer){
-      var basket1 = Basket()..position = Vector2(double.parse(buffer.x??'0'), double.parse(buffer.y??'0'))..angle=double.parse(buffer.angle??'0');
+    //-------------------BASKET_(BUFFER)_ARRAY------------------------
+    List<Buffer> bufferList = levelConfig.buffers ?? [];
+    for (var buffer in bufferList) {
+      var basket1 = Basket()
+        ..position = Vector2(
+            double.parse(buffer.x ?? '0'), double.parse(buffer.y ?? '0'))
+        ..angle = double.parse(buffer.angle ?? '0');
       add(basket1);
       basketList.add(basket1);
     }
+    //---------------------------------------------------------------
+    //-------------------GARBAGE_BASKET_(TRASH)_ARRAY------------------------
+    List<Trash> trashList = levelConfig.trashes ?? [];
+    for (var trash in trashList) {
+      MultiGarbageBasketPOMP multiGarbageBasketPOMP = MultiGarbageBasketPOMP()
+        ..position =
+            Vector2(double.parse(trash.x ?? '0'), double.parse(trash.y ?? '0'));
+      add(multiGarbageBasketPOMP);
+    }
+    //------------------------------------------------------
+    //-------------------POINT_ARRAY------------------------
+    List<Point> pointListInJson = levelConfig.points ?? [];
+    for (var point in pointListInJson) {
+      Vector2 currentPosition =
+          Vector2(double.parse(point.x ?? '0'), double.parse(point.y ?? '0'));
+      pointList.add(currentPosition);
+      List<int> exitAllowedItemsList = [];
+      List<String>? currentAllowedGrubsList = point.allowedgrubs;
+      if (currentAllowedGrubsList != null) {
+        for (var currentItem in currentAllowedGrubsList) {
+          if (currentItem == ItemsType.cherry.name) {
+            exitAllowedItemsList.add(ItemsType.cherry.index);
+          } else if (currentItem == ItemsType.mushroom.name) {
+            exitAllowedItemsList.add(ItemsType.mushroom.index);
+          } else if (currentItem == ItemsType.flower.name) {
+            exitAllowedItemsList.add(ItemsType.flower.index);
+          } else if (currentItem == ItemsType.apple.name) {
+            exitAllowedItemsList.add(ItemsType.apple.index);
+          } else if (currentItem == ItemsType.pear.name) {
+            exitAllowedItemsList.add(ItemsType.pear.index);
+          }
+        }
+      }
+      if (exitAllowedItemsList.isNotEmpty) {
+        add(Exit(exitType: exitAllowedItemsList)..position = currentPosition);
+      }
+    }
+    //----------------------------------------------------------
+    //-------------------PATH_ARRAY------------------------
+    List<UrchinPath>? pathListInJson = levelConfig.paths ?? [];
+    for (var currentPath in pathListInJson) {
+      String name = currentPath.name ?? '';
 
-    // var basket1 = Basket()..position = Vector2(600, 240);
-    // add(basket1);
-    // var basket2 = Basket()..position = Vector2(1532, 920);
-    // add(basket2);
-    //
-    // basketList.add(basket2);
+      List<Vector2> currentPathVectors = [];
+      List<String> pointsJson = currentPath.points ?? [];
+      for (var currentPointNumber in pointsJson) {
+        int i = int.parse(currentPointNumber);
+        if ((i - 1) > 0 && (i-1)<=pointList.length) {
+          currentPathVectors.add(pointList[i-1]);
+        }
+      }
 
+      urchinPathList[name] = currentPathVectors;
+    }
+    print('PATH_LIST='+ urchinPathList.toString());
+    //----------------------------------------------------------
+
+    //-------------------EXIT_MARK_ARRAY------------------------
+    List<Exitmark> exitMarkList = levelConfig.exitMarks ?? [];
+    for (var exitMark in exitMarkList) {
+      int exitMarkType = 0;
+      if (exitMark.name?.contains(ItemsType.pear.name) ?? false) {
+        exitMarkType = ItemsType.pear.index;
+      } else if (exitMark.name?.contains(ItemsType.mushroom.name) ?? false) {
+        exitMarkType = ItemsType.mushroom.index;
+      } else if (exitMark.name?.contains(ItemsType.cherry.name) ?? false) {
+        exitMarkType = ItemsType.cherry.index;
+      } else if (exitMark.name?.contains(ItemsType.apple.name) ?? false) {
+        exitMarkType = ItemsType.apple.index;
+      } else if (exitMark.name?.contains(ItemsType.flower.name) ?? false) {
+        exitMarkType = ItemsType.flower.index;
+      }
+
+      add(ExitMark(exitType: exitMarkType)
+        ..position = Vector2(
+            double.parse(exitMark.x ?? '0'), double.parse(exitMark.y ?? '0'))
+        ..angle = double.parse(exitMark.angle ?? '0')
+        ..priority = 1);
+    }
+    //-----------------------------------------------------------
     urchinList.add(firstUrchin);
     urchinList.add(secondUrchin);
     urchinList.add(urchin3);
@@ -156,21 +242,6 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     item2.setNewHolder(secondUrchin);
     item3.setNewHolder(urchin3);
 
-    add(Exit(exitType: 1)
-      ..position = Vector2(1437, 100)
-      ..priority = 1);
-    add(Exit(exitType: 2)
-      ..position = Vector2(2300, 567)
-      ..priority = 1);
-
-    TextPaint textPaintOrange = TextPaint(
-      style: const TextStyle(
-        fontSize: 80.0,
-        color: Colors.orange,
-        fontFamily: 'Awesome Font',
-        fontWeight: FontWeight.w900,
-      ),
-    );
     TextPaint textPaintYellow = TextPaint(
       style: const TextStyle(
         fontSize: 80.0,
@@ -179,13 +250,9 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
         fontWeight: FontWeight.w900,
       ),
     );
-    // scoreText1 = TextComponent(
-    //     text: 'Score : ',
-    //     position: Vector2.all(16.0),
-    //     textRenderer: textPaintOrange);
     scoreText2 = TextComponent(
-        text: '${score}',
-        position: Vector2(280.0, 40),
+        text: '$score',
+        position: scoreTextPosition, //Vector2(280.0, 40),
         textRenderer: textPaintYellow);
     // add(scoreText1);
     add(scoreText2);
@@ -205,9 +272,8 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     add(garbage2);
     garbageList.add(garbage2);
 
-    MultiGarbageBasketPOMP multiGarbageBasketPOMP = MultiGarbageBasketPOMP()
-      ..position = Vector2(2030, 937);
-    add(multiGarbageBasketPOMP);
+    add(Exit(exitType: [ItemsType.mushroom.index, ItemsType.cherry.index])
+      ..position = Vector2(2400, 600));
 
     super.onLoad();
   }
@@ -295,8 +361,11 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     if (currentGarbage != null && currentGarbageBasket != null) {
       var basket = currentGarbageBasket;
       var garbage = currentGarbage;
-      Vector2 position1 = (currentGarbageBasket?.absolutePosition ?? Vector2(0, 0)) - Vector2(0, 200);
-      Vector2 position2 = (currentGarbageBasket?.absolutePosition ?? Vector2(0, 0));
+      Vector2 position1 =
+          (currentGarbageBasket?.absolutePosition ?? Vector2(0, 0)) -
+              Vector2(0, 200);
+      Vector2 position2 =
+          (currentGarbageBasket?.absolutePosition ?? Vector2(0, 0));
       final effectScaleTo0 = ScaleEffect.to(
         Vector2.all(0),
         EffectController(duration: 0.2),
@@ -305,24 +374,24 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       var effectMoveToo2 = MoveToEffect(
         position2,
         EffectController(duration: 0.2),
-      )..onComplete=(){
-        deactivateAllGarbageBasket();
-        deactivateAllGarbage();
-        remove(garbage!);
-      };
+      )..onComplete = () {
+          deactivateAllGarbageBasket();
+          deactivateAllGarbage();
+          remove(garbage!);
+        };
       var effectMoveToo1 = MoveToEffect(
         position1,
         EffectController(duration: 0.5),
-      )..onComplete=(){
-        if(garbage?.garbageType==basket?.garbageType){
-          score+=3;
-          setScore(score);
-        }else{
-          score+=1;
-          setScore(score);
-        }
-        garbage?.addAll([effectMoveToo2, effectScaleTo0]);
-      };
+      )..onComplete = () {
+          if (garbage?.garbageType == basket?.garbageType) {
+            score += 3;
+            setScore(score);
+          } else {
+            score += 1;
+            setScore(score);
+          }
+          garbage?.addAll([effectMoveToo2, effectScaleTo0]);
+        };
       garbage?.add(effectMoveToo1);
     }
   }
@@ -370,8 +439,8 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     // urchinSprite.position+=Vector2(1, -1);
   }
 
-  // @override
-  // void onTapDown(TapDownEvent event) {
-  //   super.onTapDown(event);
-  // }
+// @override
+// void onTapDown(TapDownEvent event) {
+//   super.onTapDown(event);
+// }
 }

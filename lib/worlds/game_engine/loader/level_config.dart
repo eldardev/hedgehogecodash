@@ -25,12 +25,13 @@ class LevelConfig {
       _$LevelConfigFromJson(json);
 
   Common? common;
+  @JsonKey(name: 'trashbox')
   List<Trash>? trashes;
 
   @JsonKey(name: 'exitmarks')
   List<Exitmark>? exitMarks;
   List<Buffer>? buffers; //basket
   List<Point>? points;
-  List<Path>? paths;
+  List<UrchinPath>? paths;
   List<Scenario>? scenario;
 }
