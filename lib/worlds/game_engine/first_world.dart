@@ -54,7 +54,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     Vector2 scoreTextPosition = Vector2(
         double.parse(levelConfig.common?.score?.x ?? '0'),
         double.parse(levelConfig.common?.score?.y ?? '0'));
-    debugMode = true;
+    debugMode = false;
     score = 0;
     await Flame.images.loadAll([
       'maps/$levelBgName',
@@ -122,21 +122,6 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     //-------------------BACKGROUND------------------------
     add(Background(levelBgName));
     //--------------------------------------------------
-    var firstUrchin =
-        Urchin(currentSpeed: 100, checkPointList: positionList1, birthTime: 0)
-          ..priority = 3
-          ..scale = Vector2.all(0.8);
-    var secondUrchin =
-        Urchin(currentSpeed: 100, checkPointList: positionList2, birthTime: 3)
-          ..priority = 3;
-    var urchin3 =
-        Urchin(currentSpeed: 500, checkPointList: positionList3, birthTime: 5)
-          ..priority = 3
-          ..scale = Vector2.all(0.7);
-
-    add(firstUrchin);
-    add(secondUrchin);
-    add(urchin3);
     //-------------------BASKET_(BUFFER)_ARRAY------------------------
     List<Buffer> bufferList = levelConfig.buffers ?? [];
     for (var buffer in bufferList) {
@@ -194,15 +179,31 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       List<String> pointsJson = currentPath.points ?? [];
       for (var currentPointNumber in pointsJson) {
         int i = int.parse(currentPointNumber);
-        if ((i - 1) > 0 && (i-1)<=pointList.length) {
+        if ((i-1) > 0 && (i-1)<=pointList.length) {
           currentPathVectors.add(pointList[i-1]);
         }
       }
 
       urchinPathList[name] = currentPathVectors;
     }
-    print('PATH_LIST='+ urchinPathList.toString());
     //----------------------------------------------------------
+
+
+    var firstUrchin =
+    Urchin(currentSpeed: 500, checkPointList: urchinPathList['35']??[], birthTime: 0)
+      ..priority = 3
+      ..scale = Vector2.all(0.8);
+    // var secondUrchin =
+    // Urchin(currentSpeed: 100, checkPointList: positionList2, birthTime: 3)
+    //   ..priority = 3;
+    // var urchin3 =
+    // Urchin(currentSpeed: 500, checkPointList: positionList3, birthTime: 5)
+    //   ..priority = 3
+    //   ..scale = Vector2.all(0.7);
+
+    add(firstUrchin);
+    // add(secondUrchin);
+    // add(urchin3);
 
     //-------------------EXIT_MARK_ARRAY------------------------
     List<Exitmark> exitMarkList = levelConfig.exitMarks ?? [];
@@ -228,19 +229,19 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     }
     //-----------------------------------------------------------
     urchinList.add(firstUrchin);
-    urchinList.add(secondUrchin);
-    urchinList.add(urchin3);
+    // urchinList.add(secondUrchin);
+    // urchinList.add(urchin3);
 
     var item1 = Items(itemType: 4);
     var item2 = Items(itemType: 2);
     var item3 = Items(itemType: 1);
     firstUrchin.itemList.add(item1);
-    secondUrchin.itemList.add(item2);
-    urchin3.itemList.add(item3);
+    // secondUrchin.itemList.add(item2);
+    // urchin3.itemList.add(item3);
 
     item1.setNewHolder(firstUrchin);
-    item2.setNewHolder(secondUrchin);
-    item3.setNewHolder(urchin3);
+    // item2.setNewHolder(secondUrchin);
+    // item3.setNewHolder(urchin3);
 
     TextPaint textPaintYellow = TextPaint(
       style: const TextStyle(
