@@ -440,8 +440,6 @@
             "speed": "100",
             "scale": "80"
         },
-
-
         {
             "kind": "run",
             "actor": "hedgehog",

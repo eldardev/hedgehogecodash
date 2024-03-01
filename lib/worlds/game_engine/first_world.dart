@@ -31,7 +31,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   int score = 0;
   int scoreWhenTrueExit = 1;
   int scoreWhenFalseExit = 1;
-  late LevelConfig levelConfig;
+  LevelConfig? levelConfig;
 
   int gameScenarioStep = 0;
   double gameScenarioNextEventTime = 0;
@@ -54,11 +54,11 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
 
   @override
   Future<void> onLoad() async {
-    final levelConfig = await LevelLoader.fetchLevel(4);
-    String levelBgName = levelConfig.common?.background?.name ?? '001.png';
+    levelConfig = await LevelLoader.fetchLevel(4);
+    String levelBgName = levelConfig?.common?.background?.name ?? '001.png';
     Vector2 scoreTextPosition = Vector2(
-        double.parse(levelConfig.common?.score?.x ?? '0'),
-        double.parse(levelConfig.common?.score?.y ?? '0'));
+        double.parse(levelConfig?.common?.score?.x ?? '0'),
+        double.parse(levelConfig?.common?.score?.y ?? '0'));
     debugMode = false;
     score = 0;
     await Flame.images.loadAll([
@@ -97,7 +97,9 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     add(Background(levelBgName));
     //--------------------------------------------------
     //-------------------BASKET_(BUFFER)_ARRAY------------------------
-    List<Buffer> bufferList = levelConfig.buffers ?? [];
+    List<Buffer> bufferList = levelConfig?.buffers ?? [];
+
+    print('levelConfig.scenario= '+ (levelConfig?.scenario?[1].actor.toString() ?? 'null'));
     for (var buffer in bufferList) {
       var basket1 = Basket()
         ..position = Vector2(
@@ -108,7 +110,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     }
     //---------------------------------------------------------------
     //-------------------GARBAGE_BASKET_(TRASH)_ARRAY------------------------
-    List<Trash> trashList = levelConfig.trashes ?? [];
+    List<Trash> trashList = levelConfig?.trashes ?? [];
     for (var trash in trashList) {
       MultiGarbageBasketPOMP multiGarbageBasketPOMP = MultiGarbageBasketPOMP()
         ..position =
@@ -117,7 +119,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     }
     //------------------------------------------------------
     //-------------------POINT_ARRAY------------------------
-    List<Point> pointListInJson = levelConfig.points ?? [];
+    List<Point> pointListInJson = levelConfig?.points ?? [];
     for (var point in pointListInJson) {
       Vector2 currentPosition =
           Vector2(double.parse(point.x ?? '0'), double.parse(point.y ?? '0'));
@@ -145,7 +147,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     }
     //----------------------------------------------------------
     //-------------------PATH_ARRAY------------------------
-    List<UrchinPath>? pathListInJson = levelConfig.paths ?? [];
+    List<UrchinPath>? pathListInJson = levelConfig?.paths ?? [];
     for (var currentPath in pathListInJson) {
       String name = currentPath.name ?? '';
 
@@ -173,7 +175,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     urchinList.add(firstUrchin);
 
     //-------------------EXIT_MARK_ARRAY------------------------
-    List<Exitmark> exitMarkList = levelConfig.exitMarks ?? [];
+    List<Exitmark> exitMarkList = levelConfig?.exitMarks ?? [];
     for (var exitMark in exitMarkList) {
       int exitMarkType = 0;
       if (exitMark.name?.contains(ItemsType.pear.name) ?? false) {
@@ -196,13 +198,13 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     }
     //-----------------------------------------------------------
 
-    var item1 = Items(itemType: 4);
-
-    firstUrchin.itemList.add(item1);
-    // secondUrchin.itemList.add(item2);
-    // urchin3.itemList.add(item3);
-
-    item1.setNewHolder(itemHolder: firstUrchin, newbornHedgehog: true);
+    // var item1 = Items(itemType: 4);
+    //
+    // firstUrchin.itemList.add(item1);
+    // // secondUrchin.itemList.add(item2);
+    // // urchin3.itemList.add(item3);
+    //
+    // item1.setNewHolder(itemHolder: firstUrchin, newbornHedgehog: true);
     // item2.setNewHolder(secondUrchin);
     // item3.setNewHolder(urchin3);
 
@@ -235,6 +237,8 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     garbage2.position = Vector2(1205, 720);
     add(garbage2);
     garbageList.add(garbage2);
+
+    // gameScenario();
 
     super.onLoad();
   }
@@ -389,25 +393,47 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
 
   void gameScenario() {
     if (gameScenarioNextEventTime < worldTime) {
-      if ((levelConfig.scenario?.isNotEmpty ?? false) &&
-          ((levelConfig.scenario?.length ?? 0) > gameScenarioStep)) {
-        Scenario? currentScenarioStep = levelConfig.scenario?[gameScenarioStep];
+      if ((levelConfig?.scenario?.length ?? 0) > gameScenarioStep) {
+        Scenario? currentScenarioStep = levelConfig?.scenario?[gameScenarioStep];
         if (currentScenarioStep != null) {
           if (currentScenarioStep.actor == 'hedgehog') {
             double currentUrchinSpeed =
                 double.parse(currentScenarioStep.speed ?? '100');
+            double currentScale =
+                double.parse(currentScenarioStep.scale ?? '100') / 100;
             String currentUrchinPathList = currentScenarioStep.path ?? 'none';
             var currentUrchin = Urchin(
                 currentSpeed: currentUrchinSpeed,
                 checkPointList: urchinPathList[currentUrchinPathList] ?? [],
                 birthTime: gameScenarioNextEventTime)
               ..priority = 3
-              ..scale = Vector2.all(0.8);
-
+              ..scale = Vector2.all(currentScale);
             add(currentUrchin);
+
+            int currentItemType = 0;
+
+            if (  currentScenarioStep.grub == ItemsType.cherry.name) {
+              currentItemType = ItemsType.cherry.index;
+            } else if (currentScenarioStep.grub == ItemsType.mushroom.name) {
+              currentItemType=ItemsType.mushroom.index;
+            } else if (currentScenarioStep.grub == ItemsType.flower.name) {
+              currentItemType=ItemsType.flower.index;
+            } else if (currentScenarioStep.grub == ItemsType.apple.name) {
+              currentItemType=ItemsType.apple.index;
+            } else if (currentScenarioStep.grub == ItemsType.pear.name) {
+              currentItemType=ItemsType.pear.index;
+            }
+            if(currentItemType>0) {
+              var currentItem = Items(itemType: currentItemType);
+              currentUrchin.itemList.add(currentItem);
+              currentItem.setNewHolder(
+                  itemHolder: currentUrchin, newbornHedgehog: true);
+            }
+
             urchinList.add(currentUrchin);
           }
-
+          gameScenarioNextEventTime =
+              worldTime + (double.parse(currentScenarioStep.delay ?? '0'));
           gameScenarioStep++;
         }
       }
@@ -421,7 +447,9 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     }
     super.update(dt);
     worldTime += dt;
-    gameScenario();
+    if(worldTime>5) {
+      gameScenario();
+    }
     // urchinSprite.position+=Vector2(1, -1);
   }
 
