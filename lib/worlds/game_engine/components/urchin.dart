@@ -11,6 +11,7 @@ import 'package:urchin/worlds/game_engine/first_world.dart';
 import 'get_angle.dart';
 
 class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
+  bool isActive = true;
   List<Vector2> checkPointList;
   late SpriteAnimationComponent urchinSprite, urchinLightSprite;
   double minSpeed = 80;

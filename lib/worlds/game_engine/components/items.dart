@@ -108,22 +108,26 @@ class Items extends PositionComponent with CollisionCallbacks {
     super.update(dt);
   }
 
-  void setNewHolder(PositionComponent itemHolder) {
+  void setNewHolder({required PositionComponent itemHolder, bool? newbornHedgehog}) {
     world.add(this);
     flyAnimation = true;
     PositionComponent? lastPositionComponent = this.itemHolder;
     this.itemHolder = itemHolder;
     flyAnimation = true;
     anchor = Anchor.center;
-
     priority = 15;
+    if(newbornHedgehog!=null && newbornHedgehog==true){
+      position=itemHolder.position;
+      return;
+    }
+
     if (lastPositionComponent != null) {
       position = Vector2(
           lastPositionComponent.position.x + lastPositionComponent.size.x / 2,
           (lastPositionComponent.position.y) +
               (lastPositionComponent.size.y) / 2);
     }
-    anchor = Anchor.center;
+    // anchor = Anchor.center;
   }
 
   void pastToHolder() {

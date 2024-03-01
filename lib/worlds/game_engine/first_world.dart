@@ -88,37 +88,6 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       'garbage/plasticGarbageBasket.png',
       'garbage/sortGarbageButton.png'
     ]);
-    List<Vector2> positionList1 = [
-      Vector2(-150, 1500),
-      Vector2(400, 1000),
-      Vector2(880, 790),
-      Vector2(1450, 590),
-      Vector2(1705, 550),
-      Vector2(1980, 580),
-      Vector2(2345, 668),
-      Vector2(3000, 668)
-    ];
-    List<Vector2> positionList2 = [
-      Vector2(-1000, 840),
-      Vector2(1110, 440),
-      Vector2(1310, 305),
-      Vector2(1430, 145),
-      Vector2(1580, -100),
-    ];
-    List<Vector2> positionList3 = [
-      Vector2(-2000, 900),
-      Vector2(900, 500),
-      Vector2(1080, 380),
-      Vector2(1208, 246),
-      Vector2(1371, 204),
-      Vector2(1480, 231),
-      Vector2(1490, 346),
-      Vector2(1543, 425),
-      Vector2(1649, 463),
-      Vector2(2100, 516),
-      Vector2(2384, 618),
-      Vector2(3000, 560)
-    ];
     //-------------------BACKGROUND------------------------
     add(Background(levelBgName));
     //--------------------------------------------------
@@ -190,20 +159,12 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
 
 
     var firstUrchin =
-    Urchin(currentSpeed: 500, checkPointList: urchinPathList['35']??[], birthTime: 0)
+    Urchin(currentSpeed: 500, checkPointList: urchinPathList['25']??[], birthTime: 0)
       ..priority = 3
       ..scale = Vector2.all(0.8);
-    // var secondUrchin =
-    // Urchin(currentSpeed: 100, checkPointList: positionList2, birthTime: 3)
-    //   ..priority = 3;
-    // var urchin3 =
-    // Urchin(currentSpeed: 500, checkPointList: positionList3, birthTime: 5)
-    //   ..priority = 3
-    //   ..scale = Vector2.all(0.7);
 
     add(firstUrchin);
-    // add(secondUrchin);
-    // add(urchin3);
+    urchinList.add(firstUrchin);
 
     //-------------------EXIT_MARK_ARRAY------------------------
     List<Exitmark> exitMarkList = levelConfig.exitMarks ?? [];
@@ -228,24 +189,21 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
         ..priority = 1);
     }
     //-----------------------------------------------------------
-    urchinList.add(firstUrchin);
-    // urchinList.add(secondUrchin);
-    // urchinList.add(urchin3);
+
 
     var item1 = Items(itemType: 4);
-    var item2 = Items(itemType: 2);
-    var item3 = Items(itemType: 1);
+
     firstUrchin.itemList.add(item1);
     // secondUrchin.itemList.add(item2);
     // urchin3.itemList.add(item3);
 
-    item1.setNewHolder(firstUrchin);
+    item1.setNewHolder(itemHolder: firstUrchin, newbornHedgehog: true);
     // item2.setNewHolder(secondUrchin);
     // item3.setNewHolder(urchin3);
 
     TextPaint textPaintYellow = TextPaint(
       style: const TextStyle(
-        fontSize: 80.0,
+        fontSize: 70.0,
         color: Colors.yellow,
         fontFamily: 'Awesome Font',
         fontWeight: FontWeight.w900,
@@ -272,9 +230,6 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     garbage2.position = Vector2(1205, 720);
     add(garbage2);
     garbageList.add(garbage2);
-
-    add(Exit(exitType: [ItemsType.mushroom.index, ItemsType.cherry.index])
-      ..position = Vector2(2400, 600));
 
     super.onLoad();
   }
@@ -317,7 +272,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
         Items? currentItem = currentBasket?.itemList.last;
         if (currentItem != null) {
           currentItem.itemSpriteComponent.playing = true;
-          currentItem.setNewHolder(currentUrchin);
+          currentItem.setNewHolder(itemHolder: currentUrchin);
           currentUrchin.itemList.add(currentItem);
           currentBasket?.itemList.clear();
         }
@@ -326,9 +281,6 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       } else {
         deactivateAllBasket();
         deactivateAllUrchin();
-        if (currentBasket?.itemList.isNotEmpty ?? false) {
-          print('currentBasket?.item = NULL');
-        }
       }
     }
     deactivateAllGarbage();
@@ -408,7 +360,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
         Items? currentItem = currentUrchin?.itemList.last;
         if (currentItem != null) {
           currentItem.itemSpriteComponent.playing = false;
-          currentItem.setNewHolder(currentBasket);
+          currentItem.setNewHolder(itemHolder: currentBasket);
           currentBasket.itemList.add(currentItem);
           currentUrchin?.itemList.clear();
         }
