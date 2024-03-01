@@ -18,7 +18,8 @@ class Scenario {
       required this.trash,
       required this.point,
       required this.angle,
-      required this.addBonuses});
+      required this.addBonuses,
+      required this.scale});
 
   factory Scenario.fromJson(Map<String, dynamic> json) =>
       _$ScenarioFromJson(json);
@@ -40,4 +41,5 @@ class Scenario {
   String? angle;
   @JsonKey(name: 'addbonuses')
   String? addBonuses;
+  String? scale;
 }

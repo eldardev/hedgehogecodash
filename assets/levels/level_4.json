@@ -7517,7 +7517,6 @@
             "delay": "3",
             "speed": "100"
         },
-
         {
             "kind": "run",
             "actor": "hedgehog",
@@ -7526,8 +7525,6 @@
             "delay": "5",
             "speed": "100"
         },
-
-
         {
             "kind": "run",
             "actor": "hedgehog",

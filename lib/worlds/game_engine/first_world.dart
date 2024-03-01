@@ -15,11 +15,13 @@ import 'package:urchin/worlds/game_engine/components/garbage_basket.dart';
 import 'package:urchin/worlds/game_engine/components/items.dart';
 import 'package:urchin/worlds/game_engine/components/items_type.dart';
 import 'package:urchin/worlds/game_engine/components/multi_garbage_basket_pomp.dart';
+import 'package:urchin/worlds/game_engine/loader/level_config.dart';
 import 'package:urchin/worlds/game_engine/loader/level_loader.dart';
 import 'package:urchin/worlds/game_engine/loader/models/buffer.dart';
 import 'package:urchin/worlds/game_engine/loader/models/exitmark.dart';
 import 'package:urchin/worlds/game_engine/loader/models/path.dart';
 import 'package:urchin/worlds/game_engine/loader/models/point.dart';
+import 'package:urchin/worlds/game_engine/loader/models/scenario.dart';
 import 'package:urchin/worlds/game_engine/loader/models/trash.dart';
 
 import 'components/urchin.dart';
@@ -29,7 +31,10 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   int score = 0;
   int scoreWhenTrueExit = 1;
   int scoreWhenFalseExit = 1;
+  late LevelConfig levelConfig;
 
+  int gameScenarioStep = 0;
+  double gameScenarioNextEventTime = 0;
   double maxDeltaTime = 0.025;
   Urchin? currentUrchin;
   Basket? currentBasket;
@@ -148,8 +153,8 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       List<String> pointsJson = currentPath.points ?? [];
       for (var currentPointNumber in pointsJson) {
         int i = int.parse(currentPointNumber);
-        if ((i-1) > 0 && (i-1)<=pointList.length) {
-          currentPathVectors.add(pointList[i-1]);
+        if ((i - 1) > 0 && (i - 1) <= pointList.length) {
+          currentPathVectors.add(pointList[i - 1]);
         }
       }
 
@@ -157,9 +162,10 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     }
     //----------------------------------------------------------
 
-
-    var firstUrchin =
-    Urchin(currentSpeed: 500, checkPointList: urchinPathList['25']??[], birthTime: 0)
+    var firstUrchin = Urchin(
+        currentSpeed: 500,
+        checkPointList: urchinPathList['25'] ?? [],
+        birthTime: 0)
       ..priority = 3
       ..scale = Vector2.all(0.8);
 
@@ -189,7 +195,6 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
         ..priority = 1);
     }
     //-----------------------------------------------------------
-
 
     var item1 = Items(itemType: 4);
 
@@ -382,6 +387,33 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     scoreText2.text = '$score';
   }
 
+  void gameScenario() {
+    if (gameScenarioNextEventTime < worldTime) {
+      if ((levelConfig.scenario?.isNotEmpty ?? false) &&
+          ((levelConfig.scenario?.length ?? 0) > gameScenarioStep)) {
+        Scenario? currentScenarioStep = levelConfig.scenario?[gameScenarioStep];
+        if (currentScenarioStep != null) {
+          if (currentScenarioStep.actor == 'hedgehog') {
+            double currentUrchinSpeed =
+                double.parse(currentScenarioStep.speed ?? '100');
+            String currentUrchinPathList = currentScenarioStep.path ?? 'none';
+            var currentUrchin = Urchin(
+                currentSpeed: currentUrchinSpeed,
+                checkPointList: urchinPathList[currentUrchinPathList] ?? [],
+                birthTime: gameScenarioNextEventTime)
+              ..priority = 3
+              ..scale = Vector2.all(0.8);
+
+            add(currentUrchin);
+            urchinList.add(currentUrchin);
+          }
+
+          gameScenarioStep++;
+        }
+      }
+    }
+  }
+
   @override
   void update(double dt) {
     if (dt > maxDeltaTime) {
@@ -389,6 +421,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     }
     super.update(dt);
     worldTime += dt;
+    gameScenario();
     // urchinSprite.position+=Vector2(1, -1);
   }
 
