@@ -73,6 +73,7 @@ flutter:
     - assets/images/maps/
     - assets/images/items/
     - assets/images/garbage/
+    - assets/images/menu/
     - assets/levels/level_1.json
     - assets/levels/level_2.json
     - assets/levels/level_3.json
@@ -89,10 +90,10 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  fonts:
+     - family: Gogono Cocoa Mochi
+       fonts:
+         - asset: assets/fonts/gogono_cocoa_mochi_cyrillic.otf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

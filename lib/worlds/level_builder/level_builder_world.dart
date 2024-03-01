@@ -9,7 +9,7 @@ class LevelBuilderWorld extends CommonWorld with TapCallbacks {
   @override
   Future<void> onLoad() async {
     super.onLoad();
-    final sprite = await Sprite.load('maps/map_01.png');
+    final sprite = await Sprite.load('maps/001.png');
     final size = Vector2(2400, 1080);
     final bgSprite = SpriteComponent(size: size, sprite: sprite);
 
