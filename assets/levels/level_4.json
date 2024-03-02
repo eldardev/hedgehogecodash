@@ -437,7 +437,7 @@
             "path": "24",
             "grub": "apple",
             "checkpoint": "5",
-            "speed": "100",
+            "speed": "500",
             "scale": "80"
         },
         {

@@ -12,6 +12,7 @@ import 'package:urchin/worlds/game_engine/components/exit.dart';
 import 'package:urchin/worlds/game_engine/components/exit_mark.dart';
 import 'package:urchin/worlds/game_engine/components/garbage.dart';
 import 'package:urchin/worlds/game_engine/components/garbage_basket.dart';
+import 'package:urchin/worlds/game_engine/components/garbage_type.dart';
 import 'package:urchin/worlds/game_engine/components/items.dart';
 import 'package:urchin/worlds/game_engine/components/items_type.dart';
 import 'package:urchin/worlds/game_engine/components/multi_garbage_basket_pomp.dart';
@@ -59,7 +60,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     Vector2 scoreTextPosition = Vector2(
         double.parse(levelConfig?.common?.score?.x ?? '0'),
         double.parse(levelConfig?.common?.score?.y ?? '0'));
-    debugMode = false;
+    debugMode = true;
     score = 0;
     await Flame.images.loadAll([
       'maps/$levelBgName',
@@ -99,14 +100,15 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     //-------------------BASKET_(BUFFER)_ARRAY------------------------
     List<Buffer> bufferList = levelConfig?.buffers ?? [];
 
-    print('levelConfig.scenario= '+ (levelConfig?.scenario?[1].actor.toString() ?? 'null'));
+    print('levelConfig.scenario= ' +
+        (levelConfig?.scenario?[1].actor.toString() ?? 'null'));
     for (var buffer in bufferList) {
-      var basket1 = Basket()
+      var currentBasket = Basket()
         ..position = Vector2(
             double.parse(buffer.x ?? '0'), double.parse(buffer.y ?? '0'))
         ..angle = double.parse(buffer.angle ?? '0');
-      add(basket1);
-      basketList.add(basket1);
+      add(currentBasket);
+      basketList.add(currentBasket);
     }
     //---------------------------------------------------------------
     //-------------------GARBAGE_BASKET_(TRASH)_ARRAY------------------------
@@ -223,20 +225,16 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     // add(scoreText1);
     add(scoreText2);
 
-    Garbage garbage0 = Garbage(garbageType: 2);
-    garbage0.position = Vector2(1000, 500);
-    add(garbage0);
-    garbageList.add(garbage0);
-
-    Garbage garbage1 = Garbage(garbageType: 3);
-    garbage1.position = Vector2(905, 620);
-    add(garbage1);
-    garbageList.add(garbage1);
-
-    Garbage garbage2 = Garbage(garbageType: 1);
-    garbage2.position = Vector2(1205, 720);
-    add(garbage2);
-    garbageList.add(garbage2);
+    // Garbage garbage0 = Garbage(garbageType: 2);
+    // garbage0.position = Vector2(1000, 500);
+    // add(garbage0);
+    // garbageList.add(garbage0);
+    //
+    //
+    // Garbage garbage2 = Garbage(garbageType: 1);
+    // garbage2.position = Vector2(1205, 720);
+    // add(garbage2);
+    // garbageList.add(garbage2);
 
     // gameScenario();
 
@@ -394,7 +392,8 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   void gameScenario() {
     if (gameScenarioNextEventTime < worldTime) {
       if ((levelConfig?.scenario?.length ?? 0) > gameScenarioStep) {
-        Scenario? currentScenarioStep = levelConfig?.scenario?[gameScenarioStep];
+        Scenario? currentScenarioStep =
+            levelConfig?.scenario?[gameScenarioStep];
         if (currentScenarioStep != null) {
           if (currentScenarioStep.actor == 'hedgehog') {
             double currentUrchinSpeed =
@@ -412,18 +411,18 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
 
             int currentItemType = 0;
 
-            if (  currentScenarioStep.grub == ItemsType.cherry.name) {
+            if (currentScenarioStep.grub == ItemsType.cherry.name) {
               currentItemType = ItemsType.cherry.index;
             } else if (currentScenarioStep.grub == ItemsType.mushroom.name) {
-              currentItemType=ItemsType.mushroom.index;
+              currentItemType = ItemsType.mushroom.index;
             } else if (currentScenarioStep.grub == ItemsType.flower.name) {
-              currentItemType=ItemsType.flower.index;
+              currentItemType = ItemsType.flower.index;
             } else if (currentScenarioStep.grub == ItemsType.apple.name) {
-              currentItemType=ItemsType.apple.index;
+              currentItemType = ItemsType.apple.index;
             } else if (currentScenarioStep.grub == ItemsType.pear.name) {
-              currentItemType=ItemsType.pear.index;
+              currentItemType = ItemsType.pear.index;
             }
-            if(currentItemType>0) {
+            if (currentItemType > 0) {
               var currentItem = Items(itemType: currentItemType);
               currentUrchin.itemList.add(currentItem);
               currentItem.setNewHolder(
@@ -431,7 +430,43 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
             }
 
             urchinList.add(currentUrchin);
+          } else
+          //-----------------------------Garbage-----------------------------
+          if (currentScenarioStep.kind == 'throw') {
+            int currentGarbageType = 0;
+            if ((currentScenarioStep.trash ?? '')
+                .contains(GarbageType.plastic.name)) {
+              currentGarbageType = GarbageType.plastic.index;
+            }  else if ((currentScenarioStep.trash ?? '')
+                .contains('metal')) {
+              currentGarbageType = GarbageType.metallic.index;
+            }else if ((currentScenarioStep.trash ?? '')
+                .contains('paper')) {
+              currentGarbageType = GarbageType.paper.index;
+            }else if ((currentScenarioStep.trash ?? '')
+                .contains('other')) {
+              currentGarbageType = GarbageType.organic.index;
+            }
+
+            Vector2 garbagePosition =
+                pointList[int.parse(currentScenarioStep.point ?? '0')];
+            double currentGarbageAngle =
+                double.parse(currentScenarioStep.angle ?? '0');
+            Garbage currentGarbage = Garbage(garbageType: currentGarbageType)
+              ..position = Vector2(garbagePosition.x, -200)
+              ..angle = currentGarbageAngle;
+            add(currentGarbage);
+            garbageList.add(currentGarbage);
+
+            var effectMoveTooPosition = MoveToEffect(
+              garbagePosition,
+              EffectController(duration: 0.5),
+            )..onComplete = () {
+                //audioPlay
+              };
+            currentGarbage.add(effectMoveTooPosition);
           }
+          //-----------------------------------------------------------------
           gameScenarioNextEventTime =
               worldTime + (double.parse(currentScenarioStep.delay ?? '0'));
           gameScenarioStep++;
@@ -448,7 +483,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     super.update(dt);
     worldTime += dt;
 
-      gameScenario();
+    gameScenario();
 
     // urchinSprite.position+=Vector2(1, -1);
   }
