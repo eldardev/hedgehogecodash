@@ -164,15 +164,15 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     }
     //----------------------------------------------------------
 
-    var firstUrchin = Urchin(
-        currentSpeed: 500,
-        checkPointList: urchinPathList['25'] ?? [],
-        birthTime: 0)
-      ..priority = 3
-      ..scale = Vector2.all(0.8);
-
-    add(firstUrchin);
-    urchinList.add(firstUrchin);
+    // var firstUrchin = Urchin(
+    //     currentSpeed: 500,
+    //     checkPointList: urchinPathList['25'] ?? [],
+    //     birthTime: 0)
+    //   ..priority = 3
+    //   ..scale = Vector2.all(0.8);
+    //
+    // add(firstUrchin);
+    // urchinList.add(firstUrchin);
 
     //-------------------EXIT_MARK_ARRAY------------------------
     List<Exitmark> exitMarkList = levelConfig?.exitMarks ?? [];
@@ -447,9 +447,9 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     }
     super.update(dt);
     worldTime += dt;
-    if(worldTime>5) {
+
       gameScenario();
-    }
+
     // urchinSprite.position+=Vector2(1, -1);
   }
 

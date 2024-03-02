@@ -93,7 +93,7 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
 
   @override
   void update(double dt) {
-    if (isPause) {
+    if (isPause||!isActive) {
       return;
     }
     if (dt > world.maxDeltaTime) {
