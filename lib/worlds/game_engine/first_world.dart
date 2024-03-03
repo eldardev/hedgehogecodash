@@ -3,6 +3,7 @@ import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/text.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:urchin/worlds/common/common_world.dart';
@@ -55,6 +56,9 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
 
   @override
   Future<void> onLoad() async {
+    FlameAudio.bgm.initialize();
+    FlameAudio.bgm.play('music/Cute_Hedgehog_Compilation_Hedgehog_Escape_Giant_Macaron.mp3');
+
     levelConfig = await LevelLoader.fetchLevel(4);
     String levelBgName = levelConfig?.common?.background?.name ?? '001.png';
     Vector2 scoreTextPosition = Vector2(
@@ -157,7 +161,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
       List<String> pointsJson = currentPath.points ?? [];
       for (var currentPointNumber in pointsJson) {
         int i = int.parse(currentPointNumber);
-        if ((i - 1) > 0 && (i - 1) <= pointList.length) {
+        if ((i - 1) >= 0 && (i - 1) <= pointList.length) {
           currentPathVectors.add(pointList[i - 1]);
         }
       }
@@ -382,6 +386,9 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     }
     deactivateAllGarbage();
     deactivateAllGarbageBasket();
+
+    currentBasket.activateBasketLight();
+    this.currentBasket = currentBasket;
   }
 
   void setScore(int score) {

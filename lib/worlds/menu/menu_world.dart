@@ -1,4 +1,5 @@
 import 'package:flame/flame.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:urchin/worlds/common/common_world.dart';
 import 'package:urchin/worlds/menu/components/exit_button.dart';
@@ -14,8 +15,14 @@ class MenuWorld extends CommonWorld {
     await Flame.images.load("menu/bg.png");
     await Flame.images.load("menu/item_flower.png");
 
-    add(MenuBackground());
+     add(MenuBackground());
     add(FlowerComponent());
-    addAll([PlayButton(), ExitButton(), LevelBuilderButton()]);
+    addAll([PlayButton(), ExitButton()]);
+    playBgMusic();
+  }
+
+  void playBgMusic(){
+    FlameAudio.bgm.initialize();
+    FlameAudio.bgm.play('music/bg_music.wav');
   }
 }

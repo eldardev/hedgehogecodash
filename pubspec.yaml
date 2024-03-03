@@ -74,6 +74,8 @@ flutter:
     - assets/images/items/
     - assets/images/garbage/
     - assets/images/menu/
+    - assets/audio/music/
+    - assets/audio/sound/
     - assets/levels/level_1.json
     - assets/levels/level_2.json
     - assets/levels/level_3.json
