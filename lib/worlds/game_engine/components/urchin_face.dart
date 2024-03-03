@@ -10,8 +10,9 @@ class UrchinFace extends PositionComponent with CollisionCallbacks {
 
   UrchinFace({required this.faceHolder}) {
     anchor = Anchor.center;
-    add(CircleHitbox(radius: 60, anchor: Anchor.center)
+    add(CircleHitbox(radius: 40, anchor: Anchor.center)
       ..isSolid = true
+      ..position=Vector2(0, -(faceHolder.size.y*faceHolder.scale.y)/6)
       ..debugMode = faceHolder.world.debugMode);
   }
 

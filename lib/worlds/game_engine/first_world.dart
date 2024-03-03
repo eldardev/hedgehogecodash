@@ -60,7 +60,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     Vector2 scoreTextPosition = Vector2(
         double.parse(levelConfig?.common?.score?.x ?? '0'),
         double.parse(levelConfig?.common?.score?.y ?? '0'));
-    debugMode = true;
+    debugMode = false;
     score = 0;
     await Flame.images.loadAll([
       'maps/$levelBgName',

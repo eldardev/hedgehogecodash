@@ -121,6 +121,7 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
         if (currentCheckpointNumber < checkPointList.length - 2) {
           double angle2 =
               getAngle(position, checkPointList[currentCheckpointNumber + 1]);
+         //angle= getShortAngle(urchinSprite.angle, angle2);
           add(
             RotateEffect.to(
               getShortAngle(urchinSprite.angle, angle2),
@@ -176,8 +177,9 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
         }
         world.setScore(world.score);
       }
-      pastUrchinToStartPosition();
+     // pastUrchinToStartPosition();
       world.remove(this);
+      world.urchinList.remove(this);
     }
     super.onCollisionEnd(other);
   }

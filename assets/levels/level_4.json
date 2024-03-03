@@ -273,7 +273,6 @@
             "x": "1471",
             "y": "217"
         },
-
         {
             "id": "17",
             "x": "1175",
@@ -443,28 +442,20 @@
         {
             "kind": "run",
             "actor": "hedgehog",
-            "path": "24",
-            "grub": "none",
-            "delay": "5",
-            "speed": "100"
-        },
-        {
-            "kind": "run",
-            "actor": "hedgehog",
             "path": "17",
             "grub": "flower",
             "delay": "5",
-            "speed": "100"
+            "speed": "500",
+            "scale": "80"
         },
-
-
         {
             "kind": "run",
             "actor": "hedgehog",
             "path": "17",
             "grub": "none",
             "delay": "5",
-            "speed": "100"
+            "speed": "100",
+            "scale": "80"
         },
 
 
@@ -474,7 +465,8 @@
             "path": "17",
             "grub": "flower",
             "delay": "5",
-            "speed": "100"
+            "speed": "100",
+            "scale": "80"
         },
 
 
@@ -484,7 +476,8 @@
             "path": "35",
             "grub": "pear",
             "delay": "5",
-            "speed": "100"
+            "speed": "500",
+            "scale": "80"
         },
 
 
@@ -494,7 +487,8 @@
             "path": "35",
             "grub": "none",
             "delay": "5",
-            "speed": "100"
+            "speed": "100",
+            "scale": "80"
         },
 
 
@@ -8818,7 +8812,6 @@
             "delay": "4",
             "speed": "100"
         },
-
         {
             "kind": "run",
             "actor": "hedgehog",
