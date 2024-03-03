@@ -274,6 +274,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   }
 
   void selectCurrentUrchin({required Urchin currentUrchin}) {
+    clickObject();
     deactivateAllUrchin();
     this.currentUrchin = currentUrchin;
     currentUrchin.activateUrchinLight();
@@ -299,6 +300,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   }
 
   void selectCurrentGarbage({required Garbage currentGarbage}) {
+    clickObject();
     deactivateAllBasket();
     deactivateAllUrchin();
     deactivateAllGarbage();
@@ -311,6 +313,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
 
   void selectCurrentGarbageBasket(
       {required GarbageBasket currentGarbageBasket}) {
+    clickObject();
     deactivateAllBasket();
     deactivateAllUrchin();
 
@@ -361,6 +364,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   }
 
   void selectCurrentBasket({required Basket currentBasket}) {
+    clickObject();
     deactivateAllBasket();
     this.currentBasket = currentBasket;
     currentBasket.activateBasketLight();
@@ -493,6 +497,14 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     gameScenario();
 
     // urchinSprite.position+=Vector2(1, -1);
+  }
+
+
+
+
+
+  void clickObject() {
+    FlameAudio.play('sound/select.wav');
   }
 
 // @override
