@@ -118,17 +118,27 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
       if (position.distanceTo(checkPointList[currentCheckpointNumber + 1]) <
           currentStep.length) {
         currentCheckpointNumber += 1;
-        if (currentCheckpointNumber < checkPointList.length - 2) {
+        if (currentCheckpointNumber < checkPointList.length - 1) {
+         //angle = getRotation(checkPointList[currentCheckpointNumber + 1], this);
+
           double angle2 =
               getAngle(position, checkPointList[currentCheckpointNumber + 1]);
           //angle= getShortAngle(urchinSprite.angle, angle2);
         // angle=checkPointList[currentCheckpointNumber+1].angleTo(position);
-          add(
-            RotateEffect.to(
-              getShortAngle(urchinSprite.angle, angle2),
-              EffectController(duration: urchinRotationSpeed / currentSpeed),
-            ),
-          );
+          double shortAngle = getShortAngle(this.angle, angle2);
+          print('angle='+angle.toString());
+          print('angle2='+angle2.toString());
+          print('shortAngle='+shortAngle.toString());
+          if(angle<0 && shortAngle>0){
+            print('object angle ERROR');
+          }
+          angle= getShortAngle(this.angle, angle2);
+          // add(
+          //   RotateEffect.to(
+          //     getShortAngle(this.angle, angle2),
+          //     EffectController(duration: urchinRotationSpeed / currentSpeed, ),
+          //   ),
+          // );
         }
         if ((currentCheckpointNumber == checkPointList.length - 1) ||
             position.length > 3000) {
@@ -191,6 +201,7 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
     super.onCollisionEnd(other);
   }
 
+
   void pastUrchinToStartPosition() {
     deActivateUrchinLight();
     currentCheckpointNumber = 0;
@@ -210,5 +221,10 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
       updateAnimation(currentSpeed);
       isPause = false;
     }
+  }
+
+  double getRotation(Vector2 target, PositionComponent player){
+    //var heading = target.position - player.position;
+return player.position.angleTo(target)-90;
   }
 }
