@@ -129,9 +129,7 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
           print('angle='+angle.toString());
           print('angle2='+angle2.toString());
           print('shortAngle='+shortAngle.toString());
-          if(angle<0 && shortAngle>0){
-            print('object angle ERROR');
-          }
+
           angle= getShortAngle(this.angle, angle2);
           // add(
           //   RotateEffect.to(
