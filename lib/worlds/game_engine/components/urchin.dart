@@ -179,7 +179,12 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
         }
         world.setScore(world.score);
       }
-     // pastUrchinToStartPosition();
+
+       // pastUrchinToStartPosition();
+      if(urchinLightSprite.scale.x>0){
+        world.deactivateAllUrchin();
+      }
+      deActivateUrchinLight();
       world.remove(this);
       world.urchinList.remove(this);
     }
