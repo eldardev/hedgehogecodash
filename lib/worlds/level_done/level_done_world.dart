@@ -3,6 +3,7 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:urchin/worlds/common/common_world.dart';
+import 'package:urchin/worlds/level_done/components/back_photo_background.dart';
 import 'package:urchin/worlds/menu/components/flower_component.dart';
 
 import 'components/level_done_background.dart';
@@ -21,6 +22,7 @@ class LevelDoneWorld extends CommonWorld {
     await Flame.images.load("menu/item_flower.png");
     await Flame.images.load("back_photos/BackPhoto${levelNumber - 1}.jpg");
 
+    add(BackPhotoBackground(level: levelNumber));
     add(LevelDoneBackground());
     add(FlowerComponent());
     addAll([NextLevelButton(), MainMenuButton()]);
