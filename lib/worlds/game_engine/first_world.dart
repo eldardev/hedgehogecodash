@@ -459,6 +459,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
               currentGarbageType = GarbageType.plastic.index;
             } else if ((currentScenarioStep.trash ?? '').contains('metal')) {
               currentGarbageType = GarbageType.metallic.index;
+              metalCanAudioPlay();
             } else if ((currentScenarioStep.trash ?? '').contains('paper')) {
               currentGarbageType = GarbageType.paper.index;
             } else if ((currentScenarioStep.trash ?? '').contains('other')) {
@@ -480,6 +481,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
               EffectController(duration: 0.5),
             )..onComplete = () {
                 //audioPlay
+            playGarbageAudio(currentGarbageType);
               };
             currentGarbage.add(effectMoveTooPosition);
           }
@@ -515,7 +517,33 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   void clickObject() {
     FlameAudio.play('sound/select.wav');
   }
+  void metalCanAudioPlay() {
+    FlameAudio.play('sound/metalCan.mp3');
+  }
+  void plasticBottleAudioPlay() {
+    FlameAudio.play('sound/plasticBottle.wav');
+  }
+  void organicAudioPlay() {
+    FlameAudio.play('sound/organicGarbage.wav');
+  }
+  void paperAudioPlay() {
+    FlameAudio.play('sound/paperGarbage.wav');
+  }
+void playGarbageAudio(int garbageType){
+    if(garbageType == GarbageType.metallic.index){
+      metalCanAudioPlay();
+    }
+    if(garbageType == GarbageType.plastic.index){
+      plasticBottleAudioPlay();
+    }
+    if(garbageType == GarbageType.organic.index){
+      organicAudioPlay();
+    }
+    if(garbageType == GarbageType.paper.index){
+      paperAudioPlay();
+    }
 
+}
 // @override
 // void onTapDown(TapDownEvent event) {
 //   super.onTapDown(event);
