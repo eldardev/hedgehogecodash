@@ -10,7 +10,7 @@ class NextLevelButton extends PositionComponent
 
   NextLevelButton()
       : super(
-            position: Vector2(500, 430),
+            position: Vector2(250, 630),
             size: Vector2(_width, _height),
             anchor: Anchor.topLeft);
 

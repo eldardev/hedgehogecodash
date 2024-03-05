@@ -10,7 +10,7 @@ class MainMenuButton extends PositionComponent
 
   MainMenuButton()
       : super(
-            position: Vector2(500, 530),
+            position: Vector2(250, 750),
             size: Vector2(_width, _height),
             anchor: Anchor.topLeft);
 
