@@ -340,7 +340,6 @@
         },
 
 
-        { "kind": "run", "actor": "hedgehog", "grub": "flower", "path": "36", "delay": "15", "speed": "220", "size": "100" },
         { "kind": "run", "actor": "hedgehog", "grub": "pear", "path": "15", "delay": "1", "speed": "350", "size": "100" },
         { "kind": "run", "actor": "hedgehog", "grub": "pear", "path": "15", "delay": "1", "speed": "350", "size": "90" },
         { "kind": "run", "actor": "hedgehog", "grub": "none", "path": "15", "delay": "1", "speed": "350", "size": "80" },
