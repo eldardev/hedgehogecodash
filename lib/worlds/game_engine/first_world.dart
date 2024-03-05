@@ -6,6 +6,7 @@ import 'package:flame/text.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:urchin/worlds/common/common_world.dart';
 import 'package:urchin/worlds/game_engine/components/background.dart';
 import 'package:urchin/worlds/game_engine/components/basket.dart';
@@ -30,6 +31,7 @@ import 'components/urchin.dart';
 
 @singleton
 class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
+  int levelNumber = 1;
   int score = 0;
   int scoreWhenTrueExit = 1;
   int scoreWhenFalseExit = 1;
@@ -54,12 +56,19 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   late TextComponent scoreText2;
   Vector2 scoreTextPosition = Vector2(0, 0);
 
+  // FirstWorld({required this.levelNumber}){
+  //
+  // }
+
   @override
   Future<void> onLoad() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    levelNumber = prefs.getInt('currentLevel') ?? 4;
     FlameAudio.bgm.initialize();
-    FlameAudio.bgm.play('music/Cute_Hedgehog_Compilation_Hedgehog_Escape_Giant_Macaron.mp3');
+    FlameAudio.bgm.play(
+        'music/Cute_Hedgehog_Compilation_Hedgehog_Escape_Giant_Macaron.mp3');
 
-    levelConfig = await LevelLoader.fetchLevel(4);
+    levelConfig = await LevelLoader.fetchLevel(levelNumber);
     String levelBgName = levelConfig?.common?.background?.name ?? '001.png';
     Vector2 scoreTextPosition = Vector2(
         double.parse(levelConfig?.common?.score?.x ?? '0'),
@@ -448,14 +457,11 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
             if ((currentScenarioStep.trash ?? '')
                 .contains(GarbageType.plastic.name)) {
               currentGarbageType = GarbageType.plastic.index;
-            }  else if ((currentScenarioStep.trash ?? '')
-                .contains('metal')) {
+            } else if ((currentScenarioStep.trash ?? '').contains('metal')) {
               currentGarbageType = GarbageType.metallic.index;
-            }else if ((currentScenarioStep.trash ?? '')
-                .contains('paper')) {
+            } else if ((currentScenarioStep.trash ?? '').contains('paper')) {
               currentGarbageType = GarbageType.paper.index;
-            }else if ((currentScenarioStep.trash ?? '')
-                .contains('other')) {
+            } else if ((currentScenarioStep.trash ?? '').contains('other')) {
               currentGarbageType = GarbageType.organic.index;
             }
 
@@ -499,10 +505,6 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
     // urchinSprite.position+=Vector2(1, -1);
   }
 
-
-
-
-
   void clickObject() {
     FlameAudio.play('sound/select.wav');
   }
@@ -511,4 +513,12 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
 // void onTapDown(TapDownEvent event) {
 //   super.onTapDown(event);
 // }
+
+  void finish({required bool isSuccess}) {
+    if (isSuccess) {
+      print('Victory !!! Score:  ' + score.toString());
+    } else {
+      print('you loose');
+    }
+  }
 }
