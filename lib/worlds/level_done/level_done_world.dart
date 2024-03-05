@@ -4,9 +4,9 @@ import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:urchin/worlds/common/common_world.dart';
 import 'package:urchin/worlds/level_done/components/back_photo_background.dart';
-import 'package:urchin/worlds/menu/components/flower_component.dart';
 
 import 'components/level_done_background.dart';
+import 'components/level_flower_component.dart';
 import 'components/main_menu_button.dart';
 import 'components/next_level_button.dart';
 
@@ -24,7 +24,7 @@ class LevelDoneWorld extends CommonWorld {
 
     add(BackPhotoBackground(level: levelNumber));
     add(LevelDoneBackground());
-    add(FlowerComponent());
+    add(LevelDoneFlowerComponent());
     addAll([NextLevelButton(), MainMenuButton()]);
     // playBgMusic();
   }

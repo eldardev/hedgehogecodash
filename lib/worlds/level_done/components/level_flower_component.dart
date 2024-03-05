@@ -3,9 +3,9 @@ import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/sprite.dart';
 
-class FlowerComponent extends SpriteAnimationComponent {
-  FlowerComponent()
-      : super(size: Vector2.all(160), position: Vector2(150, 550));
+class LevelDoneFlowerComponent extends SpriteAnimationComponent {
+  LevelDoneFlowerComponent()
+      : super(size: Vector2.all(160), position: Vector2(80, 580));
 
   @override
   Future<void> onLoad() async {
