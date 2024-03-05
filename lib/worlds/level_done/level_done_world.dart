@@ -3,21 +3,21 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:urchin/worlds/common/common_world.dart';
 import 'package:urchin/worlds/menu/components/flower_component.dart';
-import 'package:urchin/worlds/menu/components/menu_background.dart';
-import 'package:urchin/worlds/menu/components/play_button.dart';
 
-import 'components/exit_button.dart';
+import 'components/level_done_background.dart';
+import 'components/main_menu_button.dart';
+import 'components/next_level_button.dart';
 
 @singleton
-class MenuWorld extends CommonWorld {
+class LevelDoneWorld extends CommonWorld {
   @override
   Future<void> onLoad() async {
-    await Flame.images.load("menu/bg.png");
+    await Flame.images.load("menu/level_bg.png");
     await Flame.images.load("menu/item_flower.png");
 
-    add(MenuBackground());
+    add(LevelDoneBackground());
     add(FlowerComponent());
-    addAll([PlayButton(), ExitButton()]);
+    addAll([NextLevelButton(), MainMenuButton()]);
     playBgMusic();
   }
 
