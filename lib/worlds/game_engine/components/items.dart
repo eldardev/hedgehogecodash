@@ -144,20 +144,6 @@ class Items extends PositionComponent with CollisionCallbacks {
     add(effect);
   }
 
-  static void calculateNewPosition(
-      PositionComponent movingComponent, PositionComponent staticComponent) {
-    final movingX = movingComponent.x;
-    final movingY = movingComponent.y;
-    final staticX = staticComponent.x;
-    final staticY = staticComponent.y;
-    final offsetX = movingX - staticX;
-    final offsetY = movingY - staticY;
-    final angle = atan2(offsetY, offsetX);
-    final newX = staticX + cos(angle) * offsetX - sin(angle) * offsetY;
-    final newY = staticY + sin(angle) * offsetX + cos(angle) * offsetY;
-    movingComponent.x = newX;
-    movingComponent.y = newY;
-  }
   @override
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) {

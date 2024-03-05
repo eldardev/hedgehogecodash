@@ -484,6 +484,13 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
             currentGarbage.add(effectMoveTooPosition);
           }
           //-----------------------------------------------------------------
+          //-----------------------------Finish------------------------------
+          if (currentScenarioStep.kind == 'leveldone') {
+            int addbonuses = int.parse(currentScenarioStep.addBonuses ?? '0');
+            score+=addbonuses;
+            setScore(score);
+            finish(isSuccess: true);
+          }
           gameScenarioNextEventTime =
               worldTime + (double.parse(currentScenarioStep.delay ?? '0'));
           gameScenarioStep++;

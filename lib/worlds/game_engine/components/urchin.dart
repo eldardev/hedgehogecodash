@@ -183,6 +183,8 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
           world.score += world.scoreWhenTrueExit;
         } else if (world.score >= world.scoreWhenFalseExit) {
           world.score -= world.scoreWhenFalseExit;
+        }else{
+          world.finish(isSuccess: false);
         }
         world.setScore(world.score);
       }
