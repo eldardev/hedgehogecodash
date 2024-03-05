@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:urchin/urchin_game.dart';
 
 class NextLevelButton extends PositionComponent
@@ -69,7 +70,11 @@ class NextLevelButton extends PositionComponent
   }
 
   @override
-  void onTapUp(TapUpEvent event) {
+  void onTapUp(TapUpEvent event) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int levelNumber = prefs.getInt('currentLevel') ?? 1;
+    prefs.setInt('currentLevel', levelNumber + 1);
+
     gameRef.router.pushReplacementNamed("main");
     super.onTapUp(event);
   }

@@ -26,7 +26,7 @@ class LevelDoneWorld extends CommonWorld {
     add(LevelDoneBackground());
     add(LevelDoneFlowerComponent());
     addAll([NextLevelButton(), MainMenuButton()]);
-    // playBgMusic();
+    playBgMusic();
   }
 
   void playBgMusic() {
