@@ -7,6 +7,7 @@ import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:urchin/urchin_game.dart';
 import 'package:urchin/worlds/common/common_world.dart';
 import 'package:urchin/worlds/game_engine/components/background.dart';
 import 'package:urchin/worlds/game_engine/components/basket.dart';
@@ -30,7 +31,8 @@ import 'package:urchin/worlds/game_engine/loader/models/trash.dart';
 import 'components/urchin.dart';
 
 @singleton
-class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
+class FirstWorld extends CommonWorld
+    with TapCallbacks, HasCollisionDetection, HasGameRef<UrchinGame> {
   int levelNumber = 1;
   int score = 0;
   int scoreWhenTrueExit = 1;
@@ -481,7 +483,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
               EffectController(duration: 0.5),
             )..onComplete = () {
                 //audioPlay
-            playGarbageAudio(currentGarbageType);
+                playGarbageAudio(currentGarbageType);
               };
             currentGarbage.add(effectMoveTooPosition);
           }
@@ -489,7 +491,7 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
           //-----------------------------Finish------------------------------
           if (currentScenarioStep.kind == 'leveldone') {
             int addbonuses = int.parse(currentScenarioStep.addBonuses ?? '0');
-            score+=addbonuses;
+            score += addbonuses;
             setScore(score);
             finish(isSuccess: true);
           }
@@ -517,43 +519,45 @@ class FirstWorld extends CommonWorld with TapCallbacks, HasCollisionDetection {
   void clickObject() {
     FlameAudio.play('sound/select.wav');
   }
+
   void metalCanAudioPlay() {
     FlameAudio.play('sound/metalCan.mp3');
   }
+
   void plasticBottleAudioPlay() {
     FlameAudio.play('sound/plasticBottle.wav');
   }
+
   void organicAudioPlay() {
     FlameAudio.play('sound/organicGarbage.wav');
   }
+
   void paperAudioPlay() {
     FlameAudio.play('sound/paperGarbage.wav');
   }
-void playGarbageAudio(int garbageType){
-    if(garbageType == GarbageType.metallic.index){
+
+  void playGarbageAudio(int garbageType) {
+    if (garbageType == GarbageType.metallic.index) {
       metalCanAudioPlay();
     }
-    if(garbageType == GarbageType.plastic.index){
+    if (garbageType == GarbageType.plastic.index) {
       plasticBottleAudioPlay();
     }
-    if(garbageType == GarbageType.organic.index){
+    if (garbageType == GarbageType.organic.index) {
       organicAudioPlay();
     }
-    if(garbageType == GarbageType.paper.index){
+    if (garbageType == GarbageType.paper.index) {
       paperAudioPlay();
     }
-
-}
+  }
 // @override
 // void onTapDown(TapDownEvent event) {
 //   super.onTapDown(event);
 // }
 
-  void finish({required bool isSuccess}) {
-    if (isSuccess) {
-      print('Victory !!! Score:  ' + score.toString());
-    } else {
-      print('you loose');
-    }
+  void finish({required bool isSuccess}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool("isSuccess", isSuccess);
+    gameRef.router.pushReplacementNamed("level_done");
   }
 }

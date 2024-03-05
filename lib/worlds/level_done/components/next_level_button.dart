@@ -9,7 +9,9 @@ class NextLevelButton extends PositionComponent
   static const double _width = 300;
   static const double _height = 100;
 
-  NextLevelButton()
+  final bool isSuccess;
+
+  NextLevelButton({required this.isSuccess})
       : super(
             position: Vector2(250, 630),
             size: Vector2(_width, _height),
@@ -27,7 +29,7 @@ class NextLevelButton extends PositionComponent
     await add(
       TextComponent(
           key: ComponentKey.named('next_level_button'),
-          text: 'Next Level',
+          text: isSuccess ? 'Next Level' : "Replay",
           textRenderer: TextPaint(
             style: const TextStyle(
               fontSize: 80.0,
@@ -40,7 +42,7 @@ class NextLevelButton extends PositionComponent
 
     await add(
       TextComponent(
-          text: 'Next Level',
+          text: isSuccess ? 'Next Level' : "Replay",
           textRenderer: TextPaint(
             style: const TextStyle(
               fontSize: 80.0,
@@ -73,7 +75,7 @@ class NextLevelButton extends PositionComponent
   void onTapUp(TapUpEvent event) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int levelNumber = prefs.getInt('currentLevel') ?? 1;
-    prefs.setInt('currentLevel', levelNumber + 1);
+    prefs.setInt('currentLevel', isSuccess ? levelNumber + 1 : levelNumber);
 
     gameRef.router.pushReplacementNamed("main");
     super.onTapUp(event);

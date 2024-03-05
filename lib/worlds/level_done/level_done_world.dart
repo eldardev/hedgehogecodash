@@ -4,6 +4,8 @@ import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:urchin/worlds/common/common_world.dart';
 import 'package:urchin/worlds/level_done/components/back_photo_background.dart';
+import 'package:urchin/worlds/level_done/components/try_again.dart';
+import 'package:urchin/worlds/level_done/components/you_did_it.dart';
 
 import 'components/level_done_background.dart';
 import 'components/level_flower_component.dart';
@@ -16,6 +18,7 @@ class LevelDoneWorld extends CommonWorld {
   Future<void> onLoad() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int levelNumber = prefs.getInt('currentLevel') ?? 4;
+    bool isSuccess = prefs.getBool("isSuccess") ?? false;
 
     await Flame.images.load("menu/level_bg.png");
     await Flame.images.load("menu/level_bg.png");
@@ -25,7 +28,20 @@ class LevelDoneWorld extends CommonWorld {
     add(BackPhotoBackground(level: levelNumber));
     add(LevelDoneBackground());
     add(LevelDoneFlowerComponent());
-    addAll([NextLevelButton(), MainMenuButton()]);
+    if (isSuccess) {
+      addAll([
+        NextLevelButton(isSuccess: isSuccess),
+        MainMenuButton(),
+        YouDidIt()
+      ]);
+    } else {
+      addAll([
+        NextLevelButton(isSuccess: isSuccess),
+        MainMenuButton(),
+        TryAgain()
+      ]);
+    }
+
     playBgMusic();
   }
 
