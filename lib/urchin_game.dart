@@ -32,7 +32,7 @@ class UrchinGame extends FlameGame with HasCollisionDetection {
         'level_builder': Route(() => _levelBuilderWorld),
         'level_done': Route(() => _levelDoneWorld),
       },
-      initialRoute: 'level_done',
+      initialRoute: 'menu',
     );
 
     [_demoWorld, _menuWorld, _firstWorld, _levelBuilderWorld, _levelDoneWorld]
