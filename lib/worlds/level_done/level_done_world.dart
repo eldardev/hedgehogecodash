@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:urchin/worlds/common/common_world.dart';
 import 'package:urchin/worlds/level_done/components/back_photo_background.dart';
+import 'package:urchin/worlds/level_done/components/eco_proverb.dart';
 import 'package:urchin/worlds/level_done/components/try_again.dart';
 import 'package:urchin/worlds/level_done/components/you_did_it.dart';
 
@@ -41,6 +42,8 @@ class LevelDoneWorld extends CommonWorld {
         TryAgain()
       ]);
     }
+
+    add(EcoProverb());
 
     playBgMusic();
   }
