@@ -42,7 +42,7 @@ class FirstWorld extends CommonWorld
   int gameScenarioStep = 0;
   double gameScenarioNextEventTime = 0;
   double maxDeltaTime = 0.025;
-  Urchin? currentUrchin;
+  List<Urchin> selectedUrchinList = [];
   Basket? currentBasket;
   Garbage? currentGarbage;
   GarbageBasket? currentGarbageBasket;
@@ -51,6 +51,7 @@ class FirstWorld extends CommonWorld
   List<Urchin> urchinList = [];
   List<Garbage> garbageList = [];
   List<GarbageBasket> garbageBasketList = [];
+  List<PositionComponent> selectedObject = [];
   Map<String, List<Vector2>> urchinPathList = {};
   SpriteComponent spriteComponentBG = SpriteComponent();
   double worldTime = 0;
@@ -67,8 +68,7 @@ class FirstWorld extends CommonWorld
     SharedPreferences prefs = await SharedPreferences.getInstance();
     levelNumber = prefs.getInt('currentLevel') ?? 4;
     FlameAudio.bgm.initialize();
-    FlameAudio.bgm.play(
-        'music/Cute_Hedgehog_Compilation_Hedgehog_Escape_Giant_Macaron.mp3');
+    playBgAudio();
 
     levelConfig = await LevelLoader.fetchLevel(levelNumber);
     String levelBgName = levelConfig?.common?.background?.name ?? '001.png';
@@ -115,8 +115,6 @@ class FirstWorld extends CommonWorld
     //-------------------BASKET_(BUFFER)_ARRAY------------------------
     List<Buffer> bufferList = levelConfig?.buffers ?? [];
 
-    print('levelConfig.scenario= ' +
-        (levelConfig?.scenario?[1].actor.toString() ?? 'null'));
     for (var buffer in bufferList) {
       var currentBasket = Basket()
         ..position = Vector2(
@@ -179,18 +177,6 @@ class FirstWorld extends CommonWorld
 
       urchinPathList[name] = currentPathVectors;
     }
-    //----------------------------------------------------------
-
-    // var firstUrchin = Urchin(
-    //     currentSpeed: 500,
-    //     checkPointList: urchinPathList['25'] ?? [],
-    //     birthTime: 0)
-    //   ..priority = 3
-    //   ..scale = Vector2.all(0.8);
-    //
-    // add(firstUrchin);
-    // urchinList.add(firstUrchin);
-
     //-------------------EXIT_MARK_ARRAY------------------------
     List<Exitmark> exitMarkList = levelConfig?.exitMarks ?? [];
     for (var exitMark in exitMarkList) {
@@ -213,17 +199,6 @@ class FirstWorld extends CommonWorld
         ..angle = double.parse(exitMark.angle ?? '0')
         ..priority = 1);
     }
-    //-----------------------------------------------------------
-
-    // var item1 = Items(itemType: 4);
-    //
-    // firstUrchin.itemList.add(item1);
-    // // secondUrchin.itemList.add(item2);
-    // // urchin3.itemList.add(item3);
-    //
-    // item1.setNewHolder(itemHolder: firstUrchin, newbornHedgehog: true);
-    // item2.setNewHolder(secondUrchin);
-    // item3.setNewHolder(urchin3);
 
     TextPaint textPaintYellow = TextPaint(
       style: const TextStyle(
@@ -239,20 +214,6 @@ class FirstWorld extends CommonWorld
         textRenderer: textPaintYellow);
     // add(scoreText1);
     add(scoreText2);
-
-    // Garbage garbage0 = Garbage(garbageType: 2);
-    // garbage0.position = Vector2(1000, 500);
-    // add(garbage0);
-    // garbageList.add(garbage0);
-    //
-    //
-    // Garbage garbage2 = Garbage(garbageType: 1);
-    // garbage2.position = Vector2(1205, 720);
-    // add(garbage2);
-    // garbageList.add(garbage2);
-
-    // gameScenario();
-
     super.onLoad();
   }
 
@@ -260,7 +221,7 @@ class FirstWorld extends CommonWorld
     for (var urchin in urchinList) {
       urchin.deActivateUrchinLight();
     }
-    currentUrchin = null;
+    selectedUrchinList.clear();
   }
 
   void deactivateAllGarbageBasket() {
@@ -285,9 +246,9 @@ class FirstWorld extends CommonWorld
   }
 
   void selectCurrentUrchin({required Urchin currentUrchin}) {
-    clickObject();
-    deactivateAllUrchin();
-    this.currentUrchin = currentUrchin;
+    clickObjectAudio();
+    // deactivateAllUrchin();
+    this.selectedUrchinList.add(currentUrchin);
     currentUrchin.activateUrchinLight();
     if (currentBasket != null) {
       if ((currentBasket?.itemList.isNotEmpty ?? false) &&
@@ -305,13 +266,32 @@ class FirstWorld extends CommonWorld
         deactivateAllBasket();
         deactivateAllUrchin();
       }
+    } else if (selectedUrchinList.length == 2) {
+      if (selectedUrchinList.first.itemList.isNotEmpty &&
+          selectedUrchinList.last.itemList.isEmpty) {
+        Items? currentItem = selectedUrchinList.first.itemList.last;
+        currentItem.itemSpriteComponent.playing = true;
+        currentItem.setNewHolder(itemHolder: selectedUrchinList.last);
+        selectedUrchinList.last.itemList.add(currentItem);
+        selectedUrchinList.first.itemList.clear();
+        deactivateAllUrchin();
+      }else if (selectedUrchinList.first.itemList.isEmpty &&
+          selectedUrchinList.last.itemList.isNotEmpty) {
+        selectedUrchinList.first.deActivateUrchinLight();
+        selectedUrchinList.remove(selectedUrchinList.first);
+      }else{
+        deactivateAllUrchin();
+        selectedUrchinList.clear();
+        selectedUrchinList.add(currentUrchin);
+        currentUrchin.activateUrchinLight();
+      }
     }
     deactivateAllGarbage();
     deactivateAllGarbageBasket();
   }
 
   void selectCurrentGarbage({required Garbage currentGarbage}) {
-    clickObject();
+    clickObjectAudio();
     deactivateAllBasket();
     deactivateAllUrchin();
     deactivateAllGarbage();
@@ -324,7 +304,7 @@ class FirstWorld extends CommonWorld
 
   void selectCurrentGarbageBasket(
       {required GarbageBasket currentGarbageBasket}) {
-    clickObject();
+    clickObjectAudio();
     deactivateAllBasket();
     deactivateAllUrchin();
 
@@ -375,20 +355,20 @@ class FirstWorld extends CommonWorld
   }
 
   void selectCurrentBasket({required Basket currentBasket}) {
-    clickObject();
+    clickObjectAudio();
     deactivateAllBasket();
     this.currentBasket = currentBasket;
     currentBasket.activateBasketLight();
 
-    if (currentUrchin != null) {
-      if ((currentUrchin?.itemList.isNotEmpty ?? false) &&
+    if (selectedUrchinList.isNotEmpty) {
+      if ((selectedUrchinList.last.itemList.isNotEmpty ?? false) &&
           (currentBasket.itemList.isEmpty)) {
-        Items? currentItem = currentUrchin?.itemList.last;
+        Items? currentItem = selectedUrchinList.last.itemList.last;
         if (currentItem != null) {
           currentItem.itemSpriteComponent.playing = false;
           currentItem.setNewHolder(itemHolder: currentBasket);
           currentBasket.itemList.add(currentItem);
-          currentUrchin?.itemList.clear();
+          selectedUrchinList.last.itemList.clear();
         }
         deactivateAllBasket();
         deactivateAllUrchin();
@@ -516,7 +496,12 @@ class FirstWorld extends CommonWorld
     // urchinSprite.position+=Vector2(1, -1);
   }
 
-  void clickObject() {
+  void playBgAudio() {
+    FlameAudio.bgm.play(
+        'music/Cute_Hedgehog_Compilation_Hedgehog_Escape_Giant_Macaron.mp3');
+  }
+
+  void clickObjectAudio() {
     FlameAudio.play('sound/select.wav');
   }
 
@@ -550,6 +535,7 @@ class FirstWorld extends CommonWorld
       paperAudioPlay();
     }
   }
+
 // @override
 // void onTapDown(TapDownEvent event) {
 //   super.onTapDown(event);

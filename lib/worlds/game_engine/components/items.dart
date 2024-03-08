@@ -113,7 +113,6 @@ class Items extends PositionComponent with CollisionCallbacks {
     flyAnimation = true;
     PositionComponent? lastPositionComponent = this.itemHolder;
     this.itemHolder = itemHolder;
-    flyAnimation = true;
     anchor = Anchor.center;
     priority = 15;
     if(newbornHedgehog!=null && newbornHedgehog==true){

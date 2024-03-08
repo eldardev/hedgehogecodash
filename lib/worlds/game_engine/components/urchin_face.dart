@@ -19,7 +19,7 @@ class UrchinFace extends PositionComponent with CollisionCallbacks {
   @override
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) {
-    if (((other is Urchin) && (other != faceHolder)) || (other is Garbage)) {
+    if (((other is Urchin) && (other != faceHolder)) || (other is Garbage  && !other.flyAnimation)) {
       faceHolder.urchinMovePause(true);
       barrierList.add(other);
     }

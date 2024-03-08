@@ -19,7 +19,7 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
   double maxSpeed = 80;
   bool isPause = false;
   List<Items> itemList = [];
-   double urchinRotationSpeed = 80;
+  double urchinRotationSpeed = 80;
   int currentCheckpointNumber = 0;
   Vector2 direction = Vector2(0, 1);
   double birthTime = 0;
@@ -46,8 +46,8 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
   void updateAnimation(double speed) {
     urchinSprite.animation?.stepTime = 20 / speed;
     urchinLightSprite.animation?.stepTime = 20 / speed;
-    if(itemList.isNotEmpty){
-      itemList.last.itemSpriteComponent.animation?.stepTime=20/speed;
+    if (itemList.isNotEmpty) {
+      itemList.last.itemSpriteComponent.animation?.stepTime = 20 / speed;
     }
   }
 
@@ -93,7 +93,7 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
 
   @override
   void update(double dt) {
-    if (isPause||!isActive) {
+    if (isPause || !isActive) {
       return;
     }
     if (dt > world.maxDeltaTime) {
@@ -119,18 +119,18 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
           currentStep.length) {
         currentCheckpointNumber += 1;
         if (currentCheckpointNumber < checkPointList.length - 1) {
-         //angle = getRotation(checkPointList[currentCheckpointNumber + 1], this);
+          //angle = getRotation(checkPointList[currentCheckpointNumber + 1], this);
 
           double angle2 =
               getAngle(position, checkPointList[currentCheckpointNumber + 1]);
           //angle= getShortAngle(urchinSprite.angle, angle2);
-        // angle=checkPointList[currentCheckpointNumber+1].angleTo(position);
+          // angle=checkPointList[currentCheckpointNumber+1].angleTo(position);
           double shortAngle = getShortAngle(this.angle, angle2);
           // print('angle='+angle.toString());
           // print('angle2='+angle2.toString());
           // print('shortAngle='+shortAngle.toString());
 
-          angle= getShortAngle(this.angle, angle2);
+          angle = getShortAngle(this.angle, angle2);
           // add(
           //   RotateEffect.to(
           //     getShortAngle(this.angle, angle2),
@@ -139,13 +139,13 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
           // );
         }
         if ((currentCheckpointNumber == checkPointList.length - 1)) {
-         // pastUrchinToStartPosition();
+          // pastUrchinToStartPosition();
           world.remove(this);
         }
       }
     }
-    if(currentSpeed<maxSpeed){
-      currentSpeed+=maxSpeed/300;
+    if (currentSpeed < maxSpeed) {
+      currentSpeed += maxSpeed / 300;
       updateAnimation(currentSpeed);
     }
     super.update(dt);
@@ -183,14 +183,14 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
           world.score += world.scoreWhenTrueExit;
         } else if (world.score >= world.scoreWhenFalseExit) {
           world.score -= world.scoreWhenFalseExit;
-        }else{
+        } else {
           world.finish(isSuccess: false);
         }
         world.setScore(world.score);
       }
 
-       // pastUrchinToStartPosition();
-      if(urchinLightSprite.scale.x>0){
+      // pastUrchinToStartPosition();
+      if (urchinLightSprite.scale.x > 0) {
         world.deactivateAllUrchin();
       }
       deActivateUrchinLight();
@@ -199,7 +199,6 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
     }
     super.onCollisionEnd(other);
   }
-
 
   void pastUrchinToStartPosition() {
     deActivateUrchinLight();
@@ -216,14 +215,14 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
       isPause = true;
       updateAnimation(minSpeed);
     } else {
-      currentSpeed=minSpeed;
+      currentSpeed = minSpeed;
       updateAnimation(currentSpeed);
       isPause = false;
     }
   }
 
-  double getRotation(Vector2 target, PositionComponent player){
+  double getRotation(Vector2 target, PositionComponent player) {
     //var heading = target.position - player.position;
-return player.position.angleTo(target)-90;
+    return player.position.angleTo(target) - 90;
   }
 }
