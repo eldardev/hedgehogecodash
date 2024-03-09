@@ -473,6 +473,10 @@
         { "kind": "run", "actor": "hedgehog", "grub": "apple", "path": "24", "delay": "1", "speed": "320", "size": "100" },
         { "kind": "run", "actor": "hedgehog", "grub": "none", "path": "24", "delay": "6", "speed": "320", "size": "100" },
         { "kind": "run", "actor": "hedgehog", "grub": "mushroom", "path": "24", "delay": "3", "speed": "350", "size": "70" },
+        {
+            "kind": "leveldone",
+            "addbonuses": "121"
+        },
         { "kind": "run", "actor": "hedgehog", "grub": "apple", "path": "24", "delay": "1", "speed": "320", "size": "100" },
         { "kind": "run", "actor": "hedgehog", "grub": "apple", "path": "24", "delay": "2", "speed": "320", "size": "100" },
         { "kind": "run", "actor": "hedgehog", "grub": "none", "path": "24", "delay": "3", "speed": "330", "size": "80" },

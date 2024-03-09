@@ -560,8 +560,12 @@ class FirstWorld extends CommonWorld
         break;
       }
     }
+    Future.delayed(Duration(milliseconds: 500));
 
     if (newUrchin == null) {
+      if(urchinList.length>6){
+        finish(isSuccess: false);
+      }
       newUrchin = Urchin(
           currentSpeed: currentUrchinSpeed,
           checkPointList: urchinPathList[currentUrchinPathList] ?? [],
