@@ -45,7 +45,7 @@ class FirstWorld extends CommonWorld
   double gameScenarioNextEventTime = 0;
   double maxDeltaTime = 0.1;
   List<Urchin> selectedUrchinList = [];
-  Basket? currentBasket;
+  List<Basket> selectedBasket = [];
   Garbage? currentGarbage;
   GarbageBasket? currentGarbageBasket;
   List<Vector2> pointList = [];
@@ -237,7 +237,7 @@ class FirstWorld extends CommonWorld
     for (var basket in basketList) {
       basket.deActivateBasketLight();
     }
-    currentBasket = null;
+    selectedBasket.clear();
   }
 
   void deactivateAllGarbage() {
@@ -250,19 +250,17 @@ class FirstWorld extends CommonWorld
   void selectCurrentUrchin({required Urchin currentUrchin}) {
     clickObjectAudio();
     // deactivateAllUrchin();
-    this.selectedUrchinList.add(currentUrchin);
+    selectedUrchinList.add(currentUrchin);
     currentUrchin.activateUrchinLight();
-    if (currentBasket != null) {
-      if ((currentBasket?.itemList.isNotEmpty ?? false) &&
+    if (selectedBasket.isNotEmpty) {
+      if ((selectedBasket.last.itemList.isNotEmpty) &&
           (currentUrchin.itemList.isEmpty)) {
-        Items? currentItem = currentBasket?.itemList.last;
-        if (currentItem != null) {
-          currentItem.itemSpriteComponent.playing = true;
-          currentItem.setNewHolder(itemHolder: currentUrchin);
-          currentUrchin.itemList.add(currentItem);
-          currentBasket?.itemList.clear();
-        }
-        deactivateAllBasket();
+        Items? currentItem = selectedBasket.last.itemList.last;
+        currentItem.itemSpriteComponent.playing = true;
+        currentItem.setNewHolder(itemHolder: currentUrchin);
+        currentUrchin.itemList.add(currentItem);
+        selectedBasket.last.itemList.clear();
+              deactivateAllBasket();
         deactivateAllUrchin();
       } else {
         deactivateAllBasket();
@@ -359,20 +357,18 @@ class FirstWorld extends CommonWorld
   void selectCurrentBasket({required Basket currentBasket}) {
     clickObjectAudio();
     deactivateAllBasket();
-    this.currentBasket = currentBasket;
+    selectedBasket.add(currentBasket);
     currentBasket.activateBasketLight();
 
     if (selectedUrchinList.isNotEmpty) {
-      if ((selectedUrchinList.last.itemList.isNotEmpty ?? false) &&
+      if ((selectedUrchinList.last.itemList.isNotEmpty) &&
           (currentBasket.itemList.isEmpty)) {
         Items? currentItem = selectedUrchinList.last.itemList.last;
-        if (currentItem != null) {
-          currentItem.itemSpriteComponent.playing = false;
-          currentItem.setNewHolder(itemHolder: currentBasket);
-          currentBasket.itemList.add(currentItem);
-          selectedUrchinList.last.itemList.clear();
-        }
-        deactivateAllBasket();
+        currentItem.itemSpriteComponent.playing = false;
+        currentItem.setNewHolder(itemHolder: currentBasket);
+        currentBasket.itemList.add(currentItem);
+        selectedUrchinList.last.itemList.clear();
+              deactivateAllBasket();
         deactivateAllUrchin();
       } else {
         deactivateAllBasket();
@@ -385,7 +381,7 @@ class FirstWorld extends CommonWorld
     deactivateAllGarbageBasket();
 
     currentBasket.activateBasketLight();
-    this.currentBasket = currentBasket;
+    selectedBasket.add(currentBasket);
   }
 
   void setScore(int score) {
@@ -572,7 +568,7 @@ class FirstWorld extends CommonWorld
           birthTime: birthTime)
         ..priority = 3
         ..scale = Vector2.all(currentScale);
-      add(newUrchin);
+
       urchinList.add(newUrchin);
     } else {
       newUrchin.updateUrchinParameter(
@@ -581,6 +577,7 @@ class FirstWorld extends CommonWorld
           newBirthTime: birthTime,
           newCheckPointList: urchinPathList[currentUrchinPathList] ?? []);
     }
+    add(newUrchin);
     print("Total urchin= "+totalUrchin.toString());
     print('Urchin COUNT = ' + urchinList.length.toString());
     print('Urchin currentSpeed = ' + newUrchin.currentSpeed.toString() + "maxSpeed= "+ newUrchin.maxSpeed.toString());

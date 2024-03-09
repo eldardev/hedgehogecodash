@@ -262,6 +262,7 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
         remove(itemList.last);
       }
     }
+    world.remove(this);
     currentCheckpointNumber = 0;
     itemList.clear();
     deActivateUrchinLight();
