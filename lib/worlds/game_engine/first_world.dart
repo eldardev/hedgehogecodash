@@ -38,10 +38,12 @@ class FirstWorld extends CommonWorld
   int scoreWhenTrueExit = 1;
   int scoreWhenFalseExit = 1;
   LevelConfig? levelConfig;
+  int totalUrchin = 0;
+  int totalItems = 0;
 
   int gameScenarioStep = 0;
   double gameScenarioNextEventTime = 0;
-  double maxDeltaTime = 0.025;
+  double maxDeltaTime = 0.1;
   List<Urchin> selectedUrchinList = [];
   Basket? currentBasket;
   Garbage? currentGarbage;
@@ -275,11 +277,11 @@ class FirstWorld extends CommonWorld
         selectedUrchinList.last.itemList.add(currentItem);
         selectedUrchinList.first.itemList.clear();
         deactivateAllUrchin();
-      }else if (selectedUrchinList.first.itemList.isEmpty &&
+      } else if (selectedUrchinList.first.itemList.isEmpty &&
           selectedUrchinList.last.itemList.isNotEmpty) {
         selectedUrchinList.first.deActivateUrchinLight();
         selectedUrchinList.remove(selectedUrchinList.first);
-      }else{
+      } else {
         deactivateAllUrchin();
         selectedUrchinList.clear();
         selectedUrchinList.add(currentUrchin);
@@ -397,19 +399,26 @@ class FirstWorld extends CommonWorld
         Scenario? currentScenarioStep =
             levelConfig?.scenario?[gameScenarioStep];
         if (currentScenarioStep != null) {
+          //----------------------------NEW URCHIN-----------------------------
           if (currentScenarioStep.actor == 'hedgehog') {
             double currentUrchinSpeed =
                 double.parse(currentScenarioStep.speed ?? '100');
             double currentScale =
                 double.parse(currentScenarioStep.scale ?? '100') / 100;
             String currentUrchinPathList = currentScenarioStep.path ?? 'none';
-            var currentUrchin = Urchin(
-                currentSpeed: currentUrchinSpeed,
-                checkPointList: urchinPathList[currentUrchinPathList] ?? [],
-                birthTime: gameScenarioNextEventTime)
-              ..priority = 3
-              ..scale = Vector2.all(currentScale);
-            add(currentUrchin);
+            // var currentUrchin = Urchin(
+            //     currentSpeed: currentUrchinSpeed,
+            //     checkPointList: urchinPathList[currentUrchinPathList] ?? [],
+            //     birthTime: gameScenarioNextEventTime)
+            //   ..priority = 3
+            //   ..scale = Vector2.all(currentScale);
+            // add(currentUrchin);
+            Urchin currentUrchin = generateNewUrchin(
+                currentUrchinSpeed,
+                currentUrchinPathList,
+                gameScenarioNextEventTime,
+                gameScenarioNextEventTime,
+                currentScale);
 
             int currentItemType = 0;
 
@@ -425,13 +434,13 @@ class FirstWorld extends CommonWorld
               currentItemType = ItemsType.pear.index;
             }
             if (currentItemType > 0) {
+              totalItems++;
+              print('Total Items= '+ totalItems.toString());
               var currentItem = Items(itemType: currentItemType);
               currentUrchin.itemList.add(currentItem);
               currentItem.setNewHolder(
                   itemHolder: currentUrchin, newbornHedgehog: true);
             }
-
-            urchinList.add(currentUrchin);
           } else
           //-----------------------------Garbage-----------------------------
           if (currentScenarioStep.kind == 'throw') {
@@ -540,6 +549,43 @@ class FirstWorld extends CommonWorld
 // void onTapDown(TapDownEvent event) {
 //   super.onTapDown(event);
 // }
+
+  Urchin generateNewUrchin(
+      double currentUrchinSpeed,
+      String currentUrchinPathList,
+      double gameScenarioNextEventTime,
+      double birthTime,
+      double currentScale) {
+    totalUrchin++;
+    Urchin? newUrchin;
+    for (Urchin urchin in urchinList) {
+      if (!urchin.isActive) {
+        newUrchin = urchin;
+        break;
+      }
+    }
+
+    if (newUrchin == null) {
+      newUrchin = Urchin(
+          currentSpeed: currentUrchinSpeed,
+          checkPointList: urchinPathList[currentUrchinPathList] ?? [],
+          birthTime: birthTime)
+        ..priority = 3
+        ..scale = Vector2.all(currentScale);
+      add(newUrchin);
+      urchinList.add(newUrchin);
+    } else {
+      newUrchin.updateUrchinParameter(
+          newScale: currentScale,
+          newSpeed: currentUrchinSpeed,
+          newBirthTime: birthTime,
+          newCheckPointList: urchinPathList[currentUrchinPathList] ?? []);
+    }
+    print("Total urchin= "+totalUrchin.toString());
+    print('Urchin COUNT = ' + urchinList.length.toString());
+    print('Urchin currentSpeed = ' + newUrchin.currentSpeed.toString() + "maxSpeed= "+ newUrchin.maxSpeed.toString());
+    return newUrchin;
+  }
 
   void finish({required bool isSuccess}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

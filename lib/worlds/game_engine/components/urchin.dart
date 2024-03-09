@@ -33,7 +33,7 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
       required this.birthTime})
       : super(size: Vector2(210, 280), anchor: Anchor.center) {
     maxSpeed = currentSpeed;
-    double bigSide = (width > height) ? width : height;
+    // double bigSide = (width > height) ? width : height;
     add(CircleHitbox(
         radius: ((width) / 2),
         anchor: Anchor.center,
@@ -110,13 +110,14 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
               normalDirectionVec.y * currentSpeed * dt)
           : Vector2(normalDirectionVec.x * currentSpeed * world.maxDeltaTime,
               normalDirectionVec.y * currentSpeed * world.maxDeltaTime);
-      if (currentStep.length > maxStepLength) {
-        currentStep = currentStep.normalized();
-      }
+      // if (currentStep.length >= maxStepLength) {
+      //   currentStep = currentStep.normalized();
+      //   print('CURRENT STEM NORMALIZED');
+      // }
 
-      position += currentStep;
-      if (position.distanceTo(checkPointList[currentCheckpointNumber + 1]) <
+      if (position.distanceTo(checkPointList[currentCheckpointNumber + 1]) <=
           currentStep.length) {
+        position = checkPointList[currentCheckpointNumber + 1];
         currentCheckpointNumber += 1;
         if (currentCheckpointNumber < checkPointList.length - 1) {
           //angle = getRotation(checkPointList[currentCheckpointNumber + 1], this);
@@ -125,7 +126,7 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
               getAngle(position, checkPointList[currentCheckpointNumber + 1]);
           //angle= getShortAngle(urchinSprite.angle, angle2);
           // angle=checkPointList[currentCheckpointNumber+1].angleTo(position);
-          double shortAngle = getShortAngle(this.angle, angle2);
+          // double shortAngle = getShortAngle(this.angle, angle2);
           // print('angle='+angle.toString());
           // print('angle2='+angle2.toString());
           // print('shortAngle='+shortAngle.toString());
@@ -138,11 +139,14 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
           //   ),
           // );
         }
-        if ((currentCheckpointNumber == checkPointList.length - 1)) {
-          // pastUrchinToStartPosition();
-          world.remove(this);
-        }
+        // if ((currentCheckpointNumber == checkPointList.length - 1)) {
+        //   // pastUrchinToStartPosition();
+        //   position = Vector2(-3000, -3000);
+        //   //world.remove(this);
+        // }
+        return;
       }
+      position += currentStep;
     }
     if (currentSpeed < maxSpeed) {
       currentSpeed += maxSpeed / 300;
@@ -193,9 +197,11 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
       if (urchinLightSprite.scale.x > 0) {
         world.deactivateAllUrchin();
       }
-      deActivateUrchinLight();
-      world.remove(this);
-      world.urchinList.remove(this);
+      clearUrchin();
+      // deActivateUrchinLight();
+      // position=Vector2(-3000, -3000);
+      // world.remove(this);
+      // world.urchinList.remove(this);
     }
     super.onCollisionEnd(other);
   }
@@ -221,8 +227,43 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
     }
   }
 
-  double getRotation(Vector2 target, PositionComponent player) {
-    //var heading = target.position - player.position;
-    return player.position.angleTo(target) - 90;
+  // double getRotation(Vector2 target, PositionComponent player) {
+  //   //var heading = target.position - player.position;
+  //   return player.position.angleTo(target) - 90;
+  // }
+  void updateUrchinParameter(
+      {required double newSpeed,
+      required double newScale,
+        required double newBirthTime,
+      required List<Vector2> newCheckPointList}) {
+    currentCheckpointNumber=0;
+    checkPointList = newCheckPointList;
+    position = checkPointList.first;
+    birthTime=newBirthTime;
+    currentSpeed = newSpeed;
+    maxSpeed = newSpeed;
+    scale = Vector2.all(newScale);
+    double angle2 =
+        getAngle(position, checkPointList[currentCheckpointNumber + 1]);
+    angle = getShortAngle(angle, angle2);
+    updateAnimation(newSpeed);
+    isActive = true;
+    isPause = false;
+  }
+
+  void clearUrchin() {
+    isActive = false;
+    position = Vector2(-5000, -5000);
+    if (itemList.isNotEmpty) {
+      final effect = MoveEffect.to(itemList.last.itemHolder?.position ?? Vector2(-200, -200), EffectController(duration: 0.1));
+      itemList.last.add(effect);
+      itemList.last.itemHolder = null;
+      if(contains(itemList.last)){
+        remove(itemList.last);
+      }
+    }
+    currentCheckpointNumber = 0;
+    itemList.clear();
+    deActivateUrchinLight();
   }
 }
