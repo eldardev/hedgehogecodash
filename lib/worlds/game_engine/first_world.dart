@@ -275,16 +275,16 @@ class FirstWorld extends CommonWorld
         selectedUrchinList.last.itemList.add(currentItem);
         selectedUrchinList.first.itemList.clear();
         deactivateAllUrchin();
-      } else if (selectedUrchinList.first.itemList.isEmpty &&
-          selectedUrchinList.last.itemList.isNotEmpty) {
+      } else  {
         selectedUrchinList.first.deActivateUrchinLight();
         selectedUrchinList.remove(selectedUrchinList.first);
-      } else {
-        deactivateAllUrchin();
-        selectedUrchinList.clear();
-        selectedUrchinList.add(currentUrchin);
-        currentUrchin.activateUrchinLight();
       }
+      // else {
+      //   deactivateAllUrchin();
+      //   selectedUrchinList.clear();
+      //   selectedUrchinList.add(currentUrchin);
+      //   currentUrchin.activateUrchinLight();
+      // }
     }
     deactivateAllGarbage();
     deactivateAllGarbageBasket();
@@ -326,13 +326,15 @@ class FirstWorld extends CommonWorld
         selectedBasketList.first.itemList.clear();
         deactivateAllBasket();
       } else {
-        selectedBasketList.first.deActivateBasketLight();
-        selectedBasketList.remove(selectedBasketList.first);
+        deactivateAllBasket();
+        selectedBasketList.clear();
+        // selectedBasketList.first.deActivateBasketLight();
+        // selectedBasketList.remove(selectedBasketList.first);
       } }else {
         deactivateAllBasket();
         selectedBasketList.clear();
-        selectedBasketList.add(currentBasket);
-        currentBasket.activateBasketLight();
+        // selectedBasketList.add(currentBasket);
+        // currentBasket.activateBasketLight();
       }
 
     deactivateAllGarbage();
