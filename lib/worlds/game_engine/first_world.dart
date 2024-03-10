@@ -45,7 +45,7 @@ class FirstWorld extends CommonWorld
   double gameScenarioNextEventTime = 0;
   double maxDeltaTime = 0.1;
   List<Urchin> selectedUrchinList = [];
-  List<Basket> selectedBasket = [];
+  List<Basket> selectedBasketList = [];
   Garbage? currentGarbage;
   GarbageBasket? currentGarbageBasket;
   List<Vector2> pointList = [];
@@ -237,7 +237,7 @@ class FirstWorld extends CommonWorld
     for (var basket in basketList) {
       basket.deActivateBasketLight();
     }
-    selectedBasket.clear();
+    selectedBasketList.clear();
   }
 
   void deactivateAllGarbage() {
@@ -252,14 +252,14 @@ class FirstWorld extends CommonWorld
     // deactivateAllUrchin();
     selectedUrchinList.add(currentUrchin);
     currentUrchin.activateUrchinLight();
-    if (selectedBasket.isNotEmpty) {
-      if ((selectedBasket.last.itemList.isNotEmpty) &&
+    if (selectedBasketList.isNotEmpty) {
+      if ((selectedBasketList.last.itemList.isNotEmpty) &&
           (currentUrchin.itemList.isEmpty)) {
-        Items? currentItem = selectedBasket.last.itemList.last;
+        Items? currentItem = selectedBasketList.last.itemList.last;
         currentItem.itemSpriteComponent.playing = true;
         currentItem.setNewHolder(itemHolder: currentUrchin);
         currentUrchin.itemList.add(currentItem);
-        selectedBasket.last.itemList.clear();
+        selectedBasketList.last.itemList.clear();
               deactivateAllBasket();
         deactivateAllUrchin();
       } else {
@@ -288,6 +288,54 @@ class FirstWorld extends CommonWorld
     }
     deactivateAllGarbage();
     deactivateAllGarbageBasket();
+  }
+  void selectCurrentBasket({required Basket currentBasket}) {
+    clickObjectAudio();
+    //   deactivateAllBasket();
+    selectedBasketList.add(currentBasket);
+    currentBasket.activateBasketLight();
+
+    if (selectedUrchinList.isNotEmpty) {
+      if ((selectedUrchinList.last.itemList.isNotEmpty) &&
+          (currentBasket.itemList.isEmpty)) {
+        Items? currentItem = selectedUrchinList.last.itemList.last;
+        currentItem.itemSpriteComponent.playing = false;
+        currentItem.setNewHolder(itemHolder: currentBasket);
+        currentBasket.itemList.add(currentItem);
+        selectedUrchinList.last.itemList.clear();
+        deactivateAllBasket();
+        deactivateAllUrchin();
+      } else{
+
+        deactivateAllBasket();
+        deactivateAllUrchin();
+        // if ((currentUrchin?.itemList.isEmpty ?? false))
+        //   print('currentUrchin?.item = NULL');
+      }
+    } else if (selectedBasketList.length == 2) {
+      if (selectedBasketList.first.itemList.isNotEmpty &&
+          selectedBasketList.last.itemList.isEmpty) {
+        Items? currentItem = selectedBasketList.first.itemList.last;
+        currentItem.itemSpriteComponent.playing = false;
+        currentItem.setNewHolder(itemHolder: selectedBasketList.last);
+        selectedBasketList.last.itemList.add(currentItem);
+        selectedBasketList.first.itemList.clear();
+        deactivateAllBasket();
+      } else if (selectedBasketList.first.itemList.isEmpty) {
+        selectedBasketList.first.deActivateBasketLight();
+        selectedBasketList.remove(selectedBasketList.first);
+      } else {
+        deactivateAllBasket();
+        selectedBasketList.clear();
+        selectedBasketList.add(currentBasket);
+        currentBasket.activateBasketLight();
+      }
+    }
+    deactivateAllGarbage();
+    deactivateAllGarbageBasket();
+
+    currentBasket.activateBasketLight();
+    selectedBasketList.add(currentBasket);
   }
 
   void selectCurrentGarbage({required Garbage currentGarbage}) {
@@ -352,36 +400,6 @@ class FirstWorld extends CommonWorld
         };
       garbage?.add(effectMoveToo1);
     }
-  }
-
-  void selectCurrentBasket({required Basket currentBasket}) {
-    clickObjectAudio();
-    deactivateAllBasket();
-    selectedBasket.add(currentBasket);
-    currentBasket.activateBasketLight();
-
-    if (selectedUrchinList.isNotEmpty) {
-      if ((selectedUrchinList.last.itemList.isNotEmpty) &&
-          (currentBasket.itemList.isEmpty)) {
-        Items? currentItem = selectedUrchinList.last.itemList.last;
-        currentItem.itemSpriteComponent.playing = false;
-        currentItem.setNewHolder(itemHolder: currentBasket);
-        currentBasket.itemList.add(currentItem);
-        selectedUrchinList.last.itemList.clear();
-              deactivateAllBasket();
-        deactivateAllUrchin();
-      } else {
-        deactivateAllBasket();
-        deactivateAllUrchin();
-        // if ((currentUrchin?.itemList.isEmpty ?? false))
-        //   print('currentUrchin?.item = NULL');
-      }
-    }
-    deactivateAllGarbage();
-    deactivateAllGarbageBasket();
-
-    currentBasket.activateBasketLight();
-    selectedBasket.add(currentBasket);
   }
 
   void setScore(int score) {
@@ -560,7 +578,7 @@ class FirstWorld extends CommonWorld
         break;
       }
     }
-    Future.delayed(Duration(milliseconds: 500));
+    Future.delayed(const Duration(milliseconds: 500));
 
     if (newUrchin == null) {
       if(urchinList.length>6){
