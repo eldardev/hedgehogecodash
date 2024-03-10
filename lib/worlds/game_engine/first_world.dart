@@ -292,6 +292,10 @@ class FirstWorld extends CommonWorld
   void selectCurrentBasket({required Basket currentBasket}) {
     clickObjectAudio();
     //   deactivateAllBasket();
+    if(selectedBasketList.contains(currentBasket)){
+      deactivateAllBasket();
+      return;
+    }
     selectedBasketList.add(currentBasket);
     currentBasket.activateBasketLight();
 
@@ -321,16 +325,16 @@ class FirstWorld extends CommonWorld
         selectedBasketList.last.itemList.add(currentItem);
         selectedBasketList.first.itemList.clear();
         deactivateAllBasket();
-      } else if (selectedBasketList.first.itemList.isEmpty) {
+      } else {
         selectedBasketList.first.deActivateBasketLight();
         selectedBasketList.remove(selectedBasketList.first);
-      } else {
+      } }else {
         deactivateAllBasket();
         selectedBasketList.clear();
         selectedBasketList.add(currentBasket);
         currentBasket.activateBasketLight();
       }
-    }
+
     deactivateAllGarbage();
     deactivateAllGarbageBasket();
 
