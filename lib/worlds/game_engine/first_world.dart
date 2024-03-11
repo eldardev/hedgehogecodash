@@ -68,7 +68,6 @@ class FirstWorld extends CommonWorld
 
   @override
   Future<void> onLoad() async {
-
     //'maps/$levelBgName',
     await Flame.images.loadAll([
       'maps/002.png',
@@ -107,7 +106,6 @@ class FirstWorld extends CommonWorld
     super.onLoad();
   }
 
-
   Future<void> startGame() async {
     //removeAll(children);
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -127,7 +125,7 @@ class FirstWorld extends CommonWorld
     add(Background(levelBgName));
 
     //--------------------------------------------------
-    add(MainMenuButton()..position=Vector2(10, 57));
+    add(MainMenuButton()..position = Vector2(10, 57));
     //-------------------BASKET_(BUFFER)_ARRAY------------------------
     List<Buffer> bufferList = levelConfig?.buffers ?? [];
 
@@ -145,7 +143,7 @@ class FirstWorld extends CommonWorld
     for (var trash in trashList) {
       MultiGarbageBasketPOMP multiGarbageBasketPOMP = MultiGarbageBasketPOMP()
         ..position =
-        Vector2(double.parse(trash.x ?? '0'), double.parse(trash.y ?? '0'));
+            Vector2(double.parse(trash.x ?? '0'), double.parse(trash.y ?? '0'));
       add(multiGarbageBasketPOMP);
     }
     //------------------------------------------------------
@@ -153,7 +151,7 @@ class FirstWorld extends CommonWorld
     List<Point> pointListInJson = levelConfig?.points ?? [];
     for (var point in pointListInJson) {
       Vector2 currentPosition =
-      Vector2(double.parse(point.x ?? '0'), double.parse(point.y ?? '0'));
+          Vector2(double.parse(point.x ?? '0'), double.parse(point.y ?? '0'));
       pointList.add(currentPosition);
       List<int> exitAllowedItemsList = [];
       List<String>? currentAllowedGrubsList = point.allowedgrubs;
@@ -235,7 +233,7 @@ class FirstWorld extends CommonWorld
 
   @override
   void onMount() {
-   // startGame();
+    // startGame();
     super.onMount();
   }
 
@@ -280,7 +278,7 @@ class FirstWorld extends CommonWorld
         currentItem.setNewHolder(itemHolder: currentUrchin);
         currentUrchin.itemList.add(currentItem);
         selectedBasketList.last.itemList.clear();
-              deactivateAllBasket();
+        deactivateAllBasket();
         deactivateAllUrchin();
       } else {
         deactivateAllBasket();
@@ -295,7 +293,7 @@ class FirstWorld extends CommonWorld
         selectedUrchinList.last.itemList.add(currentItem);
         selectedUrchinList.first.itemList.clear();
         deactivateAllUrchin();
-      } else  {
+      } else {
         selectedUrchinList.first.deActivateUrchinLight();
         selectedUrchinList.remove(selectedUrchinList.first);
       }
@@ -309,10 +307,11 @@ class FirstWorld extends CommonWorld
     deactivateAllGarbage();
     deactivateAllGarbageBasket();
   }
+
   void selectCurrentBasket({required Basket currentBasket}) {
     clickObjectAudio();
     //   deactivateAllBasket();
-    if(selectedBasketList.contains(currentBasket)){
+    if (selectedBasketList.contains(currentBasket)) {
       deactivateAllBasket();
       return;
     }
@@ -329,8 +328,7 @@ class FirstWorld extends CommonWorld
         selectedUrchinList.last.itemList.clear();
         deactivateAllBasket();
         deactivateAllUrchin();
-      } else{
-
+      } else {
         deactivateAllBasket();
         deactivateAllUrchin();
         // if ((currentUrchin?.itemList.isEmpty ?? false))
@@ -350,12 +348,13 @@ class FirstWorld extends CommonWorld
         selectedBasketList.clear();
         // selectedBasketList.first.deActivateBasketLight();
         // selectedBasketList.remove(selectedBasketList.first);
-      } }else {
-        deactivateAllBasket();
-        selectedBasketList.clear();
-        // selectedBasketList.add(currentBasket);
-        // currentBasket.activateBasketLight();
       }
+    } else {
+      deactivateAllBasket();
+      selectedBasketList.clear();
+      // selectedBasketList.add(currentBasket);
+      // currentBasket.activateBasketLight();
+    }
 
     deactivateAllGarbage();
     deactivateAllGarbageBasket();
@@ -433,6 +432,9 @@ class FirstWorld extends CommonWorld
   void setScore(int score) {
     this.score = score;
     scoreText2.text = '$score';
+    if (score < 0) {
+      finish(isSuccess: false);
+    }
   }
 
   void gameScenario() {
@@ -477,7 +479,7 @@ class FirstWorld extends CommonWorld
             }
             if (currentItemType > 0) {
               totalItems++;
-              print('Total Items= '+ totalItems.toString());
+              print('Total Items= ' + totalItems.toString());
               var currentItem = Items(itemType: currentItemType);
               currentUrchin.itemList.add(currentItem);
               currentItem.setNewHolder(
@@ -548,8 +550,7 @@ class FirstWorld extends CommonWorld
   }
 
   void playBgAudio() {
-    FlameAudio.bgm.play(
-        'music/bg_music.wav');
+    FlameAudio.bgm.play('music/bg_music.wav');
   }
 
   void clickObjectAudio() {
@@ -571,9 +572,12 @@ class FirstWorld extends CommonWorld
   void paperAudioPlay() {
     FlameAudio.play('sound/paperGarbage.wav');
   }
+
   void trueGarbageAudioPlay() {
     FlameAudio.play('sound/true_garbage.wav');
-  }  void errorGarbageAudioPlay() {
+  }
+
+  void errorGarbageAudioPlay() {
     FlameAudio.play('sound/garbage_error.wav');
   }
 
@@ -633,9 +637,12 @@ class FirstWorld extends CommonWorld
           newCheckPointList: urchinPathList[currentUrchinPathList] ?? []);
     }
     add(newUrchin);
-    print("Total urchin= "+totalUrchin.toString());
+    print("Total urchin= " + totalUrchin.toString());
     print('Urchin COUNT = ' + urchinList.length.toString());
-    print('Urchin currentSpeed = ' + newUrchin.currentSpeed.toString() + "maxSpeed= "+ newUrchin.maxSpeed.toString());
+    print('Urchin currentSpeed = ' +
+        newUrchin.currentSpeed.toString() +
+        "maxSpeed= " +
+        newUrchin.maxSpeed.toString());
     return newUrchin;
   }
 
