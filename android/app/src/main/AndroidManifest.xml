@@ -2,7 +2,7 @@
     <application
         android:label="urchin"
         android:name="${applicationName}"
-        android:icon="@mipmap/myAppIcon">
+        android:icon="@mipmap/myappicon">
         <activity
             android:name=".MainActivity"
             android:exported="true"
