@@ -70,6 +70,7 @@ class FirstWorld extends CommonWorld
   Future<void> onLoad() async {
     //'maps/$levelBgName',
     await Flame.images.loadAll([
+      'maps/001.png',
       'maps/002.png',
       'menu/menu_button.png',
       'stump.png',
@@ -102,14 +103,33 @@ class FirstWorld extends CommonWorld
       'garbage/plasticGarbageBasket.png',
       'garbage/sortGarbageButton.png'
     ]);
-    startGame();
+    // startGame();
     super.onLoad();
   }
 
   Future<void> startGame() async {
+    // selectedUrchinList.clear();
+    // selectedBasketList.clear();
+    // pointList.clear();
+    // basketList.clear();
+    // levelConfig=null;
+    // gameScenarioStep=0;
+    deactivateAllBasket();
+    deactivateAllUrchin();
+    deactivateAllGarbage();
+    deactivateAllGarbageBasket();
+    gameScenarioStep=0;
+    // for(var a in urchinList){
+    //   a.isActive=false;
+    //   a.clearUrchin();
+    // }
+    score=0;
+
+
+
     //removeAll(children);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    levelNumber = prefs.getInt('currentLevel') ?? 4;
+    levelNumber = 4;//prefs.getInt('currentLevel') ?? 4;
     FlameAudio.bgm.initialize();
     playBgAudio();
 
@@ -233,7 +253,7 @@ class FirstWorld extends CommonWorld
 
   @override
   void onMount() {
-    // startGame();
+    startGame();
     super.onMount();
   }
 
@@ -550,11 +570,11 @@ class FirstWorld extends CommonWorld
   }
 
   void playBgAudio() {
-    FlameAudio.bgm.play('music/bg_music.wav');
+    FlameAudio.bgm.play('music/bg_music.mp3');
   }
 
   void clickObjectAudio() {
-    FlameAudio.play('sound/select.wav');
+    FlameAudio.play('sound/select.mp3');
   }
 
   void metalCanAudioPlay() {
@@ -562,23 +582,23 @@ class FirstWorld extends CommonWorld
   }
 
   void plasticBottleAudioPlay() {
-    FlameAudio.play('sound/plasticBottle.wav');
+    FlameAudio.play('sound/plasticBottle.mp3');
   }
 
   void organicAudioPlay() {
-    FlameAudio.play('sound/organicGarbage.wav');
+    FlameAudio.play('sound/organicGarbage.mp3');
   }
 
   void paperAudioPlay() {
-    FlameAudio.play('sound/paperGarbage.wav');
+    FlameAudio.play('sound/paperGarbage.mp3');
   }
 
   void trueGarbageAudioPlay() {
-    FlameAudio.play('sound/true_garbage.wav');
+    FlameAudio.play('sound/true_garbage.mp3');
   }
 
   void errorGarbageAudioPlay() {
-    FlameAudio.play('sound/garbage_error.wav');
+    FlameAudio.play('sound/garbage_error.mp3');
   }
 
   void playGarbageAudio(int garbageType) {

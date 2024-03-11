@@ -1,7 +1,7 @@
 {
     "common": {
-        "protocol": "0.0.2",
-        "created": "2024-02-26",
+        "protocol": "0.0.3",
+        "created": "2024-02-29",
         "levelname": "Scene 3 with garbage",
         "width": "",
         "height": "",
@@ -11,7 +11,7 @@
         },
         "score": {
             "x": "280",
-            "y": "45"
+            "y": "40"
         },
         "logo": {
             "kind": "0",
@@ -93,20 +93,20 @@
     "points": [
         {
             "id": "1",
-            "x": "2315",
+            "x": "2650",
             "y": "560"
         },
         {
             "id": "2",
             "x": "1453",
-            "y": "9",
+            "y": "-250",
             "allowedgrubs": [
                               "apple"
                             ]
         },
         {
             "id": "3",
-            "x": "60",
+            "x": "-250",
             "y": "1005",
             "allowedgrubs": [
                               "cherry"

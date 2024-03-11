@@ -50,6 +50,6 @@ class LevelDoneWorld extends CommonWorld {
 
   void playBgMusic() {
     FlameAudio.bgm.initialize();
-    FlameAudio.bgm.play('music/bg_music.wav');
+    FlameAudio.bgm.play('music/bg_music.mp3');
   }
 }

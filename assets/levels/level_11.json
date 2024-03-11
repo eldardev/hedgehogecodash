@@ -1,0 +1,786 @@
+{
+    "common": {
+        "protocol": "0.0.3",
+        "created": "2024-03-05",
+        "levelname": "Scene 10 double helix",
+        "width": "",
+        "height": "",
+        "background": {
+            "kind": "0",
+            "name": "007.png"
+        },
+        "score": {
+            "x": "280",
+            "y": "40"
+        },
+        "logo": {
+            "kind": "0",
+            "x": "1173",
+            "y": "464",
+            "angle": "-30"
+        }
+    },
+    
+    "actors": [
+        {
+          "kind": "0",
+          "name": "hedgehog"
+        }
+    ],
+    "grubs": [
+        {
+           "kind": "0",
+           "name": "apple"
+        },
+        {
+           "kind": "1",
+           "name": "mushroom"
+        },
+        {
+           "kind": "2",
+           "name": "cherry"
+        },
+        {
+           "kind": "3",
+           "name": "pear"
+        }
+
+
+
+    ],
+
+
+    "trashes": [
+        {
+            "kind": "0",
+            "name": "paperwaste"
+        },
+        {
+            "kind": "1",
+            "name": "plasticwaste"
+        },
+        {
+            "kind": "2",
+            "name": "metalwaste"
+        },
+        {
+            "kind": "3",
+            "name": "otherwaste"
+        }
+
+    ],
+
+
+
+    "trashbox": [
+        {
+            "x": "2103",
+            "y": "179",
+            "kind": "0",
+            "items": [
+                       "paperwaste",
+                       "plasticwaste",
+                       "metalwaste",
+                       "otherwaste"
+                     ]
+        }
+    ],
+    
+    "buffers":[
+                 {
+                   "kind": "0",
+                   "name": "stub",
+                   "x": "813",
+                   "y": "181",
+                   "angle": "0"
+                 },
+
+                 {
+                   "kind": "0",
+                   "name": "stub",
+                   "x": "1273",
+                   "y": "585",
+                   "angle": "0"
+                 },
+
+                 {
+                   "kind": "0",
+                   "name": "stub",
+                   "x": "1835",
+                   "y": "929",
+                   "angle": "0"
+                 }
+
+              ],
+
+    "exitmarks":[
+        {
+            "kind": "0",
+            "name": "applemark",
+            "x": "147",
+            "y": "513",
+            "angle": "0"
+        },
+
+        {
+            "kind": "3",
+            "name": "pearmark",
+            "x": "321",
+            "y": "523",
+            "angle": "0"
+        },
+
+
+        {
+            "kind": "4",
+            "name": "mushroommark",
+            "x": "487",
+            "y": "541",
+            "angle": "0"
+        },
+
+
+        {
+            "kind": "0",
+            "name": "applemark",
+            "x": "1971",
+            "y": "575",
+            "angle": "0"
+        },
+
+        {
+            "kind": "3",
+            "name": "pearmark",
+            "x": "2115",
+            "y": "601",
+            "angle": "0"
+        },
+
+
+        {
+            "kind": "4",
+            "name": "mushroommark",
+            "x": "2285",
+            "y": "629",
+            "angle": "0"
+        }
+
+
+
+    ],
+    
+    "points": [
+        {
+            "id": "1",
+            "x": "1620",
+            "y": "-250"
+        },
+
+        {
+            "id": "2",
+            "x": "1303",
+            "y": "-250"
+        },
+
+        {
+            "id": "3",
+            "x": "1445",
+            "y": "1130"
+        },
+
+        {
+            "id": "4",
+            "x": "853",
+            "y": "1130"
+        },
+
+        {
+            "id": "5",
+            "x": "2650",
+            "y": "601",
+            "allowedgrubs": [
+                              "apple"
+                            , "pear"
+                            , "mushroom"
+                            ]
+        },
+
+        {
+            "id": "6",
+            "x": "-250",
+            "y": "461",
+            "allowedgrubs": [
+                              "apple"
+                            , "pear"
+                            , "cherry"
+                            ]
+        },
+
+
+        {
+            "id": "7",
+            "x": "1399",
+            "y": "191"
+        },
+
+        {
+            "id": "8",
+            "x": "1181",
+            "y": "873"
+        },
+
+        {
+            "id": "9",
+            "x": "1565",
+            "y": "669"
+        },
+
+        {
+            "id": "10",
+            "x": "1627",
+            "y": "453"
+        },
+
+        {
+            "id": "11",
+            "x": "1103",
+            "y": "305"
+        },
+
+        {
+            "id": "12",
+            "x": "891",
+            "y": "431"
+        },
+
+        {
+            "id": "13",
+            "x": "643",
+            "y": "685"
+        },
+
+        {
+            "id": "14",
+            "x": "1841",
+            "y": "425"
+        },
+
+
+        {
+            "id": "15",
+            "x": "775",
+            "y": "909"
+        },
+
+        {
+            "id": "16",
+            "x": "1781",
+            "y": "701"
+        },
+
+        {
+            "id": "17",
+            "x": "1377",
+            "y": "347"
+        },
+
+        {
+            "id": "19",
+            "x": "2061",
+            "y": "567"
+        },
+
+        {
+            "id": "20",
+            "x": "567",
+            "y": "539"
+        },
+
+        {
+            "id": "21",
+            "x": "1665",
+            "y": "271"
+        },
+
+        {
+            "id": "22",
+            "x": "1117",
+            "y": "467"
+        },
+
+        {
+            "id": "21",
+            "x": "1669",
+            "y": "263"
+        },
+
+        {
+            "id": "22",
+            "x": "1073",
+            "y": "461"
+        },
+
+        {
+            "id": "23",
+            "x": "981",
+            "y": "677"
+        },
+
+        {
+            "id": "24",
+            "x": "1003",
+            "y": "807"
+        }
+
+
+
+    ],
+
+
+    "paths": [
+        {
+            "name": "16",
+            "points": [
+                "1",
+                "7",
+                "22",
+                "13",
+                "15",
+                "8",
+                "25",
+                "9",
+                "10",
+                "17",
+                "12",
+                "20",
+                "6"
+
+            ]
+        },
+
+
+        {
+            "name": "25",
+            "points": [
+                "1",
+                "11",
+                "22",
+                "23",
+                "24",
+                "14",
+                "16",
+                "19",
+                "5"            ]
+        },
+
+
+        {
+            "name": "35",
+            "points": [
+                "3",
+                "9",
+                "10",
+                "14",
+                "21",
+                "7",
+                "22",
+                "23",
+                "24",
+                "14",
+                "16",
+                "19",
+                "5"
+            ]
+        },
+
+        {
+            "name": "46",
+            "points": [
+                "4",
+                "8",
+                "25",
+                "9",
+                "10",
+                "17",
+                "12",
+                "20",
+                "6"
+            ]
+        }
+
+
+    ],
+    "scenario": [
+        {
+            "kind": "newsound",
+            "sound": "watchfulintro1",
+            "startfrom": "0",
+            "loud": "1"
+        },
+
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "apple", "delay": "3", "speed": "200", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "pear", "delay": "3", "speed": "180", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "mushroom", "delay": "3", "speed": "210", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "cherry", "delay": "3", "speed": "150", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "32", "grub": "none", "delay": "3", "speed": "220", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "none", "delay": "3", "speed": "200", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "none", "delay": "3", "speed": "180", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "pear", "delay": "3", "speed": "210", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "23", "grub": "apple", "delay": "3", "speed": "150", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "pear", "delay": "3", "speed": "220", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "mushroom", "delay": "3", "speed": "200", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "cherry", "delay": "3", "speed": "180", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "none", "delay": "3", "speed": "210", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "pear", "delay": "3", "speed": "150", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "none", "delay": "3", "speed": "220", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "apple ", "delay": "3", "speed": "200", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "apple", "delay": "3", "speed": "180", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "cherry", "delay": "3", "speed": "210", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "32", "grub": "apple", "delay": "3", "speed": "150", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "mushrom", "delay": "3", "speed": "220", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "pear", "delay": "3", "speed": "200", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "none", "delay": "3", "speed": "180", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "23", "grub": "pear", "delay": "3", "speed": "210", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "none", "delay": "3", "speed": "150", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "none", "delay": "3", "speed": "220", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "apple ", "delay": "3", "speed": "200", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "apple", "delay": "3", "speed": "180", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "cherry", "delay": "3", "speed": "210", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "apple", "delay": "3", "speed": "150", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "mushrom", "delay": "3", "speed": "220", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "pear", "delay": "3", "speed": "200", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "none", "delay": "3", "speed": "180", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "32", "grub": "none", "delay": "3", "speed": "210", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "apple ", "delay": "3", "speed": "150", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "apple", "delay": "3", "speed": "220", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "cherry", "delay": "3", "speed": "200", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "23", "grub": "apple", "delay": "3", "speed": "180", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "apple ", "delay": "3", "speed": "210", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "apple", "delay": "3", "speed": "150", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "cherry", "delay": "3", "speed": "220", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "apple", "delay": "3", "speed": "200", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "mushrom", "delay": "3", "speed": "180", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "pear", "delay": "3", "speed": "210", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "apple ", "delay": "3", "speed": "150", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "apple ", "delay": "3", "speed": "220", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "apple", "delay": "3", "speed": "200", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "32", "grub": "cherry", "delay": "3", "speed": "180", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "apple", "delay": "3", "speed": "210", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "mushrom", "delay": "3", "speed": "150", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "pear", "delay": "3", "speed": "220", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "23", "grub": "none", "delay": "3", "speed": "200", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "none", "delay": "3", "speed": "180", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "mushrom", "delay": "3", "speed": "210", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "mushrom", "delay": "3", "speed": "150", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "none", "delay": "3", "speed": "220", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "none", "delay": "3", "speed": "200", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "cherry", "delay": "3", "speed": "180", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "cherry", "delay": "3", "speed": "210", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "cherry", "delay": "3", "speed": "150", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "cherry", "delay": "3", "speed": "220", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "32", "grub": "mushroom", "delay": "3", "speed": "200", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "mushroom", "delay": "3", "speed": "180", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "mushroom", "delay": "3", "speed": "210", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "mushroom", "delay": "3", "speed": "150", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "23", "grub": "none", "delay": "3", "speed": "220", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "none", "delay": "3", "speed": "200", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "apple", "delay": "3", "speed": "180", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "none", "delay": "3", "speed": "210", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "mushrom", "delay": "3", "speed": "150", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "mushrom", "delay": "3", "speed": "220", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "cherry", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "none", "delay": "9", "speed": "100", "size": "150" },
+        {
+            "kind": "silence",
+            "delay": "2"
+        },
+        {
+            "kind": "newsound",
+            "sound": "trashincome",
+            "startfrom": "0",
+            "loud": "2"
+        },
+        {
+            "kind": "throw",
+            "trash": "otherwaste",
+            "point": "19",
+            "angle": "270"
+        },
+
+
+        {
+            "kind": "throw",
+            "trash": "plasticwaste",
+            "point": "20",
+            "angle": "-45"
+        },
+
+        {
+            "kind": "throw",
+            "trash": "otherwaste",
+            "point": "17",
+            "angle": "45"
+        },
+
+
+        {
+            "kind": "silence",
+            "delay": "4"
+        },
+
+
+
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "apple", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "pear", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "mushroom", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "cherry", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "32", "grub": "none", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "none", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "none", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "pear", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "23", "grub": "apple", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "pear", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "mushroom", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "cherry", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "none", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "pear", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "none", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "apple ", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "apple", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "cherry", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "32", "grub": "apple", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "mushrom", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "pear", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "none", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "23", "grub": "pear", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "none", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "none", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "apple ", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "apple", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "cherry", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "apple", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "mushrom", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "pear", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "none", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "32", "grub": "none", "delay": "3", "speed": "210", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "apple ", "delay": "3", "speed": "150", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "apple", "delay": "3", "speed": "220", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "cherry", "delay": "3", "speed": "200", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "23", "grub": "apple", "delay": "3", "speed": "180", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "apple ", "delay": "3", "speed": "210", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "apple", "delay": "3", "speed": "150", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "cherry", "delay": "3", "speed": "220", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "apple", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "mushrom", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "pear", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "apple ", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "apple ", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "apple", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "32", "grub": "cherry", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "apple", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "mushrom", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "pear", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "23", "grub": "none", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "none", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "mushrom", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "mushrom", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "none", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "none", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "cherry", "delay": "3", "speed": "180", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "cherry", "delay": "3", "speed": "210", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "cherry", "delay": "3", "speed": "150", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "cherry", "delay": "3", "speed": "220", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "32", "grub": "mushroom", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "mushroom", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "mushroom", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "mushroom", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "23", "grub": "none", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "none", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "apple", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "none", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "mushrom", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "mushrom", "delay": "3", "speed": "350", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "cherry", "delay": "3", "speed": "300", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "none", "delay": "9", "speed": "350", "size": "150" },
+
+        {
+            "kind": "silence",
+            "delay": "2"
+        },
+        {
+            "kind": "newsound",
+            "sound": "trashincome",
+            "startfrom": "0",
+            "loud": "2"
+        },
+        {
+            "kind": "throw",
+            "trash": "otherwaste",
+            "point": "12",
+            "angle": "270"
+        },
+
+
+        {
+            "kind": "throw",
+            "trash": "otherwaste",
+            "point": "8",
+            "angle": "-45"
+        },
+
+        {
+            "kind": "throw",
+            "trash": "otherwaste",
+            "point": "9",
+            "angle": "45"
+        },
+
+
+        {
+            "kind": "throw",
+            "trash": "otherwaste",
+            "point": "16",
+            "angle": "-45"
+        },
+
+
+        {
+            "kind": "throw",
+            "trash": "otherwaste",
+            "point": "15",
+            "angle": "0"
+        },
+
+
+        {
+            "kind": "silence",
+            "delay": "4"
+        },
+
+
+
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "mushroom", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "mushroom", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "apple", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "mushroom", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "32", "grub": "mushroom", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "23", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "pear", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "cherry", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "cherry", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "pear", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "cherry", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "cherry", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "32", "grub": "pear", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "23", "grub": "mushroom", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "mushroom", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "pear", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "mushroom", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "mushroom", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "pear", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "apple", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "32", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "cherry", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "cherry", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "cherry", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "23", "grub": "cherry", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "cherry", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "pear", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "mushroom", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "mushroom", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "32", "grub": "mushroom", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "pear", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "mushroom", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "23", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "pear", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "cherry", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "cherry", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "cherry", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "cherry", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "cherry", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "32", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "apple", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "23", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "25", "grub": "none", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "apple", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "35", "grub": "mushroom", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "mushroom", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "46", "grub": "pear", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "mushroom", "delay": "3", "speed": "400", "size": "100" },
+        { "kind": "run", "actor": "hedgehog", "path": "16", "grub": "none", "delay": "9", "speed": "400", "size": "150" },
+
+
+
+        {
+            "kind": "silence",
+            "delay": "2"
+        },
+        {
+            "kind": "newsound",
+            "sound": "trashincome",
+            "startfrom": "0",
+            "loud": "2"
+        },
+        {
+            "kind": "throw",
+            "trash": "plasticwaste",
+            "point": "14",
+            "angle": "100"
+        },
+
+
+        {
+            "kind": "throw",
+            "trash": "metalwaste",
+            "point": "12",
+            "angle": "-45"
+        },
+
+        {
+            "kind": "throw",
+            "trash": "plasticwaste",
+            "point": "10",
+            "angle": "45"
+        },
+
+
+        {
+            "kind": "silence",
+            "delay": "4"
+        },
+
+
+        {
+            "kind": "leveldone",
+            "addbonuses": "121"
+        }
+
+
+
+
+
+    ]
+}

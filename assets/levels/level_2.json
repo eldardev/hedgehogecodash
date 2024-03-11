@@ -1,7 +1,7 @@
 {
     "common": {
-        "protocol": "0.0.2",
-        "created": "2024-02-26",
+        "protocol": "0.0.3",
+        "created": "2024-02-29",
         "levelname": "Scene 2",
         "width": "",
         "height": "",
@@ -11,7 +11,7 @@
         },
         "score": {
             "x": "280",
-            "y": "45"
+            "y": "40"
         },
         "logo": {
             "kind": "0",
@@ -75,20 +75,20 @@
     "points": [
         {
                 "id": "1",
-                "x": "0",
-                "y": "956"
+                "x": "-250",
+                "y": "1130"
         },
         {
                 "id": "2",
                 "x": "1472",
-                "y": "31",
+                "y": "-250",
                 "allowedgrubs": [
                     "mushroom"
                 ]
         },
         {
                 "id": "3",
-                "x": "2350",
+                "x": "2650",
                 "y": "582",
                 "allowedgrubs": [
                     "apple"
