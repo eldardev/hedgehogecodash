@@ -18,6 +18,7 @@ import 'package:urchin/worlds/game_engine/components/garbage_basket.dart';
 import 'package:urchin/worlds/game_engine/components/garbage_type.dart';
 import 'package:urchin/worlds/game_engine/components/items.dart';
 import 'package:urchin/worlds/game_engine/components/items_type.dart';
+import 'package:urchin/worlds/game_engine/components/menu_button.dart';
 import 'package:urchin/worlds/game_engine/components/multi_garbage_basket_pomp.dart';
 import 'package:urchin/worlds/game_engine/loader/level_config.dart';
 import 'package:urchin/worlds/game_engine/loader/level_loader.dart';
@@ -81,6 +82,7 @@ class FirstWorld extends CommonWorld
     score = 0;
     await Flame.images.loadAll([
       'maps/$levelBgName',
+      'menu/menu_button.png',
       'stump.png',
       'lightStump.png',
       'lightUrchin.png',
@@ -114,6 +116,7 @@ class FirstWorld extends CommonWorld
     //-------------------BACKGROUND------------------------
     add(Background(levelBgName));
     //--------------------------------------------------
+    add(MainMenuButton()..position=Vector2(10, 57));
     //-------------------BASKET_(BUFFER)_ARRAY------------------------
     List<Buffer> bufferList = levelConfig?.buffers ?? [];
 
