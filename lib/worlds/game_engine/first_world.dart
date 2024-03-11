@@ -68,20 +68,10 @@ class FirstWorld extends CommonWorld
 
   @override
   Future<void> onLoad() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    levelNumber = prefs.getInt('currentLevel') ?? 4;
-    FlameAudio.bgm.initialize();
-    playBgAudio();
 
-    levelConfig = await LevelLoader.fetchLevel(levelNumber);
-    String levelBgName = levelConfig?.common?.background?.name ?? '001.png';
-    Vector2 scoreTextPosition = Vector2(
-        double.parse(levelConfig?.common?.score?.x ?? '0'),
-        double.parse(levelConfig?.common?.score?.y ?? '0'));
-    debugMode = false;
-    score = 0;
     await Flame.images.loadAll([
-      'maps/$levelBgName',
+      //'maps/$levelBgName',
+      'maps/002.png',
       'menu/menu_button.png',
       'stump.png',
       'lightStump.png',
@@ -113,8 +103,28 @@ class FirstWorld extends CommonWorld
       'garbage/plasticGarbageBasket.png',
       'garbage/sortGarbageButton.png'
     ]);
+    super.onLoad();
+  }
+
+
+  Future<void> startGame() async {
+    //removeAll(children);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    levelNumber = prefs.getInt('currentLevel') ?? 4;
+    FlameAudio.bgm.initialize();
+    playBgAudio();
+
+    levelConfig = await LevelLoader.fetchLevel(levelNumber);
+    String levelBgName = levelConfig?.common?.background?.name ?? '001.png';
+    Vector2 scoreTextPosition = Vector2(
+        double.parse(levelConfig?.common?.score?.x ?? '0'),
+        double.parse(levelConfig?.common?.score?.y ?? '0'));
+    debugMode = false;
+    score = 0;
+
     //-------------------BACKGROUND------------------------
     add(Background(levelBgName));
+
     //--------------------------------------------------
     add(MainMenuButton()..position=Vector2(10, 57));
     //-------------------BASKET_(BUFFER)_ARRAY------------------------
@@ -134,7 +144,7 @@ class FirstWorld extends CommonWorld
     for (var trash in trashList) {
       MultiGarbageBasketPOMP multiGarbageBasketPOMP = MultiGarbageBasketPOMP()
         ..position =
-            Vector2(double.parse(trash.x ?? '0'), double.parse(trash.y ?? '0'));
+        Vector2(double.parse(trash.x ?? '0'), double.parse(trash.y ?? '0'));
       add(multiGarbageBasketPOMP);
     }
     //------------------------------------------------------
@@ -142,7 +152,7 @@ class FirstWorld extends CommonWorld
     List<Point> pointListInJson = levelConfig?.points ?? [];
     for (var point in pointListInJson) {
       Vector2 currentPosition =
-          Vector2(double.parse(point.x ?? '0'), double.parse(point.y ?? '0'));
+      Vector2(double.parse(point.x ?? '0'), double.parse(point.y ?? '0'));
       pointList.add(currentPosition);
       List<int> exitAllowedItemsList = [];
       List<String>? currentAllowedGrubsList = point.allowedgrubs;
@@ -219,7 +229,13 @@ class FirstWorld extends CommonWorld
         textRenderer: textPaintYellow);
     // add(scoreText1);
     add(scoreText2);
-    super.onLoad();
+    super.onMount();
+  }
+
+  @override
+  void onMount() {
+    startGame();
+    super.onMount();
   }
 
   void deactivateAllUrchin() {
@@ -399,9 +415,11 @@ class FirstWorld extends CommonWorld
         EffectController(duration: 0.5),
       )..onComplete = () {
           if (garbage?.garbageType == basket?.garbageType) {
+            trueGarbageAudioPlay();
             score += 3;
             setScore(score);
           } else {
+            errorGarbageAudioPlay();
             score += 1;
             setScore(score);
           }
@@ -530,7 +548,7 @@ class FirstWorld extends CommonWorld
 
   void playBgAudio() {
     FlameAudio.bgm.play(
-        'music/Cute_Hedgehog_Compilation_Hedgehog_Escape_Giant_Macaron.mp3');
+        'music/bg_music.wav');
   }
 
   void clickObjectAudio() {
@@ -551,6 +569,11 @@ class FirstWorld extends CommonWorld
 
   void paperAudioPlay() {
     FlameAudio.play('sound/paperGarbage.wav');
+  }
+  void trueGarbageAudioPlay() {
+    FlameAudio.play('sound/true_garbage.wav');
+  }  void errorGarbageAudioPlay() {
+    FlameAudio.play('sound/garbage_error.wav');
   }
 
   void playGarbageAudio(int garbageType) {
