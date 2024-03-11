@@ -69,8 +69,8 @@ class FirstWorld extends CommonWorld
   @override
   Future<void> onLoad() async {
 
+    //'maps/$levelBgName',
     await Flame.images.loadAll([
-      //'maps/$levelBgName',
       'maps/002.png',
       'menu/menu_button.png',
       'stump.png',
@@ -103,6 +103,7 @@ class FirstWorld extends CommonWorld
       'garbage/plasticGarbageBasket.png',
       'garbage/sortGarbageButton.png'
     ]);
+    startGame();
     super.onLoad();
   }
 
@@ -234,7 +235,7 @@ class FirstWorld extends CommonWorld
 
   @override
   void onMount() {
-    startGame();
+   // startGame();
     super.onMount();
   }
 
@@ -613,9 +614,9 @@ class FirstWorld extends CommonWorld
     Future.delayed(const Duration(milliseconds: 500));
 
     if (newUrchin == null) {
-      if(urchinList.length>6){
-        finish(isSuccess: false);
-      }
+      // if(urchinList.length>6){
+      //   finish(isSuccess: false);
+      // }
       newUrchin = Urchin(
           currentSpeed: currentUrchinSpeed,
           checkPointList: urchinPathList[currentUrchinPathList] ?? [],
