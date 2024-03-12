@@ -1,4 +1,4 @@
-# urchin
+# Hedgehog Eco Dash
 
 A new Flutter project.
 
