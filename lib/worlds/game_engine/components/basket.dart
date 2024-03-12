@@ -12,6 +12,7 @@ class Basket extends PositionComponent with TapCallbacks {
   late SpriteAnimationComponent lightSpriteAnim;
   FirstWorld world = GetIt.I.get<FirstWorld>();
   List<Items> itemList = [];
+  late SpriteComponent basketSpriteComponent;
 
   Basket() : super(size: Vector2(200, 200), anchor: Anchor.center) {
     // world = GetIt.I.get<FirstWorld>();
@@ -21,7 +22,7 @@ class Basket extends PositionComponent with TapCallbacks {
   Future<void> onLoad() async {
     final stumpImages = Flame.images.fromCache('stump.png');
     var basketSprite =  Sprite(stumpImages);
-    final basketSpriteComponent = SpriteComponent(
+     basketSpriteComponent = SpriteComponent(
         size: Vector2(500, 360), sprite: basketSprite, anchor: Anchor.center)
       ..anchor = Anchor.center;
     // basketSpriteComponent.position = Vector2(size.x/2 -100, size.y/2);
@@ -49,12 +50,8 @@ class Basket extends PositionComponent with TapCallbacks {
   }
 
   void activateBasketLight() {
-    //  if (urchinLightSprite.isRemoved) {
     lightSpriteAnim.scale = Vector2.all(1);
-    // lightSpriteAnim.position=Vector2(size.x/2, size.y/2);
-    // lightSpriteAnim.paint.color = const Color(1).withOpacity(0.7);
 
-    // }
   }
 
   void deActivateBasketLight() {
@@ -63,17 +60,14 @@ class Basket extends PositionComponent with TapCallbacks {
 
   @override
   void onTapDown(TapDownEvent event) {
-    // for (var basket in world!.basketList) {
-    //   basket.deActivateBasketLight();
-    // }
-    // world.deactivateAllBasket();
-    // activateBasketLight();
-    // if (!contains(lightSpriteAnim)) {
-    //   activateBasketLight();
-    // } else {
-    //   deActivateBasketLight();
-    // }
     world.selectCurrentBasket(currentBasket: this);
     super.onTapDown(event);
+  }
+
+  void removeComponents() {
+    lightSpriteAnim.parent = this;
+    remove(lightSpriteAnim);
+    basketSpriteComponent.parent = this;
+    remove(basketSpriteComponent);
   }
 }

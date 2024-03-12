@@ -7,6 +7,7 @@ class LevelsButton extends PositionComponent
     with HasGameRef<UrchinGame>, TapCallbacks {
   static const double _width = 300;
   static const double _height = 100;
+  late TextComponent levelsButton;
 
   LevelsButton()
       : super(
@@ -22,19 +23,20 @@ class LevelsButton extends PositionComponent
         paint: Paint()..color = Colors.transparent);
 
     add(rect);
+    levelsButton=   TextComponent(
+        key: ComponentKey.named('levels_button'),
+        text: 'Levels',
+        textRenderer: TextPaint(
+          style: const TextStyle(
+            fontSize: 80.0,
+            fontFamily: "Gogono Cocoa Mochi",
+            color: const Color(0xFFFA9933),
+          ),
+        ),
+        position: Vector2(rect.x, rect.y));
 
     await add(
-      TextComponent(
-          key: ComponentKey.named('levels_button'),
-          text: 'Levels',
-          textRenderer: TextPaint(
-            style: const TextStyle(
-              fontSize: 80.0,
-              fontFamily: "Gogono Cocoa Mochi",
-              color: const Color(0xFFFA9933),
-            ),
-          ),
-          position: Vector2(rect.x, rect.y)),
+   levelsButton,
     );
 
     await add(
@@ -55,8 +57,7 @@ class LevelsButton extends PositionComponent
 
   @override
   void onTapDown(TapDownEvent event) {
-    final playButton = gameRef.findByKeyName('play_button') as TextComponent;
-    playButton.textRenderer = TextPaint(
+    levelsButton.textRenderer = TextPaint(
       style: const TextStyle(
         fontSize: 80.0,
         fontFamily: "Gogono Cocoa Mochi",
@@ -69,6 +70,13 @@ class LevelsButton extends PositionComponent
 
   @override
   void onTapUp(TapUpEvent event) {
+    levelsButton.textRenderer = TextPaint(
+      style: const TextStyle(
+        fontSize: 80.0,
+        fontFamily: "Gogono Cocoa Mochi",
+        color: const Color(0xFFFA9933),
+      ),
+    );
     gameRef.router.pushReplacementNamed("level_select");
     super.onTapUp(event);
   }

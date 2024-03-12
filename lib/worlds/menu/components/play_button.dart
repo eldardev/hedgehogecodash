@@ -7,6 +7,7 @@ class PlayButton extends PositionComponent
     with HasGameRef<UrchinGame>, TapCallbacks {
   static const double _width = 300;
   static const double _height = 100;
+ late TextComponent playButton;
 
   PlayButton()
       : super(
@@ -22,19 +23,19 @@ class PlayButton extends PositionComponent
         paint: Paint()..color = Colors.transparent);
 
     add(rect);
-
+playButton=       TextComponent(
+    key: ComponentKey.named('play_button'),
+    text: 'Play',
+    textRenderer: TextPaint(
+      style: const TextStyle(
+        fontSize: 80.0,
+        fontFamily: "Gogono Cocoa Mochi",
+        color: const Color(0xFFFA9933),
+      ),
+    ),
+    position: Vector2(rect.x, rect.y));
     await add(
-      TextComponent(
-          key: ComponentKey.named('play_button'),
-          text: 'Play',
-          textRenderer: TextPaint(
-            style: const TextStyle(
-              fontSize: 80.0,
-              fontFamily: "Gogono Cocoa Mochi",
-              color: const Color(0xFFFA9933),
-            ),
-          ),
-          position: Vector2(rect.x, rect.y)),
+playButton,
     );
 
     await add(
@@ -55,7 +56,7 @@ class PlayButton extends PositionComponent
 
   @override
   void onTapDown(TapDownEvent event) {
-    final playButton = gameRef.findByKeyName('play_button') as TextComponent;
+   // final playButton = gameRef.findByKeyName('play_button') as TextComponent;
     playButton.textRenderer = TextPaint(
       style: const TextStyle(
         fontSize: 80.0,
@@ -69,6 +70,14 @@ class PlayButton extends PositionComponent
 
   @override
   void onTapUp(TapUpEvent event) {
+    //playButton = gameRef.findByKeyName('play_button') as TextComponent;
+    playButton.textRenderer = TextPaint(
+      style: const TextStyle(
+        fontSize: 80.0,
+        fontFamily: "Gogono Cocoa Mochi",
+        color: const Color(0xFFFA9933),
+      ),
+    );
     gameRef.router.pushReplacementNamed("main");
     super.onTapUp(event);
   }

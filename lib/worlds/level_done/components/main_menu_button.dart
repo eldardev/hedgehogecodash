@@ -19,7 +19,7 @@ class MainMenuButton extends PositionComponent
     final rect = RectangleComponent(
         size: Vector2(_width, _height),
         anchor: Anchor.topLeft,
-        paint: Paint()..color = Colors.transparent)..debugMode=true;
+        paint: Paint()..color = Colors.transparent);
 
     add(rect);
 
