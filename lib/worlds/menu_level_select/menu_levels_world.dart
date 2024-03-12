@@ -9,6 +9,7 @@ import 'package:urchin/worlds/menu_level_select/components/level_button.dart';
 
 @singleton
 class MenuLevelSelectWorld extends CommonWorld {
+  static const int totalLevelsInGame = 4;
   @override
   Future<void> onLoad() async {
     await Flame.images.load("menu/bg.png");
@@ -19,7 +20,7 @@ class MenuLevelSelectWorld extends CommonWorld {
     add(MainMenuButton()
       ..position = Vector2(400, 1010)
       ..scale = Vector2(0.8, 0.8));
-Vector2 startPos = Vector2(200, 300);
+Vector2 startPos = Vector2(100, 200);
 Vector2 buttonSize = Vector2(200, 200);
     for(int j=0; j< 4; j++) {
       for (int i = 0; i < 5; i++) {
