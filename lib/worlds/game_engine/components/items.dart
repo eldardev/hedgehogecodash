@@ -1,12 +1,11 @@
-import 'dart:math';
-
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/flame.dart';
 import 'package:flame/effects.dart';
+import 'package:flame/flame.dart';
 import 'package:get_it/get_it.dart';
 import 'package:urchin/worlds/game_engine/components/exit.dart';
 import 'package:urchin/worlds/game_engine/components/items_type.dart';
+
 import '../first_world.dart';
 
 class Items extends PositionComponent with CollisionCallbacks {
@@ -55,7 +54,9 @@ class Items extends PositionComponent with CollisionCallbacks {
     size = animationFrameSize;
     anchor = Anchor.center;
     priority = 15;
-    add(CircleHitbox(radius: 100, anchor: Anchor.center)..position=Vector2(size.x/2, size.y/2)..debugMode=world.debugMode);
+    add(CircleHitbox(radius: 100, anchor: Anchor.center)
+      ..position = Vector2(size.x / 2, size.y / 2)
+      ..debugMode = world.debugMode);
   }
 
   @override
@@ -70,7 +71,7 @@ class Items extends PositionComponent with CollisionCallbacks {
       Flame.images.fromCache(imagePath),
       data,
     );
-    itemSpriteComponent.position = Vector2(size.x/2, size.y/2);
+    itemSpriteComponent.position = Vector2(size.x / 2, size.y / 2);
     itemSpriteComponent.anchor = Anchor.center;
     itemSpriteComponent.priority = 10;
     add(itemSpriteComponent);
@@ -83,7 +84,6 @@ class Items extends PositionComponent with CollisionCallbacks {
       dt = world.maxDeltaTime;
     }
     if (itemHolder != null && flyAnimation) {
-      // print('itemHolder != null && flyAnimation');
       if (itemHolder != null) {
         var normalVec = (itemHolder!.center - center).normalized();
         var stepLen = Vector2(normalVec.x * inventorySpeed * dt,
@@ -108,15 +108,16 @@ class Items extends PositionComponent with CollisionCallbacks {
     super.update(dt);
   }
 
-  void setNewHolder({required PositionComponent itemHolder, bool? newbornHedgehog}) {
+  void setNewHolder(
+      {required PositionComponent itemHolder, bool? newbornHedgehog}) {
     world.add(this);
     flyAnimation = true;
     PositionComponent? lastPositionComponent = this.itemHolder;
     this.itemHolder = itemHolder;
     anchor = Anchor.center;
     priority = 15;
-    if(newbornHedgehog!=null && newbornHedgehog==true){
-      position=itemHolder.position;
+    if (newbornHedgehog != null && newbornHedgehog == true) {
+      position = itemHolder.position;
       return;
     }
 
@@ -149,8 +150,8 @@ class Items extends PositionComponent with CollisionCallbacks {
     if (other is Exit) {
       if (other.exitType.contains(itemType)) {
         collideWithTrueExit = true;
-      }else{
-        collideWithTrueExit=false;
+      } else {
+        collideWithTrueExit = false;
       }
     }
     super.onCollisionStart(intersectionPoints, other);
