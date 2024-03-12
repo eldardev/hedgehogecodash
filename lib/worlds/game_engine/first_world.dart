@@ -138,11 +138,9 @@ class FirstWorld extends CommonWorld
     basketList.clear();
 
     for (var g in garbageList) {
-      print('g.removeFromParent();');
-      if (contains(g)) {
-        remove(g);
-      }
+      g.removeComponents();
     }
+
     garbageList.clear();
 
     try {

@@ -1,10 +1,12 @@
 import 'dart:ui';
+
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:get_it/get_it.dart';
 import 'package:urchin/worlds/game_engine/components/garbage_type.dart';
+
 import '../first_world.dart';
 
 class Garbage extends PositionComponent with CollisionCallbacks, TapCallbacks {
@@ -25,6 +27,9 @@ class Garbage extends PositionComponent with CollisionCallbacks, TapCallbacks {
   Vector2 direction = Vector2(0, 1);
   FirstWorld world = GetIt.I.get<FirstWorld>();
   bool flyAnimation = false;
+
+  late SpriteComponent garbageSpriteComponent;
+  late RectangleHitbox rectangleHitbox;
 
   Garbage({required this.garbageType, this.itemHolder}) {
     priority = 15;
@@ -59,12 +64,12 @@ class Garbage extends PositionComponent with CollisionCallbacks, TapCallbacks {
 
     size = garbageImageSize;
     priority = 15;
-    add(RectangleHitbox(
+    rectangleHitbox = RectangleHitbox(
         size: size - Vector2.all(20),
         anchor: Anchor.center,
         position: Vector2(size.x / 2, size.y / 2),
-        isSolid: true)
-      ..debugMode = world.debugMode);
+        isSolid: true);
+    add(rectangleHitbox);
     // add(CircleHitbox(radius: (garbageImageSize.x+garbageImageSize.y)/4, anchor: Anchor.center)
     //   ..isSolid=true..debugMode = world.debugMode);
   }
@@ -85,7 +90,7 @@ class Garbage extends PositionComponent with CollisionCallbacks, TapCallbacks {
     garbageLightSpriteComponent.priority = 9;
     add(garbageLightSpriteComponent);
 
-    final garbageSpriteComponent = SpriteComponent(
+    garbageSpriteComponent = SpriteComponent(
         size: garbageImageSize,
         sprite: Sprite(Flame.images.fromCache(garbageImagePath)),
         anchor: Anchor.center)
@@ -96,6 +101,18 @@ class Garbage extends PositionComponent with CollisionCallbacks, TapCallbacks {
     deActivateGarbageLight();
     anchor = Anchor.center;
     return super.onLoad();
+  }
+
+  void removeComponents() {
+    garbageSpriteComponent.parent = this;
+    remove(garbageSpriteComponent);
+    print("garbageSpriteComponent removed");
+    garbageLightSpriteComponent.parent = this;
+    remove(garbageLightSpriteComponent);
+    print("garbageLightSpriteComponent removed");
+    rectangleHitbox.parent = this;
+    remove(rectangleHitbox);
+    print("rectangleHitbox removed");
   }
 
   @override
