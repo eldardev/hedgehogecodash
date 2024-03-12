@@ -19,8 +19,8 @@ class MenuWorld extends CommonWorld {
 
     add(MenuBackground());
     add(FlowerComponent());
-    addAll([PlayButton(), ExitButton()]);
-    // addAll([PlayButton(), LevelsButton()..position=Vector2(500, 630), ExitButton()]);
+    //addAll([PlayButton(), ExitButton()]);
+    addAll([PlayButton(), LevelsButton()..position=Vector2(500, 630), ExitButton()]);
     playBgMusic();
   }
 

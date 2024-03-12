@@ -60,6 +60,8 @@ class FirstWorld extends CommonWorld
   double worldTime = 0;
   late TextComponent scoreText1;
   late TextComponent scoreText2;
+  late Background levelBg;
+  late MainMenuButton mainMenuButton;
   Vector2 scoreTextPosition = Vector2(0, 0);
 
   // FirstWorld({required this.levelNumber}){
@@ -72,6 +74,10 @@ class FirstWorld extends CommonWorld
     await Flame.images.loadAll([
       'maps/001.png',
       'maps/002.png',
+      'maps/003.png',
+      'maps/004.png',
+      'maps/005.png',
+      'maps/006.png',
       'menu/menu_button.png',
       'stump.png',
       'lightStump.png',
@@ -108,28 +114,56 @@ class FirstWorld extends CommonWorld
   }
 
   Future<void> startGame() async {
-    // selectedUrchinList.clear();
-    // selectedBasketList.clear();
-    // pointList.clear();
-    // basketList.clear();
-    // levelConfig=null;
-    // gameScenarioStep=0;
+    print('START GAME');
     deactivateAllBasket();
     deactivateAllUrchin();
     deactivateAllGarbage();
     deactivateAllGarbageBasket();
-    gameScenarioStep=0;
+    selectedUrchinList.clear();
+    selectedBasketList.clear();
+    pointList.clear();
+    urchinPathList.clear();
+    for (Urchin urchin in urchinList) {
+      urchin.clearUrchin();
+    }
+
+    try {
+      levelBg.removeFromParent();
+    } catch (e) {
+      //
+    }
+    for (var b in basketList) {
+      b.removeFromParent();
+    }
+    basketList.clear();
+
+    for (var g in garbageList) {
+      print('g.removeFromParent();');
+      if (contains(g)) {
+        remove(g);
+      }
+    }
+    garbageList.clear();
+
+    try {
+      mainMenuButton.removeFromParent();
+    } catch (ex) {
+      //
+    }
+
+    // levelConfig=null;
+    // gameScenarioStep=0;
+
+    gameScenarioStep = 0;
     // for(var a in urchinList){
     //   a.isActive=false;
     //   a.clearUrchin();
     // }
-    score=0;
-
-
+    score = 0;
 
     //removeAll(children);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    levelNumber = 4;//prefs.getInt('currentLevel') ?? 4;
+    levelNumber = prefs.getInt('currentLevel') ?? 4;
     FlameAudio.bgm.initialize();
     playBgAudio();
 
@@ -142,10 +176,12 @@ class FirstWorld extends CommonWorld
     score = 0;
 
     //-------------------BACKGROUND------------------------
-    add(Background(levelBgName));
+    levelBg = Background(levelBgName);
+    add(levelBg);
 
     //--------------------------------------------------
-    add(MainMenuButton()..position = Vector2(10, 57));
+    mainMenuButton = MainMenuButton()..position = Vector2(10, 57);
+    add(mainMenuButton);
     //-------------------BASKET_(BUFFER)_ARRAY------------------------
     List<Buffer> bufferList = levelConfig?.buffers ?? [];
 

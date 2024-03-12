@@ -26,6 +26,8 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
   FirstWorld world = GetIt.I.get<FirstWorld>();
   double maxStepLength = 10;
   late SpriteAnimationData dataUrchin;
+  late UrchinFace face;
+  late CircleHitbox hitBox;
 
   Urchin(
       {required this.currentSpeed,
@@ -33,14 +35,16 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
       required this.birthTime})
       : super(size: Vector2(210, 280), anchor: Anchor.center) {
     maxSpeed = currentSpeed;
+    face = UrchinFace(faceHolder: this)..position = Vector2(size.x / 2, 100);
     // double bigSide = (width > height) ? width : height;
-    add(CircleHitbox(
+    hitBox = CircleHitbox(
         radius: ((width) / 2),
         anchor: Anchor.center,
         isSolid: true,
         position: Vector2(size.x / 2, size.y / 2))
-      ..debugMode = world.debugMode);
-    add(UrchinFace(faceHolder: this)..position = Vector2(size.x / 2, 100));
+      ..debugMode = world.debugMode;
+    add(hitBox);
+    add(face);
   }
 
   void updateAnimation(double speed) {
@@ -257,12 +261,21 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
       itemList.last.add(effect);
       itemList.last.itemHolder = null;
       if(contains(itemList.last)){
-        remove(itemList.last);
+       itemList.last.removeFromParent();
       }
     }
-    world.remove(this);
+    if(world.contains(this)) {
+     removeFromParent();
+    }
     currentCheckpointNumber = 0;
     itemList.clear();
     deActivateUrchinLight();
+  }
+
+  @override
+  void onRemove() {
+    print('onRemoveUrchin');
+
+    super.onRemove();
   }
 }

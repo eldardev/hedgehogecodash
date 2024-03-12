@@ -5,7 +5,7 @@ import 'package:urchin/urchin_game.dart';
 
 class MainMenuButton extends PositionComponent
     with HasGameRef<UrchinGame>, TapCallbacks {
-  static const double _width = 300;
+  static const double _width = 400;
   static const double _height = 100;
 
   MainMenuButton()
@@ -19,7 +19,7 @@ class MainMenuButton extends PositionComponent
     final rect = RectangleComponent(
         size: Vector2(_width, _height),
         anchor: Anchor.topLeft,
-        paint: Paint()..color = Colors.transparent);
+        paint: Paint()..color = Colors.transparent)..debugMode=true;
 
     add(rect);
 

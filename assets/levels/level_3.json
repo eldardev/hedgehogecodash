@@ -173,7 +173,8 @@
             "path": "12",
             "grub": "apple",
             "checkpoint": "5",
-            "speed": "100"
+            "speed": "100",
+            "delay": "2"
         },
         {
             "kind": "run",
