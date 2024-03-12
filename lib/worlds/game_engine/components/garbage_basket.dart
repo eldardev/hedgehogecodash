@@ -73,6 +73,14 @@ class GarbageBasket extends PositionComponent with TapCallbacks{
     super.onTapDown(event);
   }
 
+  void removeComponents() {
+    garbageLightSprite.parent = this;
+    remove(garbageLightSprite);
+
+    iconGarbageBasket.parent = this;
+    remove(iconGarbageBasket);
+  }
+
 
 
 

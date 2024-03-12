@@ -11,6 +11,7 @@ class ExitMark extends PositionComponent with CollisionCallbacks{
   Vector2 animationFrameSize = Vector2(160, 160);
   String imageExitPath ='items/itemApple.png';
   FirstWorld world = GetIt.I.get<FirstWorld>();
+  late SpriteComponent exitSpriteComponent;
 
   ExitMark({required this.exitType}){
     if (exitType == ItemsType.apple.index) {
@@ -42,12 +43,17 @@ class ExitMark extends PositionComponent with CollisionCallbacks{
   Future<void> onLoad() async {
     var exitImages = Flame.images.fromCache(imageExitPath);
     var exitSprite =  Sprite(exitImages);
-    final exitSpriteComponent = SpriteComponent(
+    exitSpriteComponent = SpriteComponent(
         size: Vector2(160, 160), sprite: exitSprite, anchor: Anchor.center)
       ..anchor = Anchor.center;
     // basketSpriteComponent.position = Vector2(size.x/2 -100, size.y/2);
     add(exitSpriteComponent);
     exitSpriteComponent.position = Vector2(size.x / 2, size.y / 2);
     super.onLoad();
+  }
+
+  void removeComponents() {
+    exitSpriteComponent.parent = this;
+    remove(exitSpriteComponent);
   }
 }

@@ -55,6 +55,9 @@ class FirstWorld extends CommonWorld
   List<Garbage> garbageList = [];
   List<GarbageBasket> garbageBasketList = [];
   List<PositionComponent> selectedObject = [];
+  List<ExitMark> exitMarksList = [];
+  List<Exit> exitList = [];
+  List<MultiGarbageBasketPOMP> multiGarbageBasketList = [];
   Map<String, List<Vector2>> urchinPathList = {};
   SpriteComponent spriteComponentBG = SpriteComponent();
   double worldTime = 0;
@@ -128,11 +131,13 @@ class FirstWorld extends CommonWorld
     }
 
     try {
+      levelBg.parent=this;
       levelBg.removeFromParent();
     } catch (e) {
       //
     }
     for (var b in basketList) {
+      b.removeComponents();
       b.removeFromParent();
     }
     basketList.clear();
@@ -140,10 +145,25 @@ class FirstWorld extends CommonWorld
     for (var g in garbageList) {
       g.removeComponents();
     }
-
     garbageList.clear();
+    for (var exitMark in exitMarksList) {
+      exitMark.removeComponents();
+    }
+
+    for (var multiGarbageBasket in multiGarbageBasketList) {
+      multiGarbageBasket.removeComponents();
+    }
+    multiGarbageBasketList.clear();
+
+    for (var exit in exitList) {
+      exit.removeComponents();
+    }
+    exitList.clear();
+
+
 
     try {
+      mainMenuButton.parent = this;
       mainMenuButton.removeFromParent();
     } catch (ex) {
       //
@@ -199,6 +219,7 @@ class FirstWorld extends CommonWorld
         ..position =
             Vector2(double.parse(trash.x ?? '0'), double.parse(trash.y ?? '0'));
       add(multiGarbageBasketPOMP);
+      multiGarbageBasketList.add(multiGarbageBasketPOMP);
     }
     //------------------------------------------------------
     //-------------------POINT_ARRAY------------------------
@@ -225,7 +246,9 @@ class FirstWorld extends CommonWorld
         }
       }
       if (exitAllowedItemsList.isNotEmpty) {
-        add(Exit(exitType: exitAllowedItemsList)..position = currentPosition);
+        Exit currentExit = Exit(exitType: exitAllowedItemsList)..position = currentPosition;
+        add(currentExit);
+        exitList.add(currentExit);
       }
     }
     //----------------------------------------------------------
@@ -246,8 +269,8 @@ class FirstWorld extends CommonWorld
       urchinPathList[name] = currentPathVectors;
     }
     //-------------------EXIT_MARK_ARRAY------------------------
-    List<Exitmark> exitMarkList = levelConfig?.exitMarks ?? [];
-    for (var exitMark in exitMarkList) {
+    List<Exitmark> exitMarkScenarioList = levelConfig?.exitMarks ?? [];
+    for (var exitMark in exitMarkScenarioList) {
       int exitMarkType = 0;
       if (exitMark.name?.contains(ItemsType.pear.name) ?? false) {
         exitMarkType = ItemsType.pear.index;
@@ -260,12 +283,13 @@ class FirstWorld extends CommonWorld
       } else if (exitMark.name?.contains(ItemsType.flower.name) ?? false) {
         exitMarkType = ItemsType.flower.index;
       }
-
-      add(ExitMark(exitType: exitMarkType)
-        ..position = Vector2(
-            double.parse(exitMark.x ?? '0'), double.parse(exitMark.y ?? '0'))
-        ..angle = double.parse(exitMark.angle ?? '0')
-        ..priority = 1);
+ExitMark currentExitMark = ExitMark(exitType: exitMarkType)
+  ..position = Vector2(
+      double.parse(exitMark.x ?? '0'), double.parse(exitMark.y ?? '0'))
+  ..angle = double.parse(exitMark.angle ?? '0')
+  ..priority = 1;
+      add(currentExitMark);
+      exitMarksList.add(currentExitMark);
     }
 
     TextPaint textPaintYellow = TextPaint(
