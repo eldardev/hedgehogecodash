@@ -1,5 +1,6 @@
-import 'package:vector_math/vector_math_64.dart';
 import 'dart:math';
+
+import 'package:vector_math/vector_math_64.dart';
 
 /// calculate angle between two Vector points, such as a sprite position
 /// and a tap position in Flutter Flame. 0 degrees points straight up.
@@ -11,7 +12,6 @@ double getAngle(Vector2 spritePosition, Vector2 tapPosition) {
 
   var opposite = (tapPosition.y - spritePosition.y).abs();
   var adjacent = (spritePosition.x - tapPosition.x).abs();
-  // print('opposite = $opposite, adjacent = $adjacent');
 
   var angle = degrees(atan(opposite / adjacent));
 
@@ -22,7 +22,6 @@ double getAngle(Vector2 spritePosition, Vector2 tapPosition) {
       angle = 270;
       return radians(angle);
     } else {
-      // print('set to 90 degrees');
       angle = 90;
       return radians(angle);
     }
@@ -60,8 +59,8 @@ double getAngle(Vector2 spritePosition, Vector2 tapPosition) {
 }
 
 double getShortAngle(double spriteAngle, double moveAngle) {
- // if (spriteAngle - moveAngle < -pi) {
-    return (2 * pi - moveAngle) * -1;
- // }
+  // if (spriteAngle - moveAngle < -pi) {
+  return (2 * pi - moveAngle) * -1;
+  // }
 // return moveAngle;
 }

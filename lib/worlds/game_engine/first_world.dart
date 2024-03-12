@@ -117,7 +117,6 @@ class FirstWorld extends CommonWorld
   }
 
   Future<void> startGame() async {
-    print('START GAME');
     deactivateAllBasket();
     deactivateAllUrchin();
     deactivateAllGarbage();
@@ -131,7 +130,7 @@ class FirstWorld extends CommonWorld
     }
 
     try {
-      levelBg.parent=this;
+      levelBg.parent = this;
       levelBg.removeFromParent();
     } catch (e) {
       //
@@ -159,8 +158,6 @@ class FirstWorld extends CommonWorld
       exit.removeComponents();
     }
     exitList.clear();
-
-
 
     try {
       mainMenuButton.parent = this;
@@ -246,7 +243,8 @@ class FirstWorld extends CommonWorld
         }
       }
       if (exitAllowedItemsList.isNotEmpty) {
-        Exit currentExit = Exit(exitType: exitAllowedItemsList)..position = currentPosition;
+        Exit currentExit = Exit(exitType: exitAllowedItemsList)
+          ..position = currentPosition;
         add(currentExit);
         exitList.add(currentExit);
       }
@@ -283,11 +281,11 @@ class FirstWorld extends CommonWorld
       } else if (exitMark.name?.contains(ItemsType.flower.name) ?? false) {
         exitMarkType = ItemsType.flower.index;
       }
-ExitMark currentExitMark = ExitMark(exitType: exitMarkType)
-  ..position = Vector2(
-      double.parse(exitMark.x ?? '0'), double.parse(exitMark.y ?? '0'))
-  ..angle = double.parse(exitMark.angle ?? '0')
-  ..priority = 1;
+      ExitMark currentExitMark = ExitMark(exitType: exitMarkType)
+        ..position = Vector2(
+            double.parse(exitMark.x ?? '0'), double.parse(exitMark.y ?? '0'))
+        ..angle = double.parse(exitMark.angle ?? '0')
+        ..priority = 1;
       add(currentExitMark);
       exitMarksList.add(currentExitMark);
     }
@@ -409,8 +407,6 @@ ExitMark currentExitMark = ExitMark(exitType: exitMarkType)
       } else {
         deactivateAllBasket();
         deactivateAllUrchin();
-        // if ((currentUrchin?.itemList.isEmpty ?? false))
-        //   print('currentUrchin?.item = NULL');
       }
     } else if (selectedBasketList.length == 2) {
       if (selectedBasketList.first.itemList.isNotEmpty &&
@@ -557,7 +553,6 @@ ExitMark currentExitMark = ExitMark(exitType: exitMarkType)
             }
             if (currentItemType > 0) {
               totalItems++;
-              print('Total Items= ' + totalItems.toString());
               var currentItem = Items(itemType: currentItemType);
               currentUrchin.itemList.add(currentItem);
               currentItem.setNewHolder(
@@ -715,12 +710,6 @@ ExitMark currentExitMark = ExitMark(exitType: exitMarkType)
           newCheckPointList: urchinPathList[currentUrchinPathList] ?? []);
     }
     add(newUrchin);
-    print("Total urchin= " + totalUrchin.toString());
-    print('Urchin COUNT = ' + urchinList.length.toString());
-    print('Urchin currentSpeed = ' +
-        newUrchin.currentSpeed.toString() +
-        "maxSpeed= " +
-        newUrchin.maxSpeed.toString());
     return newUrchin;
   }
 

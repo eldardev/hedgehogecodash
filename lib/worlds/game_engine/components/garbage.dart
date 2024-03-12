@@ -106,13 +106,10 @@ class Garbage extends PositionComponent with CollisionCallbacks, TapCallbacks {
   void removeComponents() {
     garbageSpriteComponent.parent = this;
     remove(garbageSpriteComponent);
-    print("garbageSpriteComponent removed");
     garbageLightSpriteComponent.parent = this;
     remove(garbageLightSpriteComponent);
-    print("garbageLightSpriteComponent removed");
     rectangleHitbox.parent = this;
     remove(rectangleHitbox);
-    print("rectangleHitbox removed");
   }
 
   @override
@@ -127,10 +124,8 @@ class Garbage extends PositionComponent with CollisionCallbacks, TapCallbacks {
         var stepLen = Vector2(normalVec.x * inventorySpeed * dt,
             normalVec.y * inventorySpeed * dt);
         if ((itemHolder!.center - center).length > 3 * stepLen.length) {
-          print('center=' + itemHolder!.center.toString());
           position += stepLen;
         } else {
-          print('start add');
           flyAnimation = false;
 
           var newPosition = Vector2(

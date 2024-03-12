@@ -1,13 +1,14 @@
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
-import 'package:flame/effects.dart';
 import 'package:get_it/get_it.dart';
 import 'package:urchin/worlds/game_engine/components/background.dart';
 import 'package:urchin/worlds/game_engine/components/items.dart';
 import 'package:urchin/worlds/game_engine/components/urchin_face.dart';
 import 'package:urchin/worlds/game_engine/first_world.dart';
+
 import 'get_angle.dart';
 
 class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
@@ -128,12 +129,6 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
 
           double angle2 =
               getAngle(position, checkPointList[currentCheckpointNumber + 1]);
-          //angle= getShortAngle(urchinSprite.angle, angle2);
-          // angle=checkPointList[currentCheckpointNumber+1].angleTo(position);
-          // double shortAngle = getShortAngle(this.angle, angle2);
-          // print('angle='+angle.toString());
-          // print('angle2='+angle2.toString());
-          // print('shortAngle='+shortAngle.toString());
 
           angle = getShortAngle(this.angle, angle2);
           // add(
@@ -236,12 +231,12 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
   void updateUrchinParameter(
       {required double newSpeed,
       required double newScale,
-        required double newBirthTime,
+      required double newBirthTime,
       required List<Vector2> newCheckPointList}) {
-    currentCheckpointNumber=0;
+    currentCheckpointNumber = 0;
     checkPointList = newCheckPointList;
     position = checkPointList.first;
-    birthTime=newBirthTime;
+    birthTime = newBirthTime;
     currentSpeed = newSpeed;
     maxSpeed = newSpeed;
     scale = Vector2.all(newScale);
@@ -257,15 +252,17 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
     isActive = false;
     position = Vector2(-5000, -5000);
     if (itemList.isNotEmpty) {
-      final effect = MoveEffect.to(itemList.last.itemHolder?.position ?? Vector2(-200, -200), EffectController(duration: 0.1));
+      final effect = MoveEffect.to(
+          itemList.last.itemHolder?.position ?? Vector2(-200, -200),
+          EffectController(duration: 0.1));
       itemList.last.add(effect);
       itemList.last.itemHolder = null;
-      if(contains(itemList.last)){
-       itemList.last.removeFromParent();
+      if (contains(itemList.last)) {
+        itemList.last.removeFromParent();
       }
     }
-    if(world.contains(this)) {
-     removeFromParent();
+    if (world.contains(this)) {
+      removeFromParent();
     }
     currentCheckpointNumber = 0;
     itemList.clear();
@@ -274,8 +271,6 @@ class Urchin extends PositionComponent with TapCallbacks, CollisionCallbacks {
 
   @override
   void onRemove() {
-    print('onRemoveUrchin');
-
     super.onRemove();
   }
 }
