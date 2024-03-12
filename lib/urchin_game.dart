@@ -4,6 +4,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:injectable/injectable.dart';
 import 'package:urchin/worlds/level_done/level_done_world.dart';
+import 'package:urchin/worlds/menu_level_select/menu_levels_world.dart';
 
 import 'worlds/worlds.dart';
 
@@ -12,13 +13,14 @@ class UrchinGame extends FlameGame with HasCollisionDetection {
   final DemoWorld _demoWorld;
   final MenuWorld _menuWorld;
   final FirstWorld _firstWorld;
+  final MenuLevelSelectWorld _levelSelectWorld;
   final LevelBuilderWorld _levelBuilderWorld;
   final LevelDoneWorld _levelDoneWorld;
 
   late RouterComponent router;
 
   UrchinGame(this._demoWorld, this._menuWorld, this._firstWorld,
-      this._levelBuilderWorld, this._levelDoneWorld) {
+      this._levelBuilderWorld, this._levelDoneWorld, this._levelSelectWorld) {
     pauseWhenBackgrounded = false;
   }
 
@@ -31,11 +33,12 @@ class UrchinGame extends FlameGame with HasCollisionDetection {
         'menu': Route(() => _menuWorld),
         'level_builder': Route(() => _levelBuilderWorld),
         'level_done': Route(() => _levelDoneWorld),
+        'level_select':Route(()=>_levelSelectWorld)
       },
       initialRoute: 'menu',
     );
 
-    [_demoWorld, _menuWorld, _firstWorld, _levelBuilderWorld, _levelDoneWorld]
+    [_demoWorld, _menuWorld, _firstWorld, _levelBuilderWorld, _levelDoneWorld, _levelSelectWorld]
         .forEach((e) => add(e.camera));
     add(router);
 
